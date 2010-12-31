@@ -1,10 +1,11 @@
 package com.example.viewOnClickShowTime;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import java.util.Date;
+import android.widget.EditText;
 
 /* code-base button */
 /*
@@ -29,6 +30,7 @@ public class viewOnClickShowTime extends Activity implements View.OnClickListene
 */
 
 /* xml-base button */
+/*
 public class viewOnClickShowTime extends Activity implements View.OnClickListener {
 	Button btn;
 	
@@ -47,4 +49,16 @@ public class viewOnClickShowTime extends Activity implements View.OnClickListene
 		btn.setText(new Date().toString());
 	}
 }
+*/
 
+/* EditText */
+public class viewOnClickShowTime extends Activity{
+	@Override
+	public void onCreate(Bundle saveInstanceState) {
+		super.onCreate(saveInstanceState);
+		setContentView(R.layout.edittext);
+		
+		EditText fld = (EditText) findViewById(R.id.myfield);
+		fld.setText("haha Testing");
+	}
+}
