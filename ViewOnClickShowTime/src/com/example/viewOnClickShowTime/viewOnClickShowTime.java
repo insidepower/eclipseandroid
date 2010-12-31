@@ -102,12 +102,13 @@ public class viewOnClickShowTime extends Activity implements RadioGroup.OnChecke
 }
 */
 
-/* relative layout */ /* table layout */
+/* relative layout */ /* table layout */ /* scroll layout */
 public class viewOnClickShowTime extends Activity{
 	@Override
 	public void onCreate(Bundle state){
 		super.onCreate(state);
 		//setContentView(R.layout.myrelativelayout);
-		setContentView(R.layout.mytablelayout);
+		//setContentView(R.layout.mytablelayout);
+		setContentView(R.layout.myscrolllayout);
 	}
 }
