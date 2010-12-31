@@ -64,6 +64,8 @@ public class viewOnClickShowTime extends Activity{
 }
  */
 
+/* linear layout */
+/*
 public class viewOnClickShowTime extends Activity implements RadioGroup.OnCheckedChangeListener {
 	RadioGroup orientation;
 	RadioGroup gravity;
@@ -96,5 +98,15 @@ public class viewOnClickShowTime extends Activity implements RadioGroup.OnChecke
 				gravity.setGravity(Gravity.RIGHT);
 			}
 		}
+	}
+}
+*/
+
+/* relative layout */
+public class viewOnClickShowTime extends Activity{
+	@Override
+	public void onCreate(Bundle state){
+		super.onCreate(state);
+		setContentView(R.layout.myrelativelayout);
 	}
 }
