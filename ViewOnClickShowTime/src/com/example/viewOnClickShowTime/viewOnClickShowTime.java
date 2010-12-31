@@ -1,17 +1,16 @@
 package com.example.viewOnClickShowTime;
 
-import java.util.Date;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
+import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 /* code-base button */
 /*
 public class viewOnClickShowTime extends Activity implements View.OnClickListener {
 	Button btn;
-	
+
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
@@ -27,13 +26,13 @@ public class viewOnClickShowTime extends Activity implements View.OnClickListene
 		btn.setText(new Date().toString());
 	}
 }
-*/
+ */
 
 /* xml-base button */
 /*
 public class viewOnClickShowTime extends Activity implements View.OnClickListener {
 	Button btn;
-	
+
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
@@ -49,16 +48,53 @@ public class viewOnClickShowTime extends Activity implements View.OnClickListene
 		btn.setText(new Date().toString());
 	}
 }
-*/
+ */
 
 /* EditText */
+/*
 public class viewOnClickShowTime extends Activity{
 	@Override
 	public void onCreate(Bundle saveInstanceState) {
 		super.onCreate(saveInstanceState);
 		setContentView(R.layout.edittext);
-		
+
 		EditText fld = (EditText) findViewById(R.id.myfield);
 		fld.setText("haha Testing");
+	}
+}
+ */
+
+public class viewOnClickShowTime extends Activity implements RadioGroup.OnCheckedChangeListener {
+	RadioGroup orientation;
+	RadioGroup gravity;
+	@Override
+	public void onCreate(Bundle icicle) {
+		super.onCreate(icicle);
+		setContentView(R.layout.myview);
+		orientation=(RadioGroup)findViewById(R.id.orientation);
+		orientation.setOnCheckedChangeListener(this);
+		gravity=(RadioGroup)findViewById(R.id.gravity);
+		gravity.setOnCheckedChangeListener(this);
+	}
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		if (group==orientation) {
+			if (checkedId==R.id.horizontal) {
+				orientation.setOrientation(LinearLayout.HORIZONTAL);
+			}
+			else {
+				orientation.setOrientation(LinearLayout.VERTICAL);
+			}
+		}
+		else if (group==gravity) {
+			if (checkedId==R.id.left) {
+				gravity.setGravity(Gravity.LEFT);
+			}
+			else if (checkedId==R.id.center) {
+				gravity.setGravity(Gravity.CENTER_HORIZONTAL);
+			}
+			else if (checkedId==R.id.right) {
+				gravity.setGravity(Gravity.RIGHT);
+			}
+		}
 	}
 }
