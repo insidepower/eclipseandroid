@@ -10,7 +10,7 @@ public class HelloAndroid extends Activity {
 
 	long m_dwSplashTime = 3000;
 	boolean m_bPaused = false;
-	boolean m_bSplashActive = true;
+	boolean m_bSplashActive = false;
 	private static final String TAG = "Splash";
 
 	/** Called when the activity is first created. */
