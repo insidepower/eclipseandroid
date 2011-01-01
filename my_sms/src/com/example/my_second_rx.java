@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class my_sms extends BroadcastReceiver {
-	private static final String TAG = "my_sms";
+public class my_second_rx extends BroadcastReceiver {
+	private static final String TAG = "my_second_rx";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.d(TAG, "onReceive");
-		Intent i = new Intent();
-		i.setAction("com.example.second");
-		context.sendBroadcast(i);
 	}
 }

@@ -9,6 +9,12 @@
 				<category android:name ="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</receiver>
+		<receiver android:name=".my_second_rx" android:enabled="true">
+			<intent-filter>
+				<action android:name ="com.example.second" />
+				<category android:name ="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</receiver>
 	</application>
 	<uses-sdk android:minSdkVersion="8" />
 
