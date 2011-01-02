@@ -34,13 +34,14 @@ public class HelloAndroid extends Activity {
 						if (!m_bPaused)
 							ms += 100;
 					}
-					/// Advance to next screen
+					/// Advance to next screen - implicit intent
 					startActivity (new Intent (
 					"com.example.helloandroid.CLEARSPLASH"));
+
 				}catch(Exception e){
 					Log.e(TAG, e.toString());
 				}finally{
-					finish();
+					//finish();
 				}
 			}
 		};
@@ -83,6 +84,14 @@ public class HelloAndroid extends Activity {
 				keyCode == KeyEvent.KEYCODE_ENTER) {
 			m_bSplashActive = false;
 			Log.d(TAG, "Enter or Center key is pressed");
+
+			/// explicit intent
+			Intent i = new Intent();
+			i.setClassName(
+					"com.example.helloandroid",
+					"com.example.helloandroid.simplehello");
+			startActivity(i);
+
 			return true;
 		}else if(keyCode == KeyEvent.KEYCODE_BACK) {
 			Log.d(TAG, "Back key is pressed");
