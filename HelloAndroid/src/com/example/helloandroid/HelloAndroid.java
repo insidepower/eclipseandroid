@@ -90,6 +90,7 @@ public class HelloAndroid extends Activity {
 			i.setClassName(
 					"com.example.helloandroid",
 					"com.example.helloandroid.simplehello");
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(i);
 
 			return true;
