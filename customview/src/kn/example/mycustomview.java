@@ -1,3 +1,5 @@
+/* reference from Wrox Professional Android Application Development */
+
 package kn.example;
 
 import android.content.Context;
