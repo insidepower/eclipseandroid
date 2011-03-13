@@ -35,5 +35,14 @@ public class customview extends Activity {
     	myEditText.setText("");
         aa.notifyDataSetChanged();
     }
+    
+    public void hideEditText(View view) {
+  	  myEditText.setVisibility(View.GONE);
+    }
+    
+    public void showEditText(View view) {
+  	  myEditText.setVisibility(View.VISIBLE);
+	  myEditText.requestFocus();
+    }
 
 }
