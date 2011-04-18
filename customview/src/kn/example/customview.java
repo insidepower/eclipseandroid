@@ -61,7 +61,7 @@ public class customview extends Activity {
 		MenuItem firstItem = menu.add(0, FIRST_ID, Menu.NONE, "first");
 		MenuItem secondItem = menu.add(0, SECOND_ID, Menu.NONE, "second");
 		firstItem.setIcon(R.drawable.icon);
-		/// setShortcut (char numShortcut, char alphaShortcut)
+		/// setShortcut (char numShortcut(12-key keyboard), char alphaShortcut)
 		firstItem.setShortcut('0', 'a');
 		secondItem.setShortcut('1', 'b');
 
