@@ -45,7 +45,9 @@ public class tzuchi_jingsiyu extends Activity {
 			// close the file again
 			instream.close();
 		} catch (java.io.FileNotFoundException e) {	
+			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
