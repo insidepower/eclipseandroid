@@ -9,13 +9,20 @@
      	android:layout_width="fill_parent"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:background="@drawable/widget_frame_portrait"
+        android:background="@drawable/widget_frame_portrait2"
         >
-<TextView  
-	android:id="@+id/txt_jingsi"
-    android:layout_width="fill_parent" 
+
+    <TextView 
     android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-    </FrameLayout>
+    android:layout_width="fill_parent" 
+    android:id="@+id/txt_jingsi_widget" 
+    android:text="@string/hello" 
+    android:gravity="center"
+    android:paddingTop="30dip"
+    android:paddingLeft="15dip"
+    android:paddingRight="10dip"
+    android:textColor="#6b4419"
+    >
+    </TextView>
+</FrameLayout>
 </LinearLayout>
