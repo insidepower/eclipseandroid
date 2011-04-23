@@ -9,7 +9,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class tzuchi_jingsiyu extends Activity {
+public class jingsiyu_act extends Activity {
 	TextView txt_jingsiyu = null;
 	String str_jingsiyu = null;
 	String info = null;
