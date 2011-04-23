@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/widgetlayout"
     >
      <FrameLayout
         android:layout_height="fill_parent"
@@ -18,9 +19,9 @@
     android:id="@+id/txt_jingsi_widget" 
     android:text="@string/hello" 
     android:gravity="center"
-    android:paddingTop="30dip"
-    android:paddingLeft="15dip"
-    android:paddingRight="10dip"
+    android:paddingTop="25dip"
+    android:paddingLeft="20dip"
+    android:paddingRight="20dip"
     android:textColor="#6b4419"
     >
     </TextView>

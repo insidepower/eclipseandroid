@@ -5,19 +5,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
 public class Jingsiyu_widget extends AppWidgetProvider{
-	
+
 	TextView txt_jingsiyu = null;
 	String str_jingsiyu = null;
 	String info = null;
@@ -26,45 +27,71 @@ public class Jingsiyu_widget extends AppWidgetProvider{
 	int appWidgetId = 0;
 	AppWidgetManager myappWidgetManager = null;
 	RemoteViews myviews = null;
+	public static final int UPDATE_RATE = 2000;
+	final static String TAG = "jingsiyu_widget"; 
+	final static String ALARM_RATE = "ALARM_RATE";
+	int total_num_call = 1;
 
-    public void onEnabled(Context context) {
-    	mycontext = context;
+	public void onDeleted(Context context, int[] appWidgetIds) {
+		for (int appWidgetId : appWidgetIds) { 
+			setAlarm(context, appWidgetId, -1);
+		}
+	}
+	public void onDisabled(Context context) {
+		context.stopService(new Intent(context, jingsiyu_service.class));
+		super.onDisabled(context);
+	}
+
+	public void onEnabled(Context context) {
+		mycontext = context;
 		getFileContent(true);
-    }
+	}
 
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int N = appWidgetIds.length;
+	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+		final int N = appWidgetIds.length;
 
-        // Perform this loop procedure for each App Widget that belongs to this provider
-        // as we can create a few widget, this will update all?
-        for (int i=0; i<N; i++) {
-        	mycontext = context;
-        	getFileContent(true);
-            appWidgetId = appWidgetIds[i];
-            myappWidgetManager = appWidgetManager;
+		// Perform this loop procedure for each App Widget that belongs to this provider
+		// as we can create a few widget, this will update all?
+		Log.i(TAG, "called "+total_num_call);
+		total_num_call++;
+		for (int appWidgetId : appWidgetIds) {
+			setAlarm(context, appWidgetId, UPDATE_RATE);
+		}
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
+	}
 
-            // Create an Intent to launch ExampleActivity
-            Intent intent = new Intent(context, jingsiyu_act.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+	public static void setAlarm(Context context, int appWidgetId, int updateRate) {
 
-            // Get the layout for the App Widget and attach an on-click listener to the button
-            myviews = new RemoteViews(context.getPackageName(), R.layout.widget);
-            //views.setOnClickPendingIntent(R.id.btn_invoke_int, pendingIntent);
-            myviews.setOnClickPendingIntent(R.id.txt_jingsi_widget, pendingIntent);
-            myviews.setTextViewText(R.id.txt_jingsi_widget, str_jingsiyu);
+		PendingIntent newPending = makeControlPendingIntent(context,jingsiyu_service.UPDATE,appWidgetId);
+		AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		if (updateRate >= 0) {
+			alarms.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), updateRate, newPending);
+		} else {
+			// on a negative updateRate stop the refreshing 
+			alarms.cancel(newPending);
+		}
+	}
 
-            // Tell the AppWidgetManager to perform an update on the current App Widget
-            appWidgetManager.updateAppWidget(appWidgetId, myviews);
-        }
-    }
-    
-    public void getNextSentence(View view) {
-    	getFileContent(true);
-    	myviews.setTextViewText(R.id.txt_jingsi_widget, str_jingsiyu);
-    	myappWidgetManager.updateAppWidget(appWidgetId, myviews);
-    }
-    
-    public void getFileContent(Boolean isReadOneLine){
+	public static PendingIntent makeControlPendingIntent(Context context, String command, int appWidgetId) {
+		Intent active = new Intent(context,jingsiyu_service.class);
+		active.setAction(command);
+		active.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+		active.putExtra(ALARM_RATE, UPDATE_RATE);
+		//this Uri data is to make the PendingIntent unique, so it wont be updated by FLAG_UPDATE_CURRENT
+		//so if there are multiple widget instances they wont override each other
+		//Uri data = Uri.withAppendedPath(Uri.parse("countdownwidget://widget/id/#"+command+appWidgetId), String.valueOf(appWidgetId));
+		//active.setData(data);
+		return(PendingIntent.getService(context, 0, active, PendingIntent.FLAG_UPDATE_CURRENT));
+	}
+
+
+	public void getNextSentence(View view) {
+		getFileContent(true);
+		myviews.setTextViewText(R.id.txt_jingsi_widget, str_jingsiyu);
+		myappWidgetManager.updateAppWidget(appWidgetId, myviews);
+	}
+
+	public void getFileContent(Boolean isReadOneLine){
 		try {
 			//InputStream instream = openFileInput("myfilename.txt");
 			InputStream instream = mycontext.getResources().openRawResource(R.raw.jingsiyu);
@@ -89,5 +116,5 @@ public class Jingsiyu_widget extends AppWidgetProvider{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 }
