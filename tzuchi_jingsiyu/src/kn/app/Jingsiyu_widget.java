@@ -27,7 +27,7 @@ public class Jingsiyu_widget extends AppWidgetProvider{
 	int appWidgetId = 0;
 	AppWidgetManager myappWidgetManager = null;
 	RemoteViews myviews = null;
-	public static final int UPDATE_RATE = 2000;
+	public static final int UPDATE_RATE = 3500;
 	final static String TAG = "jingsiyu_widget"; 
 	final static String ALARM_RATE = "ALARM_RATE";
 	int total_num_call = 1;
