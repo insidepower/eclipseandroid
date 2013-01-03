@@ -71,7 +71,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider{
 			InputStreamReader inputreader = new InputStreamReader(instream);
 			BufferedReader buffreader = new BufferedReader(inputreader);
 
-			String line;
+			//String line;
 			info = buffreader.readLine();
 			if (isReadOneLine) {
 				int i = 1;
