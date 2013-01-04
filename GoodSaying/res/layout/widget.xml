@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/widgetlayout"
+    android:background="@drawable/widget_frame_portrait2"
+    >
+   
+<RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
+<TextView 
+android:layout_height="fill_parent" android:gravity="center" android:paddingTop="20dip" android:paddingBottom="20dip"
+android:id="@+id/txt_jingsi_widget" android:paddingLeft="20dip" android:text="@string/info_text" android:layout_width="fill_parent" android:paddingRight="20dip" android:textColor="#6b4419"></TextView>
+</RelativeLayout>
+</LinearLayout>
