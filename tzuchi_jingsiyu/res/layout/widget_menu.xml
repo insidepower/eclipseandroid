@@ -9,7 +9,10 @@
    
 <RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
 <TextView 
-android:layout_height="fill_parent" android:gravity="center" android:paddingTop="20dip" android:paddingBottom="20dip"
-android:id="@+id/txt_jingsi_widget" android:paddingLeft="20dip" android:text="@string/hello" android:layout_width="fill_parent" android:paddingRight="20dip" android:textColor="#6b4419"></TextView>
+android:layout_height="wrap_content" android:gravity="center" android:paddingTop="20dip" 
+android:id="@+id/txt_jingsi_widget" android:paddingLeft="20dip" android:text="@string/hello" android:layout_width="286px" android:paddingRight="20dip" android:textColor="#6b4419"></TextView>
+<ImageButton android:layout_toRightOf="@id/txt_jingsi_widget"
+android:id="@+id/btn_widget_top" android:layout_width="wrap_content" android:layout_height="wrap_content"
+android:src="@drawable/top_orange"></ImageButton>
 </RelativeLayout>
 </LinearLayout>

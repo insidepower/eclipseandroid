@@ -28,12 +28,12 @@ public class Jingsiyu_widget extends AppWidgetProvider{
 	AppWidgetManager myappWidgetManager = null;
 	RemoteViews myviews = null;
 	public static final int UPDATE_RATE = 3500;
-	final static String TAG = "jingsiyu_widget"; 
+	final static String TAG = "jingsiyu_widget";
 	final static String ALARM_RATE = "ALARM_RATE";
 	int total_num_call = 1;
 
 	public void onDeleted(Context context, int[] appWidgetIds) {
-		for (int appWidgetId : appWidgetIds) { 
+		for (int appWidgetId : appWidgetIds) {
 			setAlarm(context, appWidgetId, -1);
 		}
 	}
@@ -67,7 +67,7 @@ public class Jingsiyu_widget extends AppWidgetProvider{
 		if (updateRate >= 0) {
 			alarms.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), updateRate, newPending);
 		} else {
-			// on a negative updateRate stop the refreshing 
+			// on a negative updateRate stop the refreshing
 			alarms.cancel(newPending);
 		}
 	}
