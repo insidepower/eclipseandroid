@@ -10,6 +10,6 @@
 <RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
 <TextView 
 android:layout_height="fill_parent" android:gravity="center" android:paddingTop="20dip" android:paddingBottom="20dip"
-android:id="@+id/txt_widget" android:paddingLeft="20dip" android:text="@string/info_text" android:layout_width="fill_parent" android:paddingRight="20dip" android:textColor="#6b4419"></TextView>
+android:id="@+id/goodtext" android:paddingLeft="20dip" android:text="@string/hello" android:layout_width="fill_parent" android:paddingRight="20dip" android:textColor="#6b4419"></TextView>
 </RelativeLayout>
 </LinearLayout>
