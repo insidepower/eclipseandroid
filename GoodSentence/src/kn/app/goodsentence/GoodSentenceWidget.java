@@ -12,6 +12,12 @@ public class GoodSentenceWidget extends AppWidgetProvider {
     public void onEnabled(Context context){
     }
 
+    public void onDeleted(Context context){
+        Log.i(TAG, "onDisabled");
+        Intent intent = new Intent(context, GoodSentenceService.class);
+        context.stopService(intent);
+    }
+
     public void onUpdate(
                     Context context,
                     AppWidgetManager appWidgetMgr,

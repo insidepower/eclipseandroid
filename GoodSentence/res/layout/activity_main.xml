@@ -1,14 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        tools:context=".MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
 
-</RelativeLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
+
+    <CheckBox android:id="@+id/checkbox_isRandom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/randomized_quotation"
+            android:textColor="#E3DEDE"
+            android:textSize="20sp"
+            android:onClick="onCheckboxClicked"
+        />
+
+<View
+      android:layout_width="fill_parent" 
+      android:layout_height="1px" 
+      android:background="#DADADA" />
+
+    <CheckBox android:id="@+id/checkbox_isResetToBegin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reset_to_begin"
+            android:onClick="onCheckboxClicked"
+            android:textColor="#E3DEDE"
+            android:textSize="20sp"
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#DADADA" />
+
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="20dp"
+    android:onClick="onClickApplyChanges"
+    android:text="@string/ApplyChange" />
+
+</LinearLayout>

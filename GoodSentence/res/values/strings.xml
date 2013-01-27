@@ -2,8 +2,10 @@
 <resources>
 
     <string name="app_name">GoodSentence</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="hello">Hello widget!</string>
+    <string name="randomized_quotation">Randomize the quotation</string>
+    <string name="reset_to_begin">Reset to the first quotation</string>
+    <string name="empty_quotation">You shouldn\'t have seen this! Something is not expected ;)</string>
+    <string name="ApplyChange">Apply</string>
     <string name="menu_settings">Settings</string>
 
 </resources>

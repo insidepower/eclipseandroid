@@ -3,6 +3,8 @@ package kn.app.goodsentence;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.CheckBox;
 
 public class MainActivity extends Activity {
 
@@ -18,5 +20,19 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+        switch(view.getId()) {
+            case R.id.checkbox_isRandom:
+                if(checked){
+                } else {
+                }
+                break;
+        }
+    }
+
+    public void onClickApplyChanges(View view) {
+    }
 
 }
