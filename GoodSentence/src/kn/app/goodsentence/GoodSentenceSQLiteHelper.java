@@ -2,7 +2,6 @@ package kn.app.goodsentence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -32,8 +31,10 @@ public class GoodSentenceSQLiteHelper extends SQLiteOpenHelper{
     /// create a new one
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(DATABASE_CREATE_QUOTE);
         db.execSQL(DATABASE_CREATE_INFO);
-        db.execSQL(DATABASE_TABLE_QUOTE);
+
+        Log.e("GdSentenceSQLiteHelper", DATABASE_CREATE_QUOTE);
     }
 
     /// Called when there is a database version mismatch meaning that the

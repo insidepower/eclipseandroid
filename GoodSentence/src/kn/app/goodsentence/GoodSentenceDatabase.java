@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class GoodSentenceDatabase {
     public static final int TOTAL_LINE_TO_READ = 20;
@@ -18,6 +19,7 @@ public class GoodSentenceDatabase {
     public static final String QUOTE = "my_quote";
     public static final String CURRENT_POSITION = "current_pos";
     public static final String TOTAL_LINE_READ = "line_read";
+    public static final String TAG="GdSentenceDatabase";
     public int db_total_line_read = 0;
     public boolean is_file_read_finish = false;
     public Context myContext;
@@ -55,11 +57,13 @@ public class GoodSentenceDatabase {
         ContentValues value = new ContentValues();
         value.put(QUOTE, quote);
         long insertId = db.insert(
-                GoodSentenceSQLiteHelper.DATABASE_TABLE_QUOTE,null, value);
+                GoodSentenceSQLiteHelper.DATABASE_TABLE_QUOTE,null,value);
     }
 
     public String read_next_quote(){
-        int current_pos = read_current_pos(CURRENT_POSITION)+1;
+        int current_pos = read_current_pos(CURRENT_POSITION);
+        Log.i(TAG, "b4 current_pos="+current_pos);
+        current_pos++;
         String result = read_quote(KEY_ID+"="+current_pos);
         update_current_pos(current_pos);
 
@@ -75,6 +79,9 @@ public class GoodSentenceDatabase {
                 }
             }
         }
+
+        Log.i(TAG, "current_pos="+current_pos+"; sentence="+result);
+
         return result;
     }
 
@@ -105,8 +112,16 @@ public class GoodSentenceDatabase {
         if (cursor.moveToNext()) {
         	int index = cursor.getColumnIndexOrThrow(column);
             info = cursor.getInt(index);
+            Log.i(TAG, "read_current_pos, inside pos="+info);
+        } else {
+            /// create the first entry
+            ContentValues value = new ContentValues();
+            value.put(CURRENT_POSITION, 1);
+            long insertId = db.insert(
+                    GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,null,value);
         }
 
+        Log.i(TAG, "read_current_pos, pos="+info);
         cursor.close();
         return info;
     }
@@ -114,13 +129,15 @@ public class GoodSentenceDatabase {
     public void update_current_pos(int new_pos) {
         ContentValues value = new ContentValues();
         value.put(CURRENT_POSITION, new_pos);
-        db.update(dbHelper.DATABASE_TABLE_INFO, value, KEY_ID+"="+1, null);
+        db.update(GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,
+                value, KEY_ID+"="+1, null);
     }
 
     public void update_total_read(int new_total) {
         ContentValues value = new ContentValues();
         value.put(TOTAL_LINE_READ, new_total);
-        db.update(dbHelper.DATABASE_TABLE_INFO, value, KEY_ID+"="+1, null);
+        db.update(GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,
+                value, KEY_ID+"="+1, null);
     }
 
     public void delete_table(){
