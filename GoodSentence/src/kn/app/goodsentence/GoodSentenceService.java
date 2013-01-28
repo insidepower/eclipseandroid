@@ -26,7 +26,7 @@ public class GoodSentenceService extends Service {
     public Boolean isRandomize = false;
     public Boolean isResetToBeginOfFile = false;
     public String[] lines;
-    
+
     /// create a PendingIntent which will be executed upon clicked
     public PendingIntent createPendingIntent(
             Context context, String command, int appWidgetId) {
@@ -45,20 +45,30 @@ public class GoodSentenceService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         //String command = intent.getAction();
         int appWidgetId = intent.getExtras().getInt(
                 AppWidgetManager.EXTRA_APPWIDGET_ID);
-        RemoteViews rv = new RemoteViews(getApplicationContext()
+        Context context = getApplicationContext();
+        RemoteViews rv = new RemoteViews(context
                 .getPackageName(),R.layout.widget);
         AppWidgetManager appWidgetManager = AppWidgetManager
-                .getInstance(getApplicationContext());
+                .getInstance(context);
         PendingIntent newPI = createPendingIntent(
-                getApplicationContext(), UPDATE, appWidgetId);
-        rv.setTextViewText(R.id.goodtext, getFileContent());
+                context, UPDATE, appWidgetId);
+        GoodSentenceDatabase db = new GoodSentenceDatabase(context);
+
+        //rv.setTextViewText(R.id.goodtext, getFileContent());
+        rv.setTextViewText(R.id.goodtext, db.read_next_quote());
         rv.setOnClickPendingIntent(R.id.widgetlayout, newPI);
         appWidgetManager.updateAppWidget(appWidgetId,rv);
+
+        /// stop the service
         //this.stopSelf();
+
+        /// START_NOT_STICKY == if service is killed by OS, no need to restart
+        /// it again.
+        return Service.START_NOT_STICKY;
     }
 
     @Override
