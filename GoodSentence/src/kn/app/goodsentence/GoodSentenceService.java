@@ -26,6 +26,7 @@ public class GoodSentenceService extends Service {
     public Boolean isRandomize = false;
     public Boolean isResetToBeginOfFile = false;
     public String[] lines;
+    public GoodSentenceDatabase db = null;
 
     /// create a PendingIntent which will be executed upon clicked
     public PendingIntent createPendingIntent(
@@ -35,10 +36,10 @@ public class GoodSentenceService extends Service {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         /// must set Uri data, else all widget are treat as same by android
         /// e.g. android will treat total instance as one
-        Uri data = Uri.withAppendedPath(
-                Uri.parse("String" + "://widget/id/")
-                ,String.valueOf(appWidgetId));
-        intent.setData(data);
+        //Uri data = Uri.withAppendedPath(
+        //        Uri.parse("String" + "://widget/id/")
+        //        ,String.valueOf(appWidgetId));
+        //intent.setData(data);
 
         return (PendingIntent.getService(context, 0, intent, 
                     PendingIntent.FLAG_UPDATE_CURRENT));
@@ -56,7 +57,10 @@ public class GoodSentenceService extends Service {
                 .getInstance(context);
         PendingIntent newPI = createPendingIntent(
                 context, UPDATE, appWidgetId);
-        GoodSentenceDatabase db = new GoodSentenceDatabase(context);
+        if ( null == db )
+        {
+            db = new GoodSentenceDatabase(context);
+        }
 
         //rv.setTextViewText(R.id.goodtext, getFileContent());
         rv.setTextViewText(R.id.goodtext, db.read_next_quote());

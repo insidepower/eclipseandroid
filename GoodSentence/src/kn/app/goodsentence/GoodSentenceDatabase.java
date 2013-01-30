@@ -23,6 +23,7 @@ public class GoodSentenceDatabase {
     public int db_total_line_read = 0;
     public boolean is_file_read_finish = false;
     public Context myContext;
+    public int my_current_pos = 0;
 
     private SQLiteDatabase db;
     private GoodSentenceSQLiteHelper dbHelper;
@@ -35,16 +36,18 @@ public class GoodSentenceDatabase {
 
     public void open() throws SQLException {
         db = dbHelper.getWritableDatabase();
-        int current_pos = read_current_pos(CURRENT_POSITION);
-        if (current_pos == 0){
-            /// read from file
-            if (!is_file_read_finish){
-                int total_line_read = getFileContent(current_pos);
-                update_total_read(total_line_read);
-                db_total_line_read = total_line_read;
-                if (total_line_read == 0) {
-                    is_file_read_finish = true;
-                }
+        //int current_pos = read_current_pos(CURRENT_POSITION);
+        if (0 == my_current_pos)
+        {
+            my_current_pos = read_current_pos(CURRENT_POSITION);
+        }
+        if (!is_file_read_finish){
+            Log.i(TAG, "log from file="+my_current_pos);
+            int total_line_read = getFileContent(my_current_pos-1);
+            update_total_read(total_line_read);
+            db_total_line_read = total_line_read;
+            if (total_line_read == 0) {
+                is_file_read_finish = true;
             }
         }
     }
@@ -61,15 +64,15 @@ public class GoodSentenceDatabase {
     }
 
     public String read_next_quote(){
-        int current_pos = read_current_pos(CURRENT_POSITION);
-        Log.i(TAG, "b4 current_pos="+current_pos);
-        current_pos++;
-        String result = read_quote(KEY_ID+"="+current_pos);
-        update_current_pos(current_pos);
+        //int current_pos = read_current_pos(CURRENT_POSITION);
+        Log.i(TAG, "b4 current_pos="+my_current_pos);
+        String result = read_quote(KEY_ID+"="+my_current_pos);
+        //update_current_pos(current_pos);
 
-        if (current_pos > (db_total_line_read-HALF_TOTAL_LINE_TO_READ)) {
+        if (my_current_pos >= (db_total_line_read-HALF_TOTAL_LINE_TO_READ)) {
             /// read more from the file if user is getting near to end
-        	int skip = (current_pos/TOTAL_LINE_TO_READ)*TOTAL_LINE_TO_READ;
+            Log.i(TAG, "read_next_quote, current_pos="+my_current_pos);
+        	int skip = my_current_pos+HALF_TOTAL_LINE_TO_READ;
             int total_line_read = getFileContent(skip);
             db_total_line_read = db_total_line_read+total_line_read;
             if (!is_file_read_finish){
@@ -80,7 +83,8 @@ public class GoodSentenceDatabase {
             }
         }
 
-        Log.i(TAG, "current_pos="+current_pos+"; sentence="+result);
+        my_current_pos++;
+        Log.i(TAG, "current_pos="+my_current_pos+"; sentence="+result);
 
         return result;
     }
@@ -117,6 +121,7 @@ public class GoodSentenceDatabase {
             /// create the first entry
             ContentValues value = new ContentValues();
             value.put(CURRENT_POSITION, 1);
+            info = 1;
             long insertId = db.insert(
                     GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,null,value);
         }
@@ -161,12 +166,16 @@ public class GoodSentenceDatabase {
             }
 
             int read = count+TOTAL_LINE_TO_READ;
+            db.beginTransaction();
             while (count < read ){
                 line = buffreader.readLine();
+                Log.i(TAG, "file: line="+line);
                 insert_quote(line);
                 count++;
                 total_line_read++;
             }
+            db.setTransactionSuccessful();
+            db.endTransaction();
 
             instream.close();
             inputreader.close();
