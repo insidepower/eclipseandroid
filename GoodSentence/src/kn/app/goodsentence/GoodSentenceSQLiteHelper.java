@@ -15,8 +15,7 @@ public class GoodSentenceSQLiteHelper extends SQLiteOpenHelper{
     private static final String DATABASE_CREATE_INFO = "create table " +
         DATABASE_TABLE_INFO + " (" + GoodSentenceDatabase.KEY_ID +
         " integer primary key autoincrement, " +
-        GoodSentenceDatabase.CURRENT_POSITION + " integer, "+
-        GoodSentenceDatabase.TOTAL_LINE_READ + " integer);";
+        GoodSentenceDatabase.CURRENT_POSITION + " integer);";
 
     private static final String DATABASE_CREATE_QUOTE = "create table " +
         DATABASE_TABLE_QUOTE + " (" + GoodSentenceDatabase.KEY_ID +

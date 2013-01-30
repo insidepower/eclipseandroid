@@ -57,9 +57,16 @@ public class GoodSentenceService extends Service {
                 .getInstance(context);
         PendingIntent newPI = createPendingIntent(
                 context, UPDATE, appWidgetId);
-        if ( null == db )
-        {
+        if ( null == db ) {
+            Log.i(TAG, "db is null");
             db = new GoodSentenceDatabase(context);
+            if (!db.checkDatabaseAvailability()){
+                Log.i(TAG, "building database");
+                rv.setTextViewText(R.id.goodtext,
+                        "Initializing database... Please wait");
+                appWidgetManager.updateAppWidget(appWidgetId,rv);
+                db.constructDatabase();
+            }
         }
 
         //rv.setTextViewText(R.id.goodtext, getFileContent());
