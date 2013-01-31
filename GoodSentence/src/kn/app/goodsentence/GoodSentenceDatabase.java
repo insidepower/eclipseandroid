@@ -44,9 +44,6 @@ public class GoodSentenceDatabase {
     }
 
     public void setRandom(int flag){
-        if(1==flag){
-            current_pos = (int)(Math.random()*db_total_line);
-        }
         isRandom = flag;
         update_info(IS_RANDOM, flag);
         Log.i(TAG, "setRandom="+isRandom+"; current_pos="+current_pos);
@@ -76,8 +73,6 @@ public class GoodSentenceDatabase {
 
     public String read_next_quote(){
         //int current_pos = read_info(CURRENT_POSITION);
-        String result = read_quote(KEY_ID+"="+current_pos);
-        Log.i(TAG, "current_pos="+current_pos+"; sentence="+result);
         if (0==isRandom) {
             ++current_pos;
             if ( current_pos > db_total_line )
@@ -87,6 +82,8 @@ public class GoodSentenceDatabase {
         }else{
             current_pos = (int)(Math.random()*db_total_line);
         }
+        String result = read_quote(KEY_ID+"="+current_pos);
+        Log.i(TAG, "current_pos="+current_pos+"; sentence="+result);
 
         return result;
     }
@@ -120,26 +117,19 @@ public class GoodSentenceDatabase {
         if (cursor.moveToNext()) {
         	int index = cursor.getColumnIndexOrThrow(column);
             info = cursor.getInt(index);
-            Log.i(TAG, "read_info, info="+info);
+            Log.i(TAG, "read_info, column="+info);
         } else {
             /// create the first entry for current position
-                ContentValues value = new ContentValues();
-                value.put(CURRENT_POSITION, 1);
-                value.put(TOTAL_LINE_READ, 0);
-                value.put(column, 0);
-                db.insert(
-                        GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,null,value);
-
-            if ( column.equals(CURRENT_POSITION) ) {
-                info = 1;
-            } else if ( column.equals(TOTAL_LINE_READ)){
-                info = 0;
-            } else if ( column.equals(IS_RANDOM)) {
-                info = 0;
-            }
+            info = 0;
+            ContentValues value = new ContentValues();
+            value.put(CURRENT_POSITION, 1);
+            value.put(TOTAL_LINE_READ, 0);
+            value.put(column, 0);
+            db.insert(
+                    GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,null,value);
         }
 
-        Log.i(TAG, "read_info, pos="+info+"; column="+column);
+        Log.i(TAG, "read_info, info="+info+"; column="+column);
         cursor.close();
         return info;
     }
