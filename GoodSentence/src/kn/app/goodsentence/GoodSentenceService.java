@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -18,7 +20,9 @@ import android.widget.RemoteViews;
 public class GoodSentenceService extends Service {
     /// global static
     public static final String UPDATE = "update";
+    public static final String TIMER_EXPIRE = "timer_expire";
     public static final String TAG = "GdSenteceSrv";
+	public static final int UPDATE_RATE = 60000;
 
     /// instance specific
     public InputStream instream;
@@ -47,7 +51,14 @@ public class GoodSentenceService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //String command = intent.getAction();
+        String command = intent.getAction();
+		if(command.equals(TIMER_EXPIRE)){
+            /// terminate this service after idle for UPDATE_RATE
+            Log.i(TAG, "terminate service rate="+UPDATE_RATE);
+            this.stopSelf();
+            return Service.START_NOT_STICKY;
+		}
+
         int appWidgetId = intent.getExtras().getInt(
                 AppWidgetManager.EXTRA_APPWIDGET_ID);
         Context context = getApplicationContext();
@@ -69,13 +80,10 @@ public class GoodSentenceService extends Service {
             }
         }
 
-        //rv.setTextViewText(R.id.goodtext, getFileContent());
         rv.setTextViewText(R.id.goodtext, db.read_next_quote());
         rv.setOnClickPendingIntent(R.id.widgetlayout, newPI);
         appWidgetManager.updateAppWidget(appWidgetId,rv);
-
-        /// stop the service
-        //this.stopSelf();
+        setAlarm(context, appWidgetId);
 
         /// START_NOT_STICKY == if service is killed by OS, no need to restart
         /// it again.
@@ -85,13 +93,7 @@ public class GoodSentenceService extends Service {
     @Override
     public void onDestroy() {
         Log.i(TAG, "onDestroy");
-        // close the file again
-        try {
-			instream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        db.close();
     }
 
 	@Override
@@ -100,25 +102,16 @@ public class GoodSentenceService extends Service {
 		return null;
 	}
 
-    public String getFileContent(){
-    	String line = null;
-    	try {
-            if (buffreader==null || isRandomize || isResetToBeginOfFile) {
-                Log.i(TAG, "buffer is null, isRandomize="+isRandomize);
-                //InputStream instream = openFileInput("myfilename.txt");
-                instream = getApplicationContext().getResources()
-                    .openRawResource(R.raw.goodsentence);
-                InputStreamReader inputreader = new InputStreamReader(instream);
-                buffreader = new BufferedReader(inputreader);
-            }
 
-            line = buffreader.readLine();
-
-        } catch (java.io.FileNotFoundException e) {	
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		return line;
+	public void setAlarm(Context context, int appWidgetId) {
+		PendingIntent newPending = createPendingIntent(
+                context, TIMER_EXPIRE, appWidgetId);
+		AlarmManager alarms = (AlarmManager)
+            context.getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.SECOND, 30);
+		alarms.set(AlarmManager.RTC,
+                calendar.getTimeInMillis(), newPending);
     }
 }
