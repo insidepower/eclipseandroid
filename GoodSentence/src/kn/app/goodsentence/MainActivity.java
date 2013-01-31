@@ -11,7 +11,9 @@ import android.widget.CheckBox;
 public class MainActivity extends Activity {
     public static final String PREFS_NAME = "MyPrefsFile";
     public int isRandom = 0;
-    public boolean isResetToZero;
+    public int isResetToZero;
+    public boolean isRandomValueChange = false;
+    public boolean isResetToZeroValueChange = false;
     SharedPreferences setting;
     public GoodSentenceDatabase db = null;
 
@@ -57,8 +59,24 @@ public class MainActivity extends Activity {
         //db.setRandom(isRandom);
         Intent intent =
             new Intent(getApplicationContext(), GoodSentenceService.class);
-        intent.setAction(GoodSentenceService.SET_RANDOM);
-        intent.putExtra(GoodSentenceService.SET_RANDOM, isRandom);
+        intent.setAction(GoodSentenceService.UPDATE_FROM_MAIN);
+        if (isRandomValueChange){
+            intent.putExtra(GoodSentenceService.SET_RANDOM, isRandom);
+            isRandomValueChange = false;
+        }else{
+            intent.putExtra(
+                    GoodSentenceService.SET_RANDOM,
+                    GoodSentenceService.NOT_SET);
+        }
+
+        if (isResetToZeroValueChange){
+            intent.putExtra(GoodSentenceService.RESET_TO_START, isResetToZero);
+            isResetToZeroValueChange = false;
+        }else{
+            intent.putExtra(
+                    GoodSentenceService.RESET_TO_START,
+                    GoodSentenceService.NOT_SET);
+        }
         getApplicationContext().startService(intent);
 
     }
@@ -67,6 +85,7 @@ public class MainActivity extends Activity {
         boolean checked = ((CheckBox) view).isChecked();
         switch(view.getId()) {
             case R.id.checkbox_isRandom:
+                isRandomValueChange = true;
                 if(checked){
                     isRandom = 1;
                 } else {
@@ -74,10 +93,11 @@ public class MainActivity extends Activity {
                 }
                 break;
             case R.id.checkbox_isResetToBegin:
+                isResetToZeroValueChange = true;
                 if(checked){
-                    isResetToZero = true;
+                    isResetToZero = 1;
                 } else {
-                    isResetToZero = false;
+                    isResetToZero = 0;
                 }
                 break;
             default:

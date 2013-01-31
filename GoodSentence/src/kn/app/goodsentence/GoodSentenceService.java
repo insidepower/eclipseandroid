@@ -21,9 +21,12 @@ public class GoodSentenceService extends Service {
     /// global static
     public static final String UPDATE = "update";
     public static final String SET_RANDOM = "set_random";
+    public static final String UPDATE_FROM_MAIN = "update_from_main";
+    public static final String RESET_TO_START = "reset_to_start";
     public static final String TIMER_EXPIRE = "timer_expire";
     public static final String TAG = "GdSenteceSrv";
 	public static final int UPDATE_RATE = 60000;
+	public static final int NOT_SET = 999;
 
     /// instance specific
     public InputStream instream;
@@ -81,9 +84,11 @@ public class GoodSentenceService extends Service {
             rv.setOnClickPendingIntent(R.id.widgetlayout, newPI);
             appWidgetManager.updateAppWidget(appWidgetId,rv);
             setAlarm(context, appWidgetId);
-        } else if(command.equals(SET_RANDOM)){
+        } else if(command.equals(UPDATE_FROM_MAIN)){
             int flag = intent.getExtras().getInt(SET_RANDOM);
-            Log.i(TAG, "set random = "+flag);
+            int resetToStart =
+                intent.getExtras().getInt(RESET_TO_START);
+            Log.i(TAG, "set random = "+flag+"; reset="+resetToStart);
             if ( null == db ) {
                 Log.i(TAG, "db is null");
                 db = new GoodSentenceDatabase(context);
@@ -92,7 +97,14 @@ public class GoodSentenceService extends Service {
                     db.constructDatabase();
                 }
             }
-            db.setRandom(flag);
+
+            if ( NOT_SET!=flag ) {
+                db.setRandom(flag);
+            }
+            if ( NOT_SET!=resetToStart ){
+                db.resetToStart();
+            }
+
             return Service.START_NOT_STICKY;
         } else if(command.equals(TIMER_EXPIRE)){
             /// terminate this service after idle for UPDATE_RATE

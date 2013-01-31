@@ -49,6 +49,10 @@ public class GoodSentenceDatabase {
         Log.i(TAG, "setRandom="+isRandom+"; current_pos="+current_pos);
     }
 
+    public void resetToStart(){
+        current_pos = 0;
+    }
+
     public boolean checkDatabaseAvailability() {
         boolean isDatabaseReady = false;
         if (null != read_quote(KEY_ID+"=1")) {
