@@ -7,5 +7,7 @@
     <string name="empty_quotation">You shouldn\'t have seen this! Something is not expected ;)</string>
     <string name="ApplyChange">Apply</string>
     <string name="menu_settings">Settings</string>
+    <string name="App_brief">This application is designed to be used as a widget. Fine tune the setting below and apply it.
+    </string>
 
 </resources>

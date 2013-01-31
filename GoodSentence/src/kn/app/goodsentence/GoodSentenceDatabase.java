@@ -16,20 +16,40 @@ public class GoodSentenceDatabase {
     public static final String QUOTE = "my_quote";
     public static final String CURRENT_POSITION = "current_pos";
     public static final String TOTAL_LINE_READ = "line_read";
+    public static final String IS_RANDOM = "isRandom";
     public static final String TAG="GdSentenceDatabase";
     public Context myContext;
     public int current_pos = 0;
     public int db_total_line = 0;
+    public int isRandom;
 
     private SQLiteDatabase db;
     private GoodSentenceSQLiteHelper dbHelper;
 
     public GoodSentenceDatabase(Context context) {
         myContext = context;
+
+        /// read from database
         dbHelper = new GoodSentenceSQLiteHelper(myContext);
         db = dbHelper.getWritableDatabase();
-        current_pos = read_info(CURRENT_POSITION);
         db_total_line = read_info(TOTAL_LINE_READ);
+        isRandom = read_info(IS_RANDOM);
+        if ( 0==isRandom ) {
+            current_pos = read_info(CURRENT_POSITION);
+        }else if (db_total_line > 0){
+            current_pos = (int)(Math.random()*db_total_line);
+        }else {
+            current_pos = 1;
+        }
+    }
+
+    public void setRandom(int flag){
+        if(1==flag){
+            current_pos = (int)(Math.random()*db_total_line);
+        }
+        isRandom = flag;
+        update_info(IS_RANDOM, flag);
+        Log.i(TAG, "setRandom="+isRandom+"; current_pos="+current_pos);
     }
 
     public boolean checkDatabaseAvailability() {
@@ -43,14 +63,14 @@ public class GoodSentenceDatabase {
     }
 
     public void close() {
-        update_current_pos(current_pos);
+        update_info(CURRENT_POSITION, current_pos);
         dbHelper.close();
     }
 
     public void insert_quote(String quote){
         ContentValues value = new ContentValues();
         value.put(QUOTE, quote);
-        long insertId = db.insert(
+        db.insert(
                 GoodSentenceSQLiteHelper.DATABASE_TABLE_QUOTE,null,value);
     }
 
@@ -58,10 +78,14 @@ public class GoodSentenceDatabase {
         //int current_pos = read_info(CURRENT_POSITION);
         String result = read_quote(KEY_ID+"="+current_pos);
         Log.i(TAG, "current_pos="+current_pos+"; sentence="+result);
-        ++current_pos;
-        if ( current_pos > db_total_line )
-        {
-            current_pos = 1;
+        if (0==isRandom) {
+            ++current_pos;
+            if ( current_pos > db_total_line )
+            {
+                current_pos = 1;
+            }
+        }else{
+            current_pos = (int)(Math.random()*db_total_line);
         }
 
         return result;
@@ -86,7 +110,8 @@ public class GoodSentenceDatabase {
     public int read_info(String column){
         int info = 0;
         String[] result_columns =
-            new String[] { KEY_ID, CURRENT_POSITION, TOTAL_LINE_READ };
+            new String[] { KEY_ID, CURRENT_POSITION,
+                TOTAL_LINE_READ, IS_RANDOM };
         Cursor cursor = db.query(GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,
         		result_columns, null, null, null, null, "1");
 
@@ -95,32 +120,33 @@ public class GoodSentenceDatabase {
         if (cursor.moveToNext()) {
         	int index = cursor.getColumnIndexOrThrow(column);
             info = cursor.getInt(index);
-            Log.i(TAG, "read_info, inside pos="+info);
+            Log.i(TAG, "read_info, info="+info);
         } else {
             /// create the first entry for current position
-            if ( column.equals(CURRENT_POSITION) ) {
                 ContentValues value = new ContentValues();
                 value.put(CURRENT_POSITION, 1);
+                value.put(TOTAL_LINE_READ, 0);
+                value.put(column, 0);
+                db.insert(
+                        GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,null,value);
+
+            if ( column.equals(CURRENT_POSITION) ) {
                 info = 1;
-                long insertId = db.insert(
-                        GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,null,value);
             } else if ( column.equals(TOTAL_LINE_READ)){
-                ContentValues value = new ContentValues();
-                value.put(CURRENT_POSITION, 0);
                 info = 0;
-                long insertId = db.insert(
-                        GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,null,value);
+            } else if ( column.equals(IS_RANDOM)) {
+                info = 0;
             }
         }
 
-        Log.i(TAG, "read_info, pos="+info);
+        Log.i(TAG, "read_info, pos="+info+"; column="+column);
         cursor.close();
         return info;
     }
 
-    public void update_current_pos(int new_pos) {
+    public void update_info(String column, int new_pos) {
         ContentValues value = new ContentValues();
-        value.put(CURRENT_POSITION, new_pos);
+        value.put(column, new_pos);
         db.update(GoodSentenceSQLiteHelper.DATABASE_TABLE_INFO,
                 value, KEY_ID+"="+1, null);
     }
@@ -173,6 +199,11 @@ public class GoodSentenceDatabase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (1==isRandom) {
+            current_pos = (int)(Math.random()*db_total_line);
+        }
+
 		return result;
     }
 

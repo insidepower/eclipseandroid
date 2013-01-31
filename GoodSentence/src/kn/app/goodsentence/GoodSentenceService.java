@@ -20,6 +20,7 @@ import android.widget.RemoteViews;
 public class GoodSentenceService extends Service {
     /// global static
     public static final String UPDATE = "update";
+    public static final String SET_RANDOM = "set_random";
     public static final String TIMER_EXPIRE = "timer_expire";
     public static final String TAG = "GdSenteceSrv";
 	public static final int UPDATE_RATE = 60000;
@@ -51,39 +52,53 @@ public class GoodSentenceService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        int appWidgetId;
         String command = intent.getAction();
-		if(command.equals(TIMER_EXPIRE)){
+        Context context = getApplicationContext();
+
+        if(command.equals(UPDATE)){
+            Log.i(TAG, "update onStartCommand");
+            appWidgetId = intent.getExtras().getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID);
+            RemoteViews rv = new RemoteViews(context
+                    .getPackageName(),R.layout.widget);
+            AppWidgetManager appWidgetManager = AppWidgetManager
+                .getInstance(context);
+            PendingIntent newPI = createPendingIntent(
+                    context, UPDATE, appWidgetId);
+            if ( null == db ) {
+                Log.i(TAG, "db is null");
+                db = new GoodSentenceDatabase(context);
+                if (!db.checkDatabaseAvailability()){
+                    Log.i(TAG, "building database");
+                    rv.setTextViewText(R.id.goodtext,
+                            "Initializing database... Please wait");
+                    appWidgetManager.updateAppWidget(appWidgetId,rv);
+                    db.constructDatabase();
+                }
+            }
+            rv.setTextViewText(R.id.goodtext, db.read_next_quote());
+            rv.setOnClickPendingIntent(R.id.widgetlayout, newPI);
+            appWidgetManager.updateAppWidget(appWidgetId,rv);
+            setAlarm(context, appWidgetId);
+        } else if(command.equals(SET_RANDOM)){
+            int flag = intent.getExtras().getInt(SET_RANDOM);
+            Log.i(TAG, "set random = "+flag);
+            if ( null == db ) {
+                Log.i(TAG, "db is null");
+                db = new GoodSentenceDatabase(context);
+                if (!db.checkDatabaseAvailability()){
+                    Log.i(TAG, "building database");
+                    db.constructDatabase();
+                }
+            }
+            db.setRandom(flag);
+            return Service.START_NOT_STICKY;
+        } else if(command.equals(TIMER_EXPIRE)){
             /// terminate this service after idle for UPDATE_RATE
             Log.i(TAG, "terminate service rate="+UPDATE_RATE);
             this.stopSelf();
-            return Service.START_NOT_STICKY;
 		}
-
-        int appWidgetId = intent.getExtras().getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID);
-        Context context = getApplicationContext();
-        RemoteViews rv = new RemoteViews(context
-                .getPackageName(),R.layout.widget);
-        AppWidgetManager appWidgetManager = AppWidgetManager
-                .getInstance(context);
-        PendingIntent newPI = createPendingIntent(
-                context, UPDATE, appWidgetId);
-        if ( null == db ) {
-            Log.i(TAG, "db is null");
-            db = new GoodSentenceDatabase(context);
-            if (!db.checkDatabaseAvailability()){
-                Log.i(TAG, "building database");
-                rv.setTextViewText(R.id.goodtext,
-                        "Initializing database... Please wait");
-                appWidgetManager.updateAppWidget(appWidgetId,rv);
-                db.constructDatabase();
-            }
-        }
-
-        rv.setTextViewText(R.id.goodtext, db.read_next_quote());
-        rv.setOnClickPendingIntent(R.id.widgetlayout, newPI);
-        appWidgetManager.updateAppWidget(appWidgetId,rv);
-        setAlarm(context, appWidgetId);
 
         /// START_NOT_STICKY == if service is killed by OS, no need to restart
         /// it again.
