@@ -137,7 +137,7 @@ public class GoodSentenceService extends Service {
             context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 30);
+        calendar.add(Calendar.SECOND, 15);
 		alarms.set(AlarmManager.RTC,
                 calendar.getTimeInMillis(), newPending);
     }

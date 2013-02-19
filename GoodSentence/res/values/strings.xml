@@ -4,7 +4,7 @@
     <string name="app_name">GoodSentence</string>
     <string name="randomized_quotation">Randomize the quotation</string>
     <string name="reset_to_begin">Reset to the first quotation</string>
-    <string name="empty_quotation">You shouldn\'t have seen this! Something is not expected ;)</string>
+    <string name="empty_quotation">Something is not expected ;) Delete this widget, then go Settings->Applications and delete this application data before create the widget again</string>
     <string name="ApplyChange">Apply</string>
     <string name="menu_settings">Settings</string>
     <string name="App_brief">This application is designed to be used as a widget. Fine tune the setting below and apply it.
