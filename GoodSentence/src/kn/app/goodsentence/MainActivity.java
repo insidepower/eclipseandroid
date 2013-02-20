@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -60,9 +61,15 @@ public class MainActivity extends Activity {
         Intent intent =
             new Intent(getApplicationContext(), GoodSentenceService.class);
         intent.setAction(GoodSentenceService.UPDATE_FROM_MAIN);
+        CharSequence toasttext = "";
         if (isRandomValueChange){
             intent.putExtra(GoodSentenceService.SET_RANDOM, isRandom);
             isRandomValueChange = false;
+            if (1==isRandom){
+                toasttext="Quote is randomized; ";
+            }else{
+            	toasttext="Quote is not randomized; ";
+            }
         }else{
             intent.putExtra(
                     GoodSentenceService.SET_RANDOM,
@@ -72,11 +79,16 @@ public class MainActivity extends Activity {
         if (isResetToZeroValueChange){
             intent.putExtra(GoodSentenceService.RESET_TO_START, isResetToZero);
             isResetToZeroValueChange = false;
+            if (1==isResetToZero){
+                toasttext=toasttext+"Quote is reset to first sentence;";
+            }
         }else{
             intent.putExtra(
                     GoodSentenceService.RESET_TO_START,
                     GoodSentenceService.NOT_SET);
         }
+        Toast.makeText(getApplicationContext(), toasttext,
+                Toast.LENGTH_SHORT).show();
         getApplicationContext().startService(intent);
 
     }
