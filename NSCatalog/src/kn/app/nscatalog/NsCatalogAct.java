@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class NsCatalogAct extends FragmentActivity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -128,11 +128,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.title_section1).toUpperCase();
+                    return "Singapore(SG)";
                 case 1:
-                    return getString(R.string.title_section2).toUpperCase();
+                    return "Malaysia(MY)";
                 case 2:
-                    return getString(R.string.title_section3).toUpperCase();
+                    return "SG and MY";
             }
             return null;
         }
