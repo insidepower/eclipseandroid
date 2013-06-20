@@ -155,12 +155,14 @@ public class NsCatalogAct extends FragmentActivity implements ActionBar.TabListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragmentlayout, container, false);
+            return view;
             // Create a new TextView and set its text to the fragment's section
             // number argument value.
-            TextView textView = new TextView(getActivity());
-            textView.setGravity(Gravity.CENTER);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return textView;
+            //TextView textView = new TextView(getActivity());
+            //textView.setGravity(Gravity.CENTER);
+            //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+            //return textView;
         }
     }
 
