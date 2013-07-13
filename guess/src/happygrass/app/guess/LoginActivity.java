@@ -67,7 +67,7 @@ public class LoginActivity extends Activity {
 			};
 
 			TextView view_login = (TextView) findViewById(R.id.txt_login);
-			view_login.setText("password incorrect. Try again");
+			view_login.setText("Password incorrect. Try again.");
 			//view_login.setAlpha(1);
 			ObjectAnimator anime =
 				ObjectAnimator.ofFloat(view_login, "alpha", 0);

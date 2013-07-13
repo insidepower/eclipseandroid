@@ -13,8 +13,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+		<!-- android:name="happygrass.app.guess.LoginActivity -->
+
         <activity
-            android:name="happygrass.app.guess.LoginActivity"
+			android:name="happygrass.app.guess.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
