@@ -1,6 +1,6 @@
 package happygrass.app.gift;
 
-import happygrass.app.gift.R;
+import happygrass.app.R;
 import android.os.Bundle;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;

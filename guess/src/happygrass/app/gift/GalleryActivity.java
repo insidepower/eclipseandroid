@@ -1,6 +1,6 @@
 package happygrass.app.gift;
 
-import happygrass.app.gift.R;
+import happygrass.app.R;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;

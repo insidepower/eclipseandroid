@@ -1,6 +1,7 @@
 package happygrass.app.gift;
 
-import happygrass.app.gift.R;
+import happygrass.app.R;
+import happygrass.app.imported.musicg.demo.android.WhistleActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -61,7 +62,7 @@ public class MainActivity extends Activity {
 
 	private Runnable finishThisActivit = new Runnable() {
 		  public void run() {
-			Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+			Intent i = new Intent(getApplicationContext(), WhistleActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);
 			finish();
