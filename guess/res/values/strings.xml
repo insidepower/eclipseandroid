@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">guess</string>
+    <string name="app_name">gift</string>
     <string name="hello_world">Hello world!</string>
+    <string name="firstloginquestion">Guess who created this for 老婆?</string>
+    <string name="choice1">帅帅的老公</string>
+    <string name="choice2">最好的老公</string>
+    <string name="choice3">以上都是 :) </string>
+    <string name="firstloginWrong1">除了帅，还有呢？</string>
+    <string name="firstloginWrong2">你的老公是不是，还蛮帅的？</string>
+    <string name="firstloginCorrect">真聪明，答对了！</string>
+    <string name="song1">/sdcard/mp3/song.mp3</string>
     <string name="menu_settings">Settings</string>
 
 </resources>

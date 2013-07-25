@@ -11,11 +11,12 @@
 	</View>
 
     <TextView
-		android:id="@+id/txt_question"
+        android:id="@+id/txt_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_below="@+id/blank_view"
-        android:text="@string/hello_world" />
+        android:layout_below="@+id/blank_view"
+        android:text="@string/firstloginquestion"
+        android:textSize="18sp" />
 
 	<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/radio_question"
@@ -26,12 +27,17 @@
 		<RadioButton android:id="@+id/radbtn_1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="test1"
+			android:text="@string/choice1"
 			android:onClick="answerOnClick"/>
 		<RadioButton android:id="@+id/radbtn_2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="test2"
+			android:text="@string/choice2"
+			android:onClick="answerOnClick"/>
+		<RadioButton android:id="@+id/radbtn_3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/choice3"
 			android:onClick="answerOnClick"/>
 	</RadioGroup>
 
@@ -44,11 +50,24 @@
 		android:onClick="submitOnClick"
 		android:text="Submit" />
 
-    <TextView
-		android:id="@+id/txt_answer"
+    <ImageView
+        android:id="@+id/imageView_thinking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_below="@+id/button_submit"
-        android:text="@string/hello_world" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/button_submit"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="90dp" />
+
+    <TextView
+        android:id="@+id/txt_answer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView_thinking"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp"
+        android:layout_toLeftOf="@+id/imageView_thinking" />
 
 </RelativeLayout>
