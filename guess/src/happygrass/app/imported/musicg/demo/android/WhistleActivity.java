@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class WhistleActivity extends Activity implements OnSignalsDetectedListener{
 
@@ -116,7 +117,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 				recorderThread.start();
 				detectorThread = new DetectorThread(recorderThread);
 				detectorThread.setOnSignalsDetectedListener(WhistleActivity.mainApp);
-				detectorThread.start();
+				detectorThread.start(view);
 				goListeningView();
 			}
 		}

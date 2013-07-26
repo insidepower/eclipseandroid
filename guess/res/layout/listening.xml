@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Listening to Whistles..." />
+        android:text="任务：吹口哨！（艰难吧？得意地笑着 : P）最少要吹上15次！" />
 
     <TextView
         android:id="@+id/detectedText"
