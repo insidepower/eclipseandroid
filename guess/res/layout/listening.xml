@@ -33,14 +33,16 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/img_whistle"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:id="@+id/txt_wish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_congrats"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+		android:gravity="center"
+        android:layout_marginTop="20dp" />
 
     <ImageView
         android:id="@+id/img_whistle"

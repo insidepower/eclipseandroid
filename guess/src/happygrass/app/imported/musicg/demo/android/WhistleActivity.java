@@ -139,6 +139,10 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 					TextView tv_wish = (TextView) WhistleActivity.mainApp.
 									findViewById(R.id.txt_wish);
 					tv_wish.setText(getString(R.string.txt_wish));
+					ObjectAnimator ani_wish = 
+						ObjectAnimator.ofFloat(tv_wish, "alpha", 0.0f, 1.0f);
+					ani_wish.setDuration(1500);
+					ani_wish.start();
 					stopThread();
 
 					new Handler().postDelayed(new Runnable() {
@@ -151,7 +155,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 							startActivity(i);
 							finish();
 						}
-					}, 4000);
+					}, 5000);
 				}
 			}
 		});
