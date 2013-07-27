@@ -28,7 +28,7 @@ public class RecorderThread extends Thread {
 	
 	private AudioRecord audioRecord;
 	private boolean isRecording;
-	private int channelConfiguration = AudioFormat.CHANNEL_OUT_MONO;
+	private int channelConfiguration = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
 	private int sampleRate = 44100;
 	private int frameByteSize = 2048; // for 1024 fft size (16bit sample size)

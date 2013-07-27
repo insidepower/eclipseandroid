@@ -81,10 +81,9 @@ public class DetectorThread extends Thread{
 	}
 
 	public void start(View v) {
-		this.v = v;
+		//this.v = v;
 		_thread = new Thread(this);
         _thread.start();
-		WhistleActivity.dbgPrint("Detect started");
     }
 	
 	public void stopDetection(){
@@ -97,7 +96,6 @@ public class DetectorThread extends Thread{
 			initBuffer();
 			
 			Thread thisThread = Thread.currentThread();
-			WhistleActivity.dbgPrint("Detect run");
 			while (_thread == thisThread) {
 				// detect sound
 				buffer = recorder.getFrameBytes();
