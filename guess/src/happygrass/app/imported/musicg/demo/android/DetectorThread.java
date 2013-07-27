@@ -118,15 +118,11 @@ public class DetectorThread extends Thread{
 					}
 					//System.out.println("num:" + numWhistles);
 		
-					if (numWhistles > whistlePassScore) {
+					if (numWhistles >= whistlePassScore) {
 						// clear buffer
 						initBuffer();
 						onWhistleDetected();
 						totalWhistles++;
-
-						if (totalWhistles > numWhistleRequired) {
-							break;
-						}
 
 					}
 				// end whistle detection

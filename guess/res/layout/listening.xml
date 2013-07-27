@@ -6,10 +6,10 @@
         android:id="@+id/listening"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+		android:layout_marginTop="150dp"
+        android:gravity="center"
         android:text="任务：吹口哨！（艰难吧？得意地笑着 : P）最少要吹上15次！" />
-
+    
     <TextView
         android:id="@+id/detectedText"
         android:layout_width="wrap_content"
@@ -38,8 +38,10 @@
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txt_congrats"
-        android:layout_toRightOf="@+id/detectedNumberText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/detectedNumberText"
         android:src="@drawable/whistle" />
 
 </RelativeLayout>
