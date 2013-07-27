@@ -102,15 +102,6 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-			goHomeView();
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-
 	class ClickEvent implements OnClickListener {
 		public void onClick(View view) {
 			if (view == whistleButton) {
@@ -135,7 +126,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 		runOnUiThread(new Runnable() {
 			public void run() {
 				TextView textView = (TextView) WhistleActivity.mainApp.findViewById(R.id.detectedNumberText);
-				textView.setText(String.valueOf(numWhistleDetected++));
+				textView.setText(String.valueOf(++numWhistleDetected));
 				if (numWhistleDetected == DetectorThread.numWhistleRequired) {
 					TextView tv = (TextView) WhistleActivity.mainApp.findViewById(R.id.txt_congrats);
 					tv.setText(getString(R.string.txt_congrats));
@@ -145,9 +136,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 
 			private void launchNewApp() {
 				Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
-				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
-				finish();
 			}
 
 		});

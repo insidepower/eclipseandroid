@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
 			mHandler.postDelayed(finishThisActivit,900);
 			break;
 		default:	
-			tv.setText("error");
+			tv.setText("Choose one la...");
 		}
 	}
 
