@@ -22,6 +22,7 @@ package happygrass.app.imported.musicg.demo.android;
 
 import happygrass.app.R;
 import android.os.Bundle;
+import android.os.Handler;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
@@ -71,8 +72,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 
 	}
 
-	private void goHomeView() {
-		setContentView(mainView);
+	private void stopThread() {
 		if (recorderThread != null) {
 			recorderThread.stopRecording();
 			recorderThread = null;
@@ -90,7 +90,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 0, 0, "Quit demo");
+		menu.add(0, 0, 0, "Quit");
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -121,7 +121,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 
 	protected void onDestroy() {
 		super.onDestroy();
-		android.os.Process.killProcess(android.os.Process.myPid());
+		//android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 	@Override
@@ -136,10 +136,22 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 									findViewById(R.id.txt_congrats);
 					tv.setText(getString(R.string.txt_congrats));
 
-					Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(i);
+					TextView tv_wish = (TextView) WhistleActivity.mainApp.
+									findViewById(R.id.txt_wish);
+					tv_wish.setText(getString(R.string.txt_wish));
+					stopThread();
 
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							Intent i = new Intent(
+								getApplication(), GalleryActivity.class);
+							i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|
+										Intent.FLAG_ACTIVITY_SINGLE_TOP);
+							startActivity(i);
+							finish();
+						}
+					}, 4000);
 				}
 			}
 		});
