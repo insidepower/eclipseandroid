@@ -23,6 +23,7 @@ package happygrass.app.imported.musicg.demo.android;
 import happygrass.app.R;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import happygrass.app.gift.GalleryActivity;
 
 public class WhistleActivity extends Activity implements OnSignalsDetectedListener{
 
@@ -117,7 +119,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 				recorderThread.start();
 				detectorThread = new DetectorThread(recorderThread);
 				detectorThread.setOnSignalsDetectedListener(WhistleActivity.mainApp);
-				detectorThread.start(view);
+				detectorThread.start();
 				goListeningView();
 			}
 		}
@@ -134,7 +136,20 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 			public void run() {
 				TextView textView = (TextView) WhistleActivity.mainApp.findViewById(R.id.detectedNumberText);
 				textView.setText(String.valueOf(numWhistleDetected++));
+				if (numWhistleDetected == DetectorThread.numWhistleRequired) {
+					TextView tv = (TextView) WhistleActivity.mainApp.findViewById(R.id.txt_congrats);
+					tv.setText(getString(R.string.txt_congrats));
+					launchNewApp();
+				}
 			}
+
+			private void launchNewApp() {
+				Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+				finish();
+			}
+
 		});
 	}
 }

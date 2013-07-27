@@ -38,9 +38,10 @@ public class DetectorThread extends Thread{
 
 	private LinkedList<Boolean> whistleResultList = new LinkedList<Boolean>();
 	private int numWhistles;
+	private int totalWhistles;
 	private int whistleCheckLength = 3;
 	private int whistlePassScore = 3;
-	private View v;
+	public static final int numWhistleRequired = 15;
 	
 	private OnSignalsDetectedListener onSignalsDetectedListener;
 	
@@ -80,8 +81,7 @@ public class DetectorThread extends Thread{
 		// end init the first frames
 	}
 
-	public void start(View v) {
-		//this.v = v;
+	public void start() {
 		_thread = new Thread(this);
         _thread.start();
     }
@@ -118,10 +118,16 @@ public class DetectorThread extends Thread{
 					}
 					//System.out.println("num:" + numWhistles);
 		
-					if (numWhistles >= whistlePassScore) {
+					if (numWhistles > whistlePassScore) {
 						// clear buffer
 						initBuffer();
 						onWhistleDetected();
+						totalWhistles++;
+
+						if (totalWhistles > numWhistleRequired) {
+							break;
+						}
+
 					}
 				// end whistle detection
 				}
