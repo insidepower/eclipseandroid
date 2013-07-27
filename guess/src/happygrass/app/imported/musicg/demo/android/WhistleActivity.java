@@ -22,6 +22,7 @@ package happygrass.app.imported.musicg.demo.android;
 
 import happygrass.app.R;
 import android.os.Bundle;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -33,6 +34,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import happygrass.app.gift.GalleryActivity;
+import android.os.Handler;
 
 public class WhistleActivity extends Activity implements OnSignalsDetectedListener{
 
@@ -42,6 +44,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 	public static final int DETECT_WHISTLE = 1;
 	public static int selectedDetection = DETECT_NONE;
 	public static String txt_debug;
+	private Handler mHandler = new Handler();
 
 	// detection parameters
 	private DetectorThread detectorThread;
@@ -66,6 +69,10 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 
 		whistleButton = (Button) this.findViewById(R.id.whistleButton);
 		whistleButton.setOnClickListener(new ClickEvent());
+
+		TextView tv = (TextView) findViewById(R.id.txt_wish);
+		tv.setAlpha(0);
+
 	}
 
 	private void goHomeView() {
@@ -125,20 +132,35 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 	public void onWhistleDetected() {
 		runOnUiThread(new Runnable() {
 			public void run() {
-				TextView textView = (TextView) WhistleActivity.mainApp.findViewById(R.id.detectedNumberText);
+				TextView textView = (TextView) WhistleActivity.mainApp.
+										findViewById(R.id.detectedNumberText);
 				textView.setText(String.valueOf(++numWhistleDetected));
 				if (numWhistleDetected == DetectorThread.numWhistleRequired) {
-					TextView tv = (TextView) WhistleActivity.mainApp.findViewById(R.id.txt_congrats);
+					TextView tv = (TextView) WhistleActivity.mainApp.
+									findViewById(R.id.txt_congrats);
 					tv.setText(getString(R.string.txt_congrats));
-					launchNewApp();
+
+					TextView tv_wish = (TextView) findViewById(R.id.txt_wish);
+					ObjectAnimator ani_wish =
+								ObjectAnimator.ofFloat(tv_wish, "alpha", 1);
+					ani_wish.setDuration(2000);
+					ani_wish.start();
+
+					Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(i);
+
 				}
 			}
-
-			private void launchNewApp() {
-				Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
-				startActivity(i);
-			}
-
 		});
 	}
+
+	private Runnable launchNewApp = new Runnable() {
+		public void run() {
+			Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
+			finish();
+		}
+	};
 }

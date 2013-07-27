@@ -2,8 +2,10 @@ package happygrass.app.gift;
 
 import happygrass.app.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 public class GalleryActivity extends Activity {
 	MediaPlayer mp;
+	private int backButtonCount = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,21 @@ public class GalleryActivity extends Activity {
 			mp.stop();
 			mp.release();
 			mp = null;
+		}
+	}
+
+	public void onBackPressed()
+	{
+		if(backButtonCount >= 1)
+		{
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+		}
+		else
+		{
+			backButtonCount++;
 		}
 	}
 }
