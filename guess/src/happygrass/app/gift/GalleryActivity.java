@@ -1,6 +1,7 @@
 package happygrass.app.gift;
 
 import happygrass.app.R;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -13,13 +14,16 @@ import android.widget.ImageView;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.os.Handler;
 
 public class GalleryActivity extends Activity {
+	static GalleryActivity act;
 	MediaPlayer mp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		act = this;
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
@@ -37,6 +41,20 @@ public class GalleryActivity extends Activity {
 									this, R.anim.anim_text_scroll);
 		TextView tv = (TextView) findViewById(R.id.gallery_text);
 		tv.startAnimation(ani_text_up);
+
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				ImageView img_dandelion = (ImageView) 
+											findViewById(R.id.dandelion);
+				img_dandelion.setImageResource(R.drawable.dandelion_knxy);
+				ObjectAnimator ani_dandelion = ObjectAnimator.ofFloat(
+							img_dandelion, "alpha", 0.0f, 1.0f);
+				ani_dandelion.setDuration(4000);
+				ani_dandelion.start();
+			}
+		}, 35000);
+
 
 		try {
 			mp = new MediaPlayer();

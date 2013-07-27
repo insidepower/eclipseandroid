@@ -64,10 +64,13 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 		LayoutInflater inflater = LayoutInflater.from(this);
 		mainView = inflater.inflate(R.layout.main, null);
 		listeningView = inflater.inflate(R.layout.listening, null);
-		setContentView(mainView);
-
-		whistleButton = (Button) this.findViewById(R.id.whistleButton);
-		whistleButton.setOnClickListener(new ClickEvent());
+		selectedDetection = DETECT_WHISTLE;
+		recorderThread = new RecorderThread();
+		recorderThread.start();
+		detectorThread = new DetectorThread(recorderThread);
+		detectorThread.setOnSignalsDetectedListener(WhistleActivity.mainApp);
+		detectorThread.start();
+		setContentView(listeningView);
 
 
 	}
@@ -84,10 +87,6 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 		selectedDetection = DETECT_NONE;
 	}
 	
-	private void goListeningView(){
-		setContentView(listeningView);
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 0, 0, "Quit");
@@ -103,20 +102,6 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 		default:
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	class ClickEvent implements OnClickListener {
-		public void onClick(View view) {
-			if (view == whistleButton) {
-				selectedDetection = DETECT_WHISTLE;
-				recorderThread = new RecorderThread();
-				recorderThread.start();
-				detectorThread = new DetectorThread(recorderThread);
-				detectorThread.setOnSignalsDetectedListener(WhistleActivity.mainApp);
-				detectorThread.start();
-				goListeningView();
-			}
-		}
 	}
 
 	protected void onDestroy() {
