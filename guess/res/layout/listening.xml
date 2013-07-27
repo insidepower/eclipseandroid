@@ -11,7 +11,7 @@
         android:text="任务：吹口哨！（艰难吧？得意地笑着 : P）最少要吹上15次！" />
 
     <TextView
-        android:id="@+id/detectedText"
+        android:id="@+id/txt_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/listening"
@@ -25,5 +25,13 @@
         android:layout_below="@+id/listening"
         android:layout_toRightOf="@+id/detectedText"
         android:text="0" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Total Whistles detected: " />
 
 </RelativeLayout>

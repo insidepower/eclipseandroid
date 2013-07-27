@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class WhistleActivity extends Activity implements OnSignalsDetectedListener{
 
@@ -40,6 +39,7 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 	public static final int DETECT_NONE = 0;
 	public static final int DETECT_WHISTLE = 1;
 	public static int selectedDetection = DETECT_NONE;
+	public static String txt_debug;
 
 	// detection parameters
 	private DetectorThread detectorThread;
@@ -111,14 +111,18 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 
 	class ClickEvent implements OnClickListener {
 		public void onClick(View view) {
-			if (view == whistleButton) {
-				selectedDetection = DETECT_WHISTLE;
-				recorderThread = new RecorderThread();
-				recorderThread.start();
-				detectorThread = new DetectorThread(recorderThread);
-				detectorThread.setOnSignalsDetectedListener(WhistleActivity.mainApp);
-				detectorThread.start(view);
-				goListeningView();
+			try {
+				if (view == whistleButton) {
+					selectedDetection = DETECT_WHISTLE;
+					recorderThread = new RecorderThread();
+					recorderThread.start();
+					detectorThread = new DetectorThread(recorderThread);
+					detectorThread.setOnSignalsDetectedListener(WhistleActivity.mainApp);
+					detectorThread.start(view);
+					goListeningView();
+				}
+			} catch (Exception e){
+				WhistleActivity.dbgPrint(e.getMessage());
 			}
 		}
 	}
@@ -136,5 +140,11 @@ public class WhistleActivity extends Activity implements OnSignalsDetectedListen
 				textView.setText(String.valueOf(numWhistleDetected++));
 			}
 		});
+	}
+
+	public static void dbgPrint(String txt){
+		TextView tv = (TextView) WhistleActivity.mainApp.findViewById(R.id.txt_test);
+		txt_debug = txt_debug + "\n"+txt;
+		tv.setText(txt_debug);
 	}
 }

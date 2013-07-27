@@ -36,7 +36,6 @@ public class RecorderThread extends Thread {
 	
 	public RecorderThread(){
 		int recBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfiguration, audioEncoding); // need to be larger than size of a frame
-		System.out.println("BUFFER SIZE VALUE IS " + recBufSize);
 		audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, channelConfiguration, audioEncoding, recBufSize);
 		buffer = new byte[frameByteSize];
 	}

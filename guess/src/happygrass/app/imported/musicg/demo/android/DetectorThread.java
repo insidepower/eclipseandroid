@@ -28,7 +28,6 @@ import com.musicg.wave.WaveHeader;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.view.View;
-import android.widget.Toast;
 
 public class DetectorThread extends Thread{
 
@@ -85,8 +84,7 @@ public class DetectorThread extends Thread{
 		this.v = v;
 		_thread = new Thread(this);
         _thread.start();
-		Toast.makeText(v.getContext(),
-				"start detect", Toast.LENGTH_SHORT).show();
+		WhistleActivity.dbgPrint("Detect started");
     }
 	
 	public void stopDetection(){
@@ -99,8 +97,7 @@ public class DetectorThread extends Thread{
 			initBuffer();
 			
 			Thread thisThread = Thread.currentThread();
-			Toast.makeText(v.getContext(),
-					"thisThread = "+(_thread == thisThread), Toast.LENGTH_SHORT).show();
+			WhistleActivity.dbgPrint("Detect run");
 			while (_thread == thisThread) {
 				// detect sound
 				buffer = recorder.getFrameBytes();
@@ -111,8 +108,6 @@ public class DetectorThread extends Thread{
 					// whistle detection
 					//System.out.println("*Whistle:");
 					boolean isWhistle = whistleApi.isWhistle(buffer);
-					Toast.makeText(v.getContext(),
-							"isWhistle = "+isWhistle, Toast.LENGTH_SHORT).show();
 					if (whistleResultList.getFirst()) {
 						numWhistles--;
 					}
