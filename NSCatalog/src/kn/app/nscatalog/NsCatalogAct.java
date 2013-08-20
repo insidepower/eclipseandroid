@@ -7,15 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class NsCatalogAct extends FragmentActivity implements ActionBar.TabListener {
 
@@ -155,7 +151,7 @@ public class NsCatalogAct extends FragmentActivity implements ActionBar.TabListe
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragmentlayout, container, false);
+            View view = inflater.inflate(R.id.fragmentlayout, container, false);
             return view;
             // Create a new TextView and set its text to the fragment's section
             // number argument value.

@@ -1,0 +1,40 @@
+
+sqlite3
+
+sqlite3 settings.db
+sqlite> .tables
+sqlite> .headers ON
+sqlite> select * from system;
+_id|name|value
+1|volume_music|11
+3|volume_system|7
+4|volume_voice|4
+5|volume_alarm|6
+6|volume_notification|5
+update system set value=1 where _id=12;
+update system set value=0 where name="stay_on_while_plugged_in";
+
+sqlite> PRAGMA table_info(table_name);   /// show the columns name
+
+
+[ gui ]
+sqlitebrowser
+
+
+[ example ]
+1)
+sqlite3 ns-price.db
+2)
+create table sg ( code int NOT NULL PRIMARY KEY, category int, name_EN varchar(255), name_CN varchar(255), retail double, wholesale double, wholesale_psv double, aro double, aro_psv double, fsp double, fsp_psv double, effective_date date, update_src int);
+3)
+insert into "sg" values (37182365, 4, "ageLOC Galvanic Spa Face Pack 1000PSV", "ageLOC微电流美颜Spa美容1000PSV配套", 8580.00, 6000.00, 1558.00, 4800.00, 1000.00, null, null, "2013-05-01", 1);
+
+
+[ command line ]
+$ sqlite3 test.db  "create table t1 (t1key INTEGER
+                  PRIMARY KEY,data TEXT,num double,timeEnter DATE);"
+$ sqlite3 test.db  "insert into t1 (data,num) values ('This is sample data',3);"
+$ sqlite3 test.db  "select * from t1 limit 2";
+
+
+
