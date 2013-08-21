@@ -1,0 +1,92 @@
+[----- RelativeLayout -------------------------------------------------------- ]
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+	<!-- fill in the Button, Text etc -->
+</RelativeLayout>
+
+[----- Button ---------------------------------------------------------------- ]
+<Button
+	android:id="@+id/button_login"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_below="@+id/textView1"
+	android:layout_centerHorizontal="true"
+	android:layout_marginTop="30dp"
+	android:text="Login" />
+
+<!-- [ onClick ] with onclick function -->
+<!-- public void loginOnClick(View view) {  -->
+<Button
+	android:id="@+id/button_login"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_below="@+id/textView1"
+	android:layout_centerHorizontal="true"
+	android:layout_marginTop="30dp"
+	android:onClick="loginOnClick"
+	android:text="Login" />
+
+[----- Text ------------------------------------------------------------------ ]
+<TextView
+	android:id="@+id/textView1"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_centerHorizontal="true"
+	android:layout_centerVertical="true"
+	android:text="@string/app_name" />
+
+
+[----- blank view ------------------------------------------------------------ ]
+<View
+  android:layout_width="1dp"
+  android:layout_height="30dp">
+</View>
+
+<!-- vertical, flexible space-filler (method1) -->
+<View
+  android:layout_width="1dp"
+  android:layout_height="match_parent"
+  android:layout_weight="1">
+</View>
+
+<!-- vertical, flexible space-filler (method2) -->
+<View
+  android:layout_width="1dp"
+  android:layout_height="0dip"
+  android:layout_weight="1">
+</View>
+
+[----- color ----------------------------------------------------------------- ]
+<!-- create a colors.xml in res/values/colors.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+</resources>
+<!-- to use it -->
+<LinearLayout android:background="@color/mycolor">
+
+[----- shape ----------------------------------------------------------------- ]
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF"/>
+    <corners android:radius="5px"/>
+    <padding android:left="0dp" android:top="0dp" android:right="0dp" android:bottom="0dp" /> 
+</shape>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_edges">
+    <TextView 
+        android:id="@+id/mytext"
+        android:layout_width="200dip"
+        android:layout_height="wrap_content"
+        android:text="blah blah blah blah"
+        android:padding="6dip"
+        android:textColor="#000000" />
+</LinearLayout>
