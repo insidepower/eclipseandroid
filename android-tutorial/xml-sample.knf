@@ -1,3 +1,13 @@
+=== [ xml:topic ] [ general ] ===
+[ --- start ---- ]
+@+id/xxx
+
+when store in layout folder, e.g. layout/main.xml
+then invoke using R.layout.main
+
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ RelativeLayout ] ===
 [----- RelativeLayout -------------------------------------------------------- ]
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,7 +39,8 @@
 	android:onClick="loginOnClick"
 	android:text="Login" />
 
-[----- Text ------------------------------------------------------------------ ]
+=== [ xml:topic ][ Text ] ===
+[ --- start ---- ]
 <TextView
 	android:id="@+id/textView1"
 	android:layout_width="wrap_content"
@@ -37,7 +48,16 @@
 	android:layout_centerHorizontal="true"
 	android:layout_centerVertical="true"
 	android:text="@string/app_name" />
+[ ---  end  ---- ]
 
+=== [ xml:topic ][ EditText ] ===
+[ --- start ---- ]
+topic: properties
+/// tab will switch to it
+Focusable
+Long clickable
+Cursor visible
+[ ---  end  ---- ]
 
 [----- blank view ------------------------------------------------------------ ]
 <View
@@ -90,3 +110,14 @@
         android:padding="6dip"
         android:textColor="#000000" />
 </LinearLayout>
+
+=== [ xml:topic ][ seekbar ] ===
+[ --- start ---- ]
+/// the padding is important so that user can easily navigate to 0 or 100
+<SeekBar android:layout_height="wrap_content" 
+ android:layout_width="match_parent" 
+ android:id="@+id/customSeekBar" android:layout_span="2" 
+ android:progress="18" android:paddingLeft="8dp" 
+ android:paddingRight="8dp" android:paddingBottom="5dp" 
+ android:layout_weight="1"></SeekBar>
+[ ---  end  ---- ]

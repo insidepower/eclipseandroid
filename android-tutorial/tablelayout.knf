@@ -1,0 +1,80 @@
+-------------------- [ java:start ]--------------------
+=== [ java:topic ][ hide ][ column ]===
+[ --- start ---- ] 
+- Collapses or restores a given column. (hide a column)
+setColumnCollapsed
+[ ---  end  ---- ] 
+
+=== [ java:topic ][ ran time ][ insert new row ] ===
+[ --- start ---- ] 
+TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+
+TableLayout tableLayout = new TableLayout(context);
+tableLayout.setLayoutParams(this.tableParams);
+
+TableRow tableRow = new TableRow(context);
+tableRow.setLayoutParams(this.tableParams);
+
+TextView textView = new TextView(context);
+textView.setLayoutParams(this.rowParams);
+
+tableRow.addView(textView);
+[ ---  end  ---- ]
+
+-------------------- [ java:end ]--------------------
+
+
+-------------------- [ xml ]-------------------- 
+=== [ xml:topic ][ properties ] ===
+[ --- start ---- ]
+/// stretch the column when no filled
+android:stretchColumns="1,3,5"
+/// indicate in which column, start from 0
+android:layout_column="2"
+/// determine how much space to fill, default is 0,  higher more important
+/// if one element weight=0, another one is 1, then zero weight element only
+/// occupied as much size of its content
+android:layout_weight="1"
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ layout_span ][ layout_column ] ===
+[ --- start ---- ]
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:stretchColumns="1">
+	/// contains four columns
+    <TableRow>
+        <TextView android:text="URL:" />
+		/// take out the rest of 3 columns
+        <EditText android:id="@+id/entry" android:layout_span="3"/>
+    </TableRow>
+    <TableRow>
+		/// start from third column
+        <Button android:id="@+id/cancel" android:layout_column="2"
+            android:text="Cancel" />
+        <Button android:id="@+id/ok" android:text="OK" />
+    </TableRow>
+[ ---  end  ---- ]
+
+
+=== [ xml:topic ][ typical example ] ===
+[ --- start ---- ]
+<TableLayout
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:stretchColumns="0,1" >
+   <TableRow android:layout_width="fill_parent">
+     <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="ok"
+      />
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="bye" />
+   </TableRow>
+</TableLayout>
+[ ---  end  ---- ]
+-------------------- [ xml ]-------------------- 
+

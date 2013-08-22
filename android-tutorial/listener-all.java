@@ -1,0 +1,37 @@
+=== [ java:topic ][ SeekBarListener ] ===
+[ --- start ---- ]
+SeekBar customSeekBar = (SeekBar) findViewById(R.id.customSeekBar);
+customSeekBar.setOnSeekBarChangeListener(customSeekBarListener);
+
+private OnSeekBarChangeListener customSeekBarListener = new OnSeekBarChangeListener() 
+{
+	@Override public void onProgressChanged(SeekBar seekBar, int progress,
+			boolean fromUser) {
+		currentCustomPercent = seekBar.getProgress(); } 
+
+	@Override public void onStartTrackingTouch(SeekBar seekBar) { } 
+
+	@Override public void onStopTrackingTouch(SeekBar seekBar) { }
+}; // end OnSeekBarChangeListener
+[ ---  end  ---- ]
+
+=== [ java:topic ][ TextWatcher ] ===
+billEditText = (EditText) findViewById(R.id.billEditText);
+billEditText.addTextChangedListener(billEditTextWatcher);
+private TextWatcher billEditTextWatcher = new TextWatcher() {
+	// called when the user enters a number
+	@Override public void onTextChanged(CharSequence s, int start, 
+			int before, int count) 
+	{         
+		// convert billEditText's text to a double
+		try {
+			currentBillTotal = Double.parseDouble(s.toString()); } // end try
+		catch (NumberFormatException e) {
+			currentBillTotal = 0.0; } } // end method onTextChanged
+
+	@Override public void afterTextChanged(Editable s) { }
+
+	@Override public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) { } 
+}; // end billEditTextWatcher
+

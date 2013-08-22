@@ -90,6 +90,28 @@ public void loginOnClick(View view) {
 /// [ --- end ---- ][ start ][ finish ]
 /// --- }}
 
+=== [ java:topic ][ Bundle ] ===
+[ --- start ---- ]
+getDouble();
+getInt();
+/// topic: onCreate
+public void onCreate(Bundle savedInstanceState) {
+      if ( savedInstanceState == null ) // the app just started running
+      { }
+      else // app is being restored from memory, not executed from scratch
+      {
+		  /// e.g. rotated
+         currentBillTotal = savedInstanceState.getDouble("BILL_TOTAL");
+	  }
+}
+/// topic: onSaveInstanceState
+protected void onSaveInstanceState(Bundle outstate) {
+	super.onSaveInstanceState(outstate);
+	outstate.putDouble("BILL_TOTAL", 50.0);
+}
+
+[ ---  end  ---- ]
+
 [ ------------------------------------------------------------------ ]
 [ ------------------------------------------------------------------ ]
 
