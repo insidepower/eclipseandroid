@@ -8,7 +8,7 @@ then invoke using R.layout.main
 [ ---  end  ---- ]
 
 === [ xml:topic ][ RelativeLayout ] ===
-[----- RelativeLayout -------------------------------------------------------- ]
+[ --- start ---- ]
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,8 +16,10 @@ then invoke using R.layout.main
     tools:context=".MainActivity" >
 	<!-- fill in the Button, Text etc -->
 </RelativeLayout>
+[ ---  end  ---- ]
 
-[----- Button ---------------------------------------------------------------- ]
+=== [ xml:topic ][ Button ] ===
+[ --- start ---- ]
 <Button
 	android:id="@+id/button_login"
 	android:layout_width="wrap_content"
@@ -38,6 +40,7 @@ then invoke using R.layout.main
 	android:layout_marginTop="30dp"
 	android:onClick="loginOnClick"
 	android:text="Login" />
+[ ---  end  ---- ]
 
 === [ xml:topic ][ Text ] ===
 [ --- start ---- ]
@@ -59,7 +62,8 @@ Long clickable
 Cursor visible
 [ ---  end  ---- ]
 
-[----- blank view ------------------------------------------------------------ ]
+=== [ xml:topic ][ blank view ] ===
+[ --- start ---- ]
 <View
   android:layout_width="1dp"
   android:layout_height="30dp">
@@ -78,8 +82,10 @@ Cursor visible
   android:layout_height="0dip"
   android:layout_weight="1">
 </View>
+[ ---  end  ---- ]
 
-[----- color ----------------------------------------------------------------- ]
+=== [ xml:topic ][ color ] ===
+[ --- start ---- ]
 <!-- create a colors.xml in res/values/colors.xml -->
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
@@ -88,8 +94,21 @@ Cursor visible
 </resources>
 <!-- to use it -->
 <LinearLayout android:background="@color/mycolor">
+[ ---  end  ---- ]
 
-[----- shape ----------------------------------------------------------------- ]
+=== [ xml:topic ][ dimension ] ===
+[ --- start ---- ]
+<!-- create a colors.xml in res/values/dimen.xml -->
+<?xml version="1.0" encoding="UTF-8"?> <resources>
+   <dimen name="tagButtonWidth">230dp</dimen> </resources>
+
+<Button android:id="@+id/newTagButton" 
+      android:layout_width="@dimen/tagButtonWidth" ></Button>
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ shape ] ===
+[ --- start ---- ]
+/// saved at  drawable/rounded_edges.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="#FFFFFF"/>
@@ -98,18 +117,13 @@ Cursor visible
 </shape>
 
 <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     android:background="@drawable/rounded_edges">
     <TextView 
-        android:id="@+id/mytext"
-        android:layout_width="200dip"
-        android:layout_height="wrap_content"
         android:text="blah blah blah blah"
         android:padding="6dip"
         android:textColor="#000000" />
 </LinearLayout>
+[ ---  end  ---- ]
 
 === [ xml:topic ][ seekbar ] ===
 [ --- start ---- ]

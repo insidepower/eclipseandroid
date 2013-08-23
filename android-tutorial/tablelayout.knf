@@ -30,6 +30,8 @@ tableRow.addView(textView);
 [ --- start ---- ]
 /// stretch the column when no filled
 android:stretchColumns="1,3,5"
+/// stretch all columns
+android:stretchColumns="*"
 /// indicate in which column, start from 0
 android:layout_column="2"
 /// determine how much space to fill, default is 0,  higher more important
