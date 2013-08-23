@@ -1,0 +1,27 @@
+=== [ java:topic ][ id ] ===
+[ --- start ---- ]
+R.drawable.xxx
+R.id.xxx
+R.layout.xxx
+R.string.xxx
+[ ---  end  ---- ]
+
+=== [ java:topic ][ AlertDialog ] ===
+[ --- start ---- ]
+/// no processing needed
+builder.setPositiveButton(R.string.OK, null); 
+
+/// do some job after user click ok/erase
+AlertDialog.Builder builder = 
+	new AlertDialog.Builder(FavoriteTwitterSearches.this);
+builder.setTitle(R.string.confirmTitle); // title bar string
+builder.setPositiveButton(R.string.erase, new DialogInterface.OnClickListener() {
+   @Override public void onClick(DialogInterface dialog, int button) {
+	   /// do some work here
+   }}
+ builder.setCancelable(true);
+ builder.setNegativeButton(R.string.cancel, null);
+ builder.setMessage(R.string.confirmMessage);
+ AlertDialog confirmDialog = builder.create();
+ confirmDialog.show(); // display the Dialog
+[ ---  end  ---- ]

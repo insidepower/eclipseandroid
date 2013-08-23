@@ -1,10 +1,13 @@
 === [ xml:topic ] [ general ] ===
 [ --- start ---- ]
+@@ 1
 @+id/xxx
-
+@@ 2
 when store in layout folder, e.g. layout/main.xml
 then invoke using R.layout.main
-
+@@ 3
+/// to mark this element to be able to occupy more space than others (0-1.0)
+android:layout_weight="1"
 [ ---  end  ---- ]
 
 === [ xml:topic ][ RelativeLayout ] ===
@@ -125,6 +128,11 @@ Cursor visible
 </LinearLayout>
 [ ---  end  ---- ]
 
+=== [ xml:topic ][ image ] ===
+[ --- start ---- ]
+put in res/drawable-nodpi
+[ ---  end  ---- ]
+
 === [ xml:topic ][ seekbar ] ===
 [ --- start ---- ]
 /// the padding is important so that user can easily navigate to 0 or 100
@@ -134,4 +142,10 @@ Cursor visible
  android:progress="18" android:paddingLeft="8dp" 
  android:paddingRight="8dp" android:paddingBottom="5dp" 
  android:layout_weight="1"></SeekBar>
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ ImageView ] ===
+[ --- start ---- ]
+/// make the view bound adjust to rescaled image bound
+android:adjustViewBounds="true"
 [ ---  end  ---- ]

@@ -1,0 +1,8 @@
+=== [ java:topic ][ open assets ] ===
+[ --- start ---- ]
+AssetManager am = context.getAssets();
+InputStream is = am.open("test.txt");
+
+/// put asset in res/raw/test.txt
+InputStream is = getResources().openRawResource(R.raw.test);
+[ ---  end  ---- ]

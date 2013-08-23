@@ -8,4 +8,84 @@
 	   android:layout_height="match_parent" android:padding="5dp" 
 	   android:stretchColumns="*"></TableLayout>
 </ScrollView>
+
+/// dynamic table row, stored @ res/layout/new_tag_view.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/newTagTableRow" 
+   android:layout_width="match_parent" 
+   android:layout_height="wrap_content" 
+   android:background="@android:color/transparent">
+   
+   <Button android:id="@+id/newTagButton" 
+      android:layout_width="@dimen/tagButtonWidth" 
+      android:layout_height="wrap_content"></Button>
+   <Button android:id="@+id/newEditButton" 
+      android:layout_width="@dimen/editButtonWidth" 
+      android:layout_height="wrap_content" 
+      android:text="@string/edit"></Button>
+</TableRow>
+
+/// calling
+String newTag = "new-key";
+String[] tags = 
+         savedSearches.getAll().keySet().toArray(new String[0]); 
+Arrays.sort(tags, String.CASE_INSENSITIVE_ORDER);
+makeTagGUI(newTag, Arrays.binarySearch(tags, newTag));
+
+
+/// inserting new view.
+private void makeTagGUI(String tag, int index)
+{
+  LayoutInflater inflater = (LayoutInflater) getSystemService(
+	 Context.LAYOUT_INFLATER_SERVICE);
+
+  View newTagView = inflater.inflate(R.layout.new_tag_view, null);
+   
+  Button newTagButton = 
+	 (Button) newTagView.findViewById(R.id.newTagButton);
+  newTagButton.setText(tag); 
+  newTagButton.setOnClickListener(queryButtonListener); 
+
+  Button newEditButton = 
+	 (Button) newTagView.findViewById(R.id.newEditButton); 
+  newEditButton.setOnClickListener(editButtonListener);
+
+  queryTableLayout.addView(newTagView, index);
+}
+
+
+/// queryButtonListener
+public OnClickListener queryButtonListener = new OnClickListener()
+{
+  @Override public void onClick(View v) {
+	 String buttonText = ((Button)v).getText().toString();
+	 String query = savedSearches.getString(buttonText, "");
+	 
+	 String urlString = "http://search.twitter.com/search?q="+query;
+
+	 Intent webIntent = new Intent(Intent.ACTION_VIEW, 
+		Uri.parse(urlString));                      
+
+	 startActivity(webIntent); // execute the Intent
+  } }
+
+/// clear all view
+private void clearButtons() {
+	queryTableLayout.removeAllViews(); }
+
+/// provide more complete info
+public class FavoriteTwitterSearches extends Activity 
+{
+   private SharedPreferences savedSearches; // user's favorite searches
+   private TableLayout queryTableLayout; // shows the search buttons
+
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+	   ... 
+      queryTableLayout = 
+         (TableLayout) findViewById(R.id.queryTableLayout);
+
+
 [ ---  end  ---- ]
+

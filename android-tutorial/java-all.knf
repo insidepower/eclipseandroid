@@ -1,0 +1,23 @@
+=== [ linux:topic ][ jar ] ===
+[ --- start ---- ]
+[ jar ][ list classes ]
+jar tf jar-file
+[ ---  end  ---- ]
+
+=== [ java:topic ][ general ] ===
+[ --- start ---- ]
+[ ---  end  ---- ]
+
+=== [ java:topic ][ type ] ===
+[ --- start ---- ]
+Boolean (value is true or false)
+null is null
+[ ---  end  ---- ]
+
+=== [ java:topic ][ random ] ===
+[ --- start ---- ]
+int random_max = 8;
+/// return 0(inclusive)-random_max(exclusive)
+/// in this example, will return 0-7
+int randomIndex = random.nextInt(random_max); // random index
+[ ---  end  ---- ]

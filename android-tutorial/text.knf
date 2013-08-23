@@ -5,10 +5,10 @@ String passwd = et_passwd.getText().toString();
 if (passwd.equals("03012007")) {
 [ ---  end  ---- ]
 
-[ ------------------------------------------------------------------ ]
-
 === [ java:topic ][ String format ][ print ] ===
+[ --- start ---- ]
 et_passwd.setText(String.format("%.02f", 0.05));
+[ ---  end  ---- ]
 
 === [ xml:topic ][ property ] ===
 [ --- start ---- ]
@@ -16,4 +16,26 @@ et_passwd.setText(String.format("%.02f", 0.05));
 android:imeOptions="actionNext"
 /// show done in the keypad
 android:imeOptions="actionDone"
+[ ---  end  ---- ]
+
+=== [ java:topic ][ text ] ===
+[ --- start ---- ]
+[ xml ][ java ][ string ]
+TextView tv = (TextView) findViewById(R.id.txt_answer);
+final String passwordText = getString(R.string.password);
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ String array ] ===
+[ --- start ---- ]
+<string-array name="regionsList">
+<item>Africa</item>
+<item>Asia</item>
+<item>Europe</item>
+</string-array>
+[ ---  end  ---- ]
+
+=== [ java:topic ][ String ][ replace ] ===
+[ --- start ---- ]
+String files = "Malaysia.png";
+String file_without_ext = files.replace(".png", ""); /// Malaysia
 [ ---  end  ---- ]

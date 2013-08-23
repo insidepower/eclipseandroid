@@ -16,6 +16,7 @@ private OnSeekBarChangeListener customSeekBarListener = new OnSeekBarChangeListe
 [ ---  end  ---- ]
 
 === [ java:topic ][ TextWatcher ] ===
+[ --- start ---- ]
 billEditText = (EditText) findViewById(R.id.billEditText);
 billEditText.addTextChangedListener(billEditTextWatcher);
 private TextWatcher billEditTextWatcher = new TextWatcher() {
@@ -34,4 +35,15 @@ private TextWatcher billEditTextWatcher = new TextWatcher() {
 	@Override public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) { } 
 }; // end billEditTextWatcher
+[ ---  end  ---- ]
+
+=== [ java:topic ][ ButtonListener ] ===
+[ --- start ---- ]
+Button saveButton = (Button) findViewById(R.id.saveButton);
+saveButton.setOnClickListener(saveButtonListener);
+
+public OnClickListener saveButtonListener = new OnClickListener() {
+	@Override public void onClick(View v) { } }; 
+[ ---  end  ---- ]
+
 

@@ -1,0 +1,36 @@
+=== [ java:topic ][ SharedPreferences ] ===
+[ --- start ---- ]
+/// getSharedPreferences will create the preference file if not exist
+public void onCreate(Bundle savedInstanceState){
+	savedSearches = getSharedPreferences("my-pref", MODE_PRIVATE);
+}
+
+/// usage
+/// getAll: Returns a map containing a list of pairs key/value representing the preferences.
+/// keySet: public abstract Set<K> keySet (); Returns a set of the keys contained in this Map.
+String[] tags = savedSearches.getAll().keySet().toArray(new String[0]); 
+Arrays.sort(tags, String.CASE_INSENSITIVE_ORDER); // sort by tag
+String originalQuery = savedSearches.getString("my-key1", null);
+
+private void makeTag(String query, String tag)
+{
+  /// null will be return if string not found in preference file
+  String originalQuery = savedSearches.getString("my-key1", null);
+
+  /// get a SharedPreferences.Editor to store new tag/query pair
+  SharedPreferences.Editor preferencesEditor = savedSearches.edit();
+  preferencesEditor.putString("my-key1", query); // store current search
+  preferencesEditor.apply(); // store the updated preferences
+		
+  /// if this is a new query, add its GUI
+  if (originalQuery == null) refreshButtons("my-key1"); // adds a new button for this tag
+} 
+
+/// clearing preferences file content
+SharedPreferences.Editor preferencesEditor = savedSearches.edit();
+preferencesEditor.clear(); // remove all tag/query pairs
+preferencesEditor.apply(); //  the changes
+
+[ ---  end  ---- ]
+
+

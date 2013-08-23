@@ -1,0 +1,46 @@
+=== [ java:topic ][ Arrays ] ===
+[ --- start ---- ]
+/// return the index of searched element, from a sorted array
+public static int binarySearch (T[] array, int startIndex, int endIndex, T value, Comparator<? super T> comparator)
+/// example
+int intArr[] = {5, 12, 20, 30, 55};
+int retVal = Arrays.binarySearch(intArr,12);
+The sorted int array is: 5 12 20 30 55
+The index of element 12 is : 1 ///retVal==1
+[ ---  end  ---- ]
+
+=== [ java:topic ][ HashMap ] ===
+[ --- start ---- ]
+private Map<String, Boolean> regionMap;
+regionMap = new HashMap<String, Boolean>();
+String[] regionNames = {"Asia", "South America"};
+for (String region : regionNames)
+	regionMap.put(region, true);
+[ ---  end  ---- ]
+
+=== [ java:topic ][ Set ] ===
+[ --- start ---- ]
+/// A "Set" is a data structure which does not allow duplicate elements.
+/// public abstract Set<K> keySet ()
+/// Returns a set of the keys contained in this Map. The Set is backed by this Map so changes to one are reflected by the other. 
+Set<String> myset = regionMap.keySet();
+
+AssetManager assets = getAssets();
+for (String region : myset ){
+	if (regionMap.get(region)) /// if return true
+	{
+		/// Asia is a directory in assets/Asia
+		/// return all the filename under this particular directory, e.g. Malaysia.png
+		String[] paths = assets.list(region); /// assets.list("Asia")
+	}
+}
+[ ---  end  ---- ]
+
+=== [ java:topic ][ List ] ===
+[ --- start ---- ]
+List<String> mylist;
+mylist = new ArrayList<String>();
+mylist.clear();  /// delete all content
+mylist.add("Malaysia");
+mylist.contains("Malaysia"); /// return true or false, can be used in if (xxx)
+[ ---  end  ---- ]

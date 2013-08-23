@@ -1,0 +1,22 @@
+=== [ java:topic ][ hide soft keyboard ] ===
+[ --- start ---- ]
+((InputMethodManager) getSystemService(
+   Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+   tagEditText.getWindowToken(), 0);  
+
+/// always hide keyboard, not working in android 2.0.1
+android:windowSoftInputMode="stateAlwaysHidden"
+[ ---  end  ---- ]
+
+=== [ java:topic ][ keyboard behaviour ] ===
+[ --- start ---- ]
+/// default behaviour is pan and scan, which will hide the view
+/// use adjustResize to have all view (shrink empty space i.e.)
+<activity android:name=".TodoEdit"
+            android:windowSoftInputMode="adjustResize">
+
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ keyboard pop up in EditText ] ===
+/// add following to make keypad doesn't appear on startup for edittext
+android:focusableInTouchMode="true" 

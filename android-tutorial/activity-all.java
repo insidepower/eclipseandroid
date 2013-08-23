@@ -1,6 +1,5 @@
-[ destroy current and create new function ]
-
-1) [ AndroidManifest ][ xml ]
+=== [ java:topic ][ destroy current and create new activity ] ===
+[ --- start ---- ]
 /// AndroidManifest.xml - must declare the new activity here as well
         <activity
             android:name="happygrass.app.guess.LoginActivity"
@@ -13,14 +12,13 @@
         </activity>
         <activity android:name="MainActivity"></activity>
 
-(3) [ start ][ delay ]
-start an activity after delay
-	public void submitOnClick(View view) {
-		RadioGroup rg = (RadioGroup) findViewById(R.id.radio_question);
-		TextView tv = (TextView) findViewById(R.id.txt_answer);
-		int index = rg.getCheckedRadioButtonId();
-		
-		switch(index) {
+/// start an activity after delay
+public void submitOnClick(View view) {
+	RadioGroup rg = (RadioGroup) findViewById(R.id.radio_question);
+	TextView tv = (TextView) findViewById(R.id.txt_answer);
+	int index = rg.getCheckedRadioButtonId();
+
+	switch(index) {
 		case R.id.radbtn_1:
 			tv.setText(getString(R.string.firstloginWrong1));
 			break;
@@ -33,62 +31,50 @@ start an activity after delay
 			break;
 		default:	
 			tv.setText("error");
-		}
 	}
+}
 
-	private Runnable finishThisActivit = new Runnable() {
-		  public void run() {
-			Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
-			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(i);
-			finish();
-		  }
-	};
+private Runnable finishThisActivit = new Runnable() {
+	public void run() {
+		Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
+		finish();
+	}
+};
+/// or if put in AndroidManifest.xml, then no need to call finish()
+<activity android:name=".ClassName" android:noHistory="true" ... />
+
+[ ---  end  ---- ]
 
 
-[ ------------------------------------------------------------------ ]
-[ screen ]
-[ full screen ]
+=== [ java:topic ][ full screen ] ===
+[ --- start ---- ]
 requestWindowFeature(Window.FEATURE_NO_TITLE);
 getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 						WindowManager.LayoutParams.FLAG_FULLSCREEN);
+[ ---  end  ---- ]
 
-
-[ screen on ]
+=== [ java:topic ][ screen always on ] ===
+[ --- start ---- ]
 getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 /// Another way is to use a wake lock:
 mWakeLock = getContext().getSystemService(Context.POWER_SERVICE)
     .newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, getClass().getName());
 /// --- manifest
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
+[ ---  end  ---- ]
 
 
-[ ------------------------------------------------------------------ ]
-[ new ][ activity ]
-
-/// [ --- start ---- ]invoke an imported application
-/// --- {{
+=== [ java:topic ][ new activity ] ===
+[ --- start ---- ]
 Intent intent = new Intent();
 intent.setClassName("com.android.bla", "com.android.bla.YourActivity");
 startActivity(intent);
 /// or---
 import happygrass.app.imported.musicg.demo.android.WhistleActivity;
 Intent i = new Intent(getApplicationContext(), WhistleActivity.class);
-/// [ --- end ---- ]invoke an imported application
-/// --- }}
-
-/// [ --- start ---- ][ start ][ finish ]
-/// --- {{
-public void loginOnClick(View view) {
-		Intent i = new Intent(this, MainActivity.class);
-		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(i);
-		finish();
-}
-/// or if put in AndroidManifest.xml, then no need to call finish()
-<activity android:name=".ClassName" android:noHistory="true" ... />
-/// [ --- end ---- ][ start ][ finish ]
-/// --- }}
+[ ---  end  ---- ]
 
 === [ java:topic ][ Bundle ] ===
 [ --- start ---- ]
@@ -109,16 +95,4 @@ protected void onSaveInstanceState(Bundle outstate) {
 	super.onSaveInstanceState(outstate);
 	outstate.putDouble("BILL_TOTAL", 50.0);
 }
-
 [ ---  end  ---- ]
-
-[ ------------------------------------------------------------------ ]
-[ ------------------------------------------------------------------ ]
-
-[ xml ][ java ][ string ]
-TextView tv = (TextView) findViewById(R.id.txt_answer);
-final String passwordText = getString(R.string.password);
-
-[ xml ][ image ]
-put in res/drawable-nodpi
-
