@@ -1,0 +1,11 @@
+=== [ xml:topic ][ dynamic ] ===
+[ --- start ---- ]
+<ScrollView android:id="@+id/queryScrollView" 
+ android:layout_width="match_parent" 
+ android:layout_span="2" android:padding="5dp">
+	<TableLayout android:id="@+id/queryTableLayout" 
+	   android:layout_width="match_parent" 
+	   android:layout_height="match_parent" android:padding="5dp" 
+	   android:stretchColumns="*"></TableLayout>
+</ScrollView>
+[ ---  end  ---- ]

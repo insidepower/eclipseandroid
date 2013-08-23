@@ -1,0 +1,19 @@
+=== [ java:topic ][ EditText ] ===
+[ --- start ---- ]
+EditText et_passwd = (EditText) findViewById(R.id.txt_password);
+String passwd = et_passwd.getText().toString();
+if (passwd.equals("03012007")) {
+[ ---  end  ---- ]
+
+[ ------------------------------------------------------------------ ]
+
+=== [ java:topic ][ String format ][ print ] ===
+et_passwd.setText(String.format("%.02f", 0.05));
+
+=== [ xml:topic ][ property ] ===
+[ --- start ---- ]
+/// show next in the keypad
+android:imeOptions="actionNext"
+/// show done in the keypad
+android:imeOptions="actionDone"
+[ ---  end  ---- ]
