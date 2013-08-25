@@ -1,0 +1,225 @@
+=== [ topic ][ android studio ] ===
+[ --- start ---- ]
+IntelliJ IDEA 
+
+ctrl-space 			- auto complete
+ctrl-n				- open class
+ctrl-q				- open doc
+Shift-F6			- refactor name
+Ctrl+Shift+Space 	- SmartType code completion
+[ ---  end  ---- ]
+
+=== [ java:topic ][ highlighted ] ===
+[ --- start ---- ]
+ 18 Ctrl+F12            - quickly navigate currently edited file <hi> ctrl-F12 </hi>
+ 19 ctrl-b/ctrl-mouse   - go to declaration <hi> ctrl-b </hi>
+ 65 ctrl-alt-7          - show usage <hi> c-a-7 </hi>
+[ ---  end  ---- ]
+
+=== [ topic ][ navigation ] ===
+[ --- start ---- ]
+alt+F7			 	- find variables/class uses
+Ctrl+F12			- quickly navigate currently edited file <hi> ctrl-F12 </hi>
+ctrl-b/ctrl-mouse 	- go to declaration <hi> ctrl-b </hi>
+Escape 				- moves the focus to the editor.
+Shift+Escape 		- moves the focus to the editor and also hides the current (or last active) tool window.
+F12 				- moves the focus from the editor to the last focused tool window.
+Ctrl+E 				- (View | Recent Files) brings a popup list of the recently visited files.
+Alt+Up/Alt+Down		- move between methods in the editor.
+
+F2/Shift+F2 		- to jump between highlighted syntax errors.
+Ctrl+Alt+Up/Ctrl+Alt+Down 	- to jump between compiler error messages or search operation results.
+
+Ctrl+Tab 			- to switch between open files and tool windows. 
+Keeping Ctrl pressed, use the Up and Down arrow keys, Tab or Shift+Tab, Alt for navigation; 
+use Delete or BackSpace to close editor tab or hide a tool window.
+
+Ctrl+Shift+N 		- jump directly to any deeply buried file. type just a couple of characters of the enclosing directories and file names:
+Ctrl+Shift+N, then :LineNum		- (Navigate | File) open file @ desired line
+[ ---  end  ---- ]
+
+=== [ java:topic ][ edit ] ===
+[ --- start ---- ]
+Ctrl+Shift+Backspace 	- (Navigate | Last Edit Location) go to last place of changes <hi> c-s-bksp </hi>
+
+Ctrl+W (select word) in the editor selects the word at the caret and then selects expanding areas of the source code. For example, it may select a method name, then the expression that calls this method, then the whole statement, then the containing block, etc. You can also select the word at the caret and the expanding areas of the source code by double-clicking the target areas in the editor.
+and press Ctrl+Alt+V (Refactor | Extract Variable). This will result in the following:
+
+You can comment or uncomment lines and blocks of code using Ctrl+Slash and Ctrl+Shift+Slash.
+Ctrl+Slash comments or uncomments the current line or selected block with single line comments (//...).
+Ctrl+Shift+Slash encloses the selected block in a block comment (/*...*/).
+To uncomment a commented block press Ctrl+Shift+Slash anywhere inside it.
+
+Ctrl+D in the editor duplicates the selected block or the current line when no block is selected.
+
+Pressing Ctrl+Shift+Backspace a few times moves you deeper into your changes history.
+
+Ctrl+Shift+J shortcut joins two lines into one and removes unnecessary space to match your code style.
+
+Use the Ctrl+Shift+V shortcut to choose and insert recent clipboard contents into the text.
+
+The Code | Move Statement Up/Down action is useful for reorganizing the code lines in your file, e.g., for bringing a variable declaration closer to variable usage.
+Select a code fragment and press Ctrl+Shift+Up or Ctrl+Shift+Down.
+The following pictures show an initial location of a code fragment, and the results of moving the selected fragment up and down.
+
+If nothing is selected in the editor, and you press Ctrl+C, then the whole line at caret is copied to the clipboard.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ class info ][ method info ] ===
+[ --- start ---- ]
+ctrl-alt-7			- show usage <hi> c-a-7 </hi>
+Alt+Q 				- (View | Context Info) to see the declaration of the current method without the need to scroll to it. <hi> a-q </hi>
+Ctrl+Shift+I		- quickly view image/picture in a pop up
+
+To navigate to the implementation(s) of an abstract method, position the caret at its usage or its name in the declaration and press Ctrl+Alt+B.
+
+Use Ctrl+Shift+F7 (Edit | Find | Highlight Usages in File) to quickly highlight usages of some variable in the current file.
+Use F3 and Shift+F3 keys to navigate through highlighted usages.
+Press Escape to remove the highlighting.
+
+
+To see the inheritance hierarchy for a selected class, press Ctrl+H (View | Type Hierarchy). You can also invoke the hierarchy view right from the editor to see the hierarchy for the currently edited class.
+
+Use Ctrl+Shift+I (View | Quick Definition), to quickly review definition or content of the symbol at caret, without the need to open it in a new editor tab.
+
+The Quick Definition Viewer (Ctrl+Shift+I) can be also used for items in lookup lists that appear on code completion and class/file/symbol navigaton commands.
+
+You can bring forward the list of all usages of a class, method or variable across the whole project, and quickly jump to the selected usage. To do that, place the caret at the symbol's name or at its usage in code and press Ctrl+Alt+7 (Edit | Find | Show Usages in the main menu), scroll the list and click the desired usage.
+
+You can view all methods of the implemented interfaces in a class, if you place the caret at the implements keyword in the class declaration, press Ctrl+Shift+F7, and select the desired interface from the list:
+
+To view all exit points of a method, place the caret at one of them, e.g. the return statement, and press Ctrl+Shift+F7:
+
+You can view all statements within the method where certain exceptions can be brought. Just place the caret at the throws keyword in a method declaration, press Ctrl+Shift+F7 and select the desired exception class from the list. This will also work for try and catch.
+
+Explore structure of a package, view its constituent classes, subpackages and dependencies using UML Class diagram. Right-click a package in the Project view, and choose Show Class Diagram on the context menu, or just click Ctrl+Alt+Shift+U.
+You can also use the Class diagram to create a visual model, populate it with node elements and members, and draw links. IntelliJ IDEA will generate the source code, and keep it always in sync with the model.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ debug ] ===
+[ --- start ---- ]
+To easily evaluate the value of any expression while debugging the program, select its text in the editor (you may press a Ctrl+W a few times to efficiently perform this operation) and press Alt+F8.
+
+By pressing Alt+Shift+F10 you can access the Run/Debug dropdown on the main toolbar, without the need to use your mouse.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ code completion ] ===
+[ --- start ---- ]
+When you want to catch exceptions thrown by some code fragment, select it in the editor, press Ctrl+Alt+T (Code | Surround With) and choose try / catch. The catch blocks for all the exceptions thrown inside the block will be generated automatically.
+
+When you need to cast an expression value to the required type the SmartType code completion will help you. For example, type
+String s = (<caret is here> 
+and press Ctrl+Shift+Space to see what happens.
+
+The CodeCompletion feature can suggest a name for a variable when you declare it. For example, start typing
+private FileOutputStream
+and press Ctrl+Space.
+
+If the cursor is between the parentheses of a method call, pressing Ctrl+P brings up a list of valid parameters.
+
+When using Code Completion, you can accept the currently highlighted selection in the popup list with Tab key.
+Unlike accepting with the Enter key, the selected name will overwrite the rest of the name to the right of the caret. This can be especially useful for replacing one method or variable name with another.
+
+Alt+Insert (Code | Generate) in the editor, you may easily generate getter and setter 
+
+Ctrl+O (Code | Override Methods).
+To implement methods of the interfaces that the current class implements (or of the abstract base class), use Ctrl+I (Code | Implement Methods).
+
+The shortcuts such as Ctrl+Q (View | Quick Documentation), Ctrl+P (View | Parameter Info), Ctrl+B (Navigate | Declaration) and others can be used not only in the editor but in the code completion popup list as well.
+
+Use Ctrl+Shift+Enter to complete a current statement such as if, do-while, try-catch, return (or a method call) into a syntactically correct construct (e.g. add curly braces).
+
+Use Ctrl+J to complete any valid Live Template abbreviation if you don't remember it. For example, type it and press Ctrl+J to see what happens.
+
+Live Templates allow you to generate many typical code constructs in seconds! For example, type itar
+in a method and press the Tab key to see what happens.
+Use the Tab key to move between the template fields. See File | Settings | Live Templates for more details.
+
+ he Edit | Copy Reference action can be used to insert a reference to a field/method/class/file into the current position in the editor.
+For example, go to the java.util.Collections JDK class, place the cursor within the EMPTY-MAP field and press Ctrl+Alt+Shift+C:
+Then return to your Java source and press Ctrl+V:
+You can also copy references in the GotoClass/GotoSymbol/GotoFile dialogs. Just press Ctrl+C on any element in the lookup list.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ goto ] ===
+[ --- start ---- ]
+For the pattern search in the Go to Class, Go to Symbol and Go to File pop-up frames, use * and space symbols.
+* stands for any symbol.
+Space at the end means the end of a pattern, and the preceding string will be considered not just a prefix but a whole pattern. The list of the suggested names will be reduced accordingly.
+
+To open any particular method or field in the editor quickly, press Ctrl+Alt+Shift+N (Navigate | Symbol) and start typing its name.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ git ] ===
+[ --- start ---- ]
+Use Alt+Shift+C to quickly review your recent changes to the project.
+
+The Changes tool window shows all deleted, modified, and unversioned files in a single view. Use Alt+9 keyboard shortcut to show or hide this tool window.
+From the Changes tool window you can perform all the necessary version control actions: commit changes, manage changelists, put resources under version control, examine differences and more.
+
+The keyboard shortcut Ctrl+K enables you to quickly invoke the Commit Changes dialog.
+This dialog shows all modifications in project, gives summary information of file status and suggests improvements before check-in.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ editor config ] ===
+[ --- start ---- ]
+With a single keystroke, you can apply another code style/coloring scheme or keymap right from the editor. Just press Ctrl+Back Quote (View | Quick Switch Scheme), to specify the scheme you want to change.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ rename ][ refactor ] ===
+[ --- start ---- ]
+It is possible to rename CSS selectors directly from HTML. Position the caret at the selector to be renamed and press Shift+F6 (Refactor | Rename).
+
+It is very easy to toggle between find and replace functionality.
+When you perform search and replace in a file, pressing Ctrl+F shows the search pane. Pressing Ctrl+R adds field, where you can type the replace string.
+While in the Find in Path dialog, you can switch to replace by pressing Ctrl+Shift+R. Same way, press Ctrl+Shift+F to hide the Replace with field, and switch to mere search.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ compare ] ===
+[ --- start ---- ]
+To compare two directories, select one or both of them in the Project view and press Ctrl+D.
+
+To compare two jar files, select one or both of them in the Project view and press Ctrl+D.
+[ ---  end  ---- ]
+
+=== [ java:topic ][ misc ] ===
+[ --- start ---- ]
+To quickly select the currently edited element (class, file, method or field) in any view (Project view, Structure view or other), press Alt+F1 (View | Select In).
+
+The speed search is available in all the tree views: just start typing and you'll quickly locate the necessary item.
+
+To open your browser with documentation for the element at the editor's caret, press Shift+F1 (View | External Documentation).
+You must have the path to your browser set in the General options (File | Settings) and paths to documentation files added to your project (File | Settings | Project Structure) to use this feature.
+
+Navigation bar is a quick alternative to the Project view.
+Use Alt+Home keyboard shortcut to show the navigation bar, and arrow keys to locate the necessary files or folders.
+
+To quickly find a menu command or toolbar action, you do not need to look through the menus. Just press Ctrl+Shift+A (Help | Find Action on the main menu) and start typing the name of the action. Choose the desired action from the suggestion list.
+
+To quickly find and run an inspection, press Ctrl+Alt+Shift+I and start typing the name of the inspection or its group. Choose the desired inspection from the suggestion list and then specify the desired scope.
+
+When you press Alt+Enter to invoke a quick fix or intention action, press the right arrow key to reveal the list of additional options.
+Depending on the context, you can choose to disable inspection, fix all problems, change inspection profile, etc.
+
+Ctrl+Click a tab in the editor to navigate to any part of the file path. Select the necessary element in the drop-down, and the corresponding file path is opened in an external browser (e.g., in the Explorer, if your OS is Windows).
+
+You can easily make column selection by dragging your mouse pointer while keeping the Alt key pressed.
+
+If you need more workspace, you can hide the tool windows bars: click   in the lower left corner.
+If necessary, you can show the tool window buttons just for a moment. 
+To do that, press the key Alt (for Windows/*nix) or Command (for Mac) twice and keep it down. While the key is pressed, the tool window buttons are visible.
+
+You can avoid escaping backslashes in your regular expressions. Start typing a regular expression, then press Alt+Enter and choose Edit RegExp. The regular expression opens in a separate tab in the editor, where you can type backslashes as is.
+All changes are synchronized with the original regular expression, and escapes are presented automatically. When ready, just press Escape to close the regular expression editor.
+
+If you place the caret at certain symbol and press Ctrl+Alt+Shift+T, you will see the list of refactorings applicable to the current context.
+
+close tabs in the editor and the tool windows of Android Studio without actually using the context menu.
+It is enough to point with your mouse cursor to a tab to be closed, and click the middle mouse button, or just use the Shift+click combination.
+
+[ ---  end  ---- ]
+
+=== [ java:topic ][ emulator ][ avd ] ===
+[ --- start ---- ]
+ctrl-F12 	- change orientation
+[ ---  end  ---- ]

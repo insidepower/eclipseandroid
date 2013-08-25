@@ -38,4 +38,9 @@ final String passwordText = getString(R.string.password);
 [ --- start ---- ]
 String files = "Malaysia.png";
 String file_without_ext = files.replace(".png", ""); /// Malaysia
+
+/// example 2
+String full-name = 
+String country = name.substring(name.indexOf('-') + 1).replace('_', ' ');
 [ ---  end  ---- ]
+

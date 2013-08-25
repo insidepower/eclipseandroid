@@ -47,7 +47,6 @@ private Runnable finishThisActivit = new Runnable() {
 
 [ ---  end  ---- ]
 
-
 === [ java:topic ][ full screen ] ===
 [ --- start ---- ]
 requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -95,4 +94,17 @@ protected void onSaveInstanceState(Bundle outstate) {
 	super.onSaveInstanceState(outstate);
 	outstate.putDouble("BILL_TOTAL", 50.0);
 }
+[ ---  end  ---- ]
+
+=== [ topic ][ activity summary ] ===
+[ --- start ---- ]
+                            +--------------+
+							|              |
+						    v              |
+onCreate -> onStart() -> onResume() -> onPause() -> onStop() -> onDestroy()
+             +---------> onStop()	                   +------> onRestart() -> onStart()
+
+onStop() and onDestroy() can be killable
+- system at any time without another line of its code being executed. 
+  use the onPause() method to write any persistent data
 [ ---  end  ---- ]

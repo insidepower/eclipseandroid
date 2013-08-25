@@ -1,0 +1,14 @@
+=== [ java:topic ][ broadcast ] ===
+[ --- start ---- ]
+public static final String WIDGET_UPDATE_BROADCAST_ACTION = 
+      "com.deitel.weatherviewer.UPDATE_WIDGET";
+
+final Intent updateWidgetIntent = 
+	new Intent( WIDGET_UPDATE_BROADCAST_ACTION);
+
+// send broadcast after short delay
+weatherHandler.postDelayed(new Runnable() {
+ @Override public void run() {
+	sendBroadcast(updateWidgetIntent); // broadcast the intent
+ } }, 10000);
+[ ---  end  ---- ]

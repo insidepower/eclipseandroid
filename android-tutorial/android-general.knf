@@ -9,10 +9,10 @@ R.string.xxx
 === [ java:topic ][ AlertDialog ] ===
 [ --- start ---- ]
 /// no processing needed
-builder.setPositiveButton(R.string.OK, null); 
+builder.setPositiveButton(R.string.OK, null);
 
 /// do some job after user click ok/erase
-AlertDialog.Builder builder = 
+AlertDialog.Builder builder =
 	new AlertDialog.Builder(FavoriteTwitterSearches.this);
 builder.setTitle(R.string.confirmTitle); // title bar string
 builder.setPositiveButton(R.string.erase, new DialogInterface.OnClickListener() {
@@ -24,4 +24,209 @@ builder.setPositiveButton(R.string.erase, new DialogInterface.OnClickListener() 
  builder.setMessage(R.string.confirmMessage);
  AlertDialog confirmDialog = builder.create();
  confirmDialog.show(); // display the Dialog
+[ ---  end  ---- ]
+
+=== [ java:topic ][ option menu ][ no xml ] ===
+[ --- start ---- ]
+@Override public boolean onCreateOptionsMenu(Menu menu) {
+	super.onCreateOptionsMenu(menu);
+
+	// add two options to the menu - "Choices" and "Regions"
+	menu.add(Menu.NONE, CHOICES_MENU_ID, Menu.NONE, R.string.choices);
+	menu.add(Menu.NONE, REGIONS_MENU_ID, Menu.NONE, R.string.regions);
+	return true; // display the menu
+}
+
+/// xml res/value/string.xml
+   <string-array name="guessesList">
+      <item>3</item>
+      <item>6</item>
+      <item>9</item>
+   </string-array>
+
+<hi> guessesList</hi>
+<hi> setMultiChoiceItems</hi>
+@Override
+public boolean onOptionsItemSelected(MenuItem item)
+{
+  // switch the menu id of the user-selected option
+  switch (item.getItemId())
+  {
+	 case CHOICES_MENU_ID:
+		// create a list of the possible numbers of answer choices
+		final String[] possibleChoices =
+		   getResources().getStringArray(R.array.guessesList);
+
+		// create a new AlertDialog Builder and set its title
+		AlertDialog.Builder choicesBuilder =
+		   new AlertDialog.Builder(this);
+		choicesBuilder.setTitle(R.string.choices);
+
+		// add possibleChoices's items to the Dialog and set the
+		// behavior when one of the items is clicked
+		choicesBuilder.setItems(R.array.guessesList,
+		   new DialogInterface.OnClickListener() {
+			  public void onClick(DialogInterface dialog, int item) {
+				 // update guessRows to match the user's choice
+				 guessRows = Integer.parseInt(
+					possibleChoices[item].toString()) / 3;
+				 resetQuiz(); } }); 
+
+		// create an AlertDialog from the Builder
+		AlertDialog choicesDialog = choicesBuilder.create();
+		choicesDialog.show(); // show the Dialog
+		return true;
+
+	 case REGIONS_MENU_ID:
+		// get array of world regions
+		final String[] regionNames =
+		   regionsMap.keySet().toArray(new String[regionsMap.size()]);
+
+		// boolean array representing whether each region is enabled
+		boolean[] regionsEnabled = new boolean[regionsMap.size()];
+		for (int i = 0; i < regionsEnabled.length; ++i)
+		   regionsEnabled[i] = regionsMap.get(regionNames[i]);
+
+		// create an AlertDialog Builder and set the dialog's title
+		AlertDialog.Builder regionsBuilder =
+		   new AlertDialog.Builder(this);
+		regionsBuilder.setTitle(R.string.regions);
+
+		// replace _ with space in region names for display purposes
+		String[] displayNames = new String[regionNames.length];
+		for (int i = 0; i < regionNames.length; ++i)
+		   displayNames[i] = regionNames[i].replace('_', ' ');
+
+		// add displayNames to the Dialog and set the behavior
+		// when one of the items is clicked
+		regionsBuilder.setMultiChoiceItems(
+		   displayNames, regionsEnabled,
+		   new DialogInterface.OnMultiChoiceClickListener() {
+			  @Override
+			  public void onClick(DialogInterface dialog, int which,
+				 boolean isChecked) {
+				 // include or exclude the clicked region
+				 // depending on whether or not it's checked
+				 regionsMap.put(
+					regionNames[which].toString(), isChecked);
+			  } });
+
+		// resets quiz when user presses the "Reset Quiz" Button
+		regionsBuilder.setPositiveButton(R.string.reset_quiz,
+		   new DialogInterface.OnClickListener() {
+			  @Override
+			  public void onClick(DialogInterface dialog, int button) {
+				 resetQuiz(); } });
+
+		// create a dialog from the Builder
+		AlertDialog regionsDialog = regionsBuilder.create();
+		regionsDialog.show(); // display the Dialog
+		return true;
+  }
+
+  return super.onOptionsItemSelected(item);
+}
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ option menu ][ with xml ] ===
+[ --- start ---- ]
+/// store @ res/menu/actionmenu.xml
+/// icon is from android default drawable resource
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+   <item android:id="@+id/add_city_item" 
+      android:icon="@android:drawable/ic_input_add" 
+      android:title="@string/add_new_city" 
+      android:showAsAction="ifRoom|withText"/>
+</menu>
+
+/// usage
+public boolean onCreateOptionsMenu(Menu menu) {
+  super.onCreateOptionsMenu(menu); 
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.actionmenu, menu); 
+  return true; // return true since the menu was created
+}
+
+public boolean onOptionsItemSelected(MenuItem item) {
+      if (item.getItemId() == R.id.add_city_item) {
+         showAddCityDialog(); // show Dialog for user input
+         return true; // return true since we handled the selection
+      } // end if
+      
+      return false; // do not handle unexpected menu items
+}
+
+private void showAddCityDialog() {
+  AddCityDialogFragment newAddCityDialogFragment = 
+	 new AddCityDialogFragment();
+  
+  FragmentManager thisFragmentManager = getFragmentManager();
+  
+  // begin a FragmentTransaction
+  FragmentTransaction addCityFragmentTransition = 
+	 thisFragmentManager.beginTransaction();
+  
+  // show the DialogFragment
+  newAddCityDialogFragment.show(addCityFragmentTransition, "");
+} // end method showAddCityDialog
+[ ---  end  ---- ]
+
+=== [ topic ][ action bar ] ===
+[ --- start ---- ]
+[ xml ]
+/// ifRoom = if got room then in actionbar will see this option
+/// always has the risk of overlapping
+android:showAsction="ifRoom|withText"
+
+[ java ]
+private int currentTab; // position of the current selected tab
+public void onCreate(Bundle savedInstanceState) {
+      ActionBar weatherActionBar = getActionBar(); // get the ActionBar
+      weatherActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+      // create first tab
+      Tab currentConditionsTab = weatherActionBar.newTab();
+      currentConditionsTab.setText(getResources().getString( R.string.current_conditions));
+      currentConditionsTab.setTabListener(weatherTabListener);
+      weatherActionBar.addTab(currentConditionsTab); // add the Tab
+
+      // create the second tab
+      Tab fiveDayForecastTab = weatherActionBar.newTab();
+      fiveDayForecastTab.setText(getResources().getString( R.string.five_day_forecast));
+      fiveDayForecastTab.setTabListener(weatherTabListener);
+      weatherActionBar.addTab(fiveDayForecastTab);
+
+      // select "Current Conditions" Tab by default
+      currentTab = CURRENT_CONDITIONS_TAB;
+}
+
+public void onSaveInstanceState(Bundle savedInstanceStateBundle) {
+  savedInstanceStateBundle.putInt(CURRENT_TAB_KEY, currentTab);}
+
+public void onRestoreInstanceState(Bundle savedInstanceStateBundle) {
+  currentTab = savedInstanceStateBundle.getInt(CURRENT_TAB_KEY);}
+
+public void onResume() {
+  getActionBar().selectTab(getActionBar().getTabAt(currentTab));}
+
+[ ---  end  ---- ]
+
+=== [ java:topic ][ orientation ] ===
+[ --- start ---- ]
+public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+      Bundle savedInstanceState) {
+	if (container.getContext().getResources().getConfiguration().
+			orientation == Configuration.ORIENTATION_LANDSCAPE) {
+		id = R.layout.single_forecast_layout_landscape;
+	} else {
+		id = R.layout.single_forecast_layout_portrait; 
+		containerLinearLayout.setOrientation(LinearLayout.VERTICAL); }
+
+	View forecastView;
+	forecastView = inflater.inflate(id, null);
+	containerLinearLayout.addView(forecastView);
+	dailyForecastViews[i] = forecastView; 
+}
+
 [ ---  end  ---- ]

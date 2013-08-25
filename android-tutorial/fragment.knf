@@ -1,0 +1,244 @@
+=== [ java:topic ][ fragment ][ general ] ===
+[ --- start ---- ]
+The core series of lifecycle methods that are called to bring a fragment up to resumed state (interacting with the user) are:
+<hi> onAttach(Activity) </hi> called once the fragment is associated with its activity.
+<hi> onCreate(Bundle)	</hi> called to do initial creation of the fragment.
+<hi> onCreateView(LayoutInflater, </hi>	ViewGroup, Bundle) creates and returns the view hierarchy associated with the fragment.
+<hi> onActivityCreated(Bundle) </hi>	tells the fragment that its activity has completed its own Activity.onCreate().
+<hi> onViewStateRestored(Bundle) </hi>	tells the fragment that all of the saved state of its view hierarchy has been restored.
+<hi> onStart() </hi>	makes the fragment visible to the user (based on its containing activity being started).
+<hi> onResume() </hi>	makes the fragment interacting with the user (based on its containing activity being resumed).
+
+As a fragment is no longer being used, it goes through a reverse series of callbacks:
+<hi> onPause() </hi>	fragment is no longer interacting with the user either because its activity is being paused or a fragment operation is modifying it in the activity.
+<hi> onStop() </hi>	fragment is no longer visible to the user either because its activity is being stopped or a fragment operation is modifying it in the activity.
+<hi> onDestroyView() </hi>	allows the fragment to clean up resources associated with its View.
+<hi> onDestroy() </hi>	called to do final cleanup of the fragment's state.
+<hi> onDetach() </hi>	called immediately prior to the fragment no longer being associated with its activity.
+
+A fragment runs in the context of an activity but it has its own life cycle and typically its own user interface
+
+Fragments make it easy to reuse components in different layouts, 
+e.g. you can build single-pane layouts for handsets (phones) and multi-pane 
+layouts for tablets. This is not limited to tablets; for example you can use 
+fragments also to support different layout for landscape and portrait 
+orientation on a smartphone.
+
+/// type
+ListFragment, DialogFragment, PreferenceFragment or WebViewFragment
+[ ---  end  ---- ]
+
+=== [ java:topic ][ fragment ] ===
+[ --- start ---- ]
+<hi> citiesListChangeListener </hi>
+public class WeatherViewerActivity extends Activity implements 
+DialogFinishedListener {
+	...;
+	private CitiesFragment listCitiesFragment;
+	/// implement the citiesFragment interface
+	private CitiesListChangeListener citiesListChangeListener = 
+		new CitiesListChangeListener() {
+			// called when the selected city is changed
+			@Override public void onSelectedCityChanged(String cityNameString) {
+				selectForecast(cityNameString);  }
+
+			@Override public void onPreferredCityChanged(String cityNameString) {
+				setPreferred(cityNameString);   }
+		};
+
+	public void onCreate(Bundle savedInstanceState) {
+		listCitiesFragment = (CitiesFragment)
+			getFragmentManager().findFragmentById(R.id.cities);
+		listCitiesFragment.setCitiesListChangeListener(
+				citiesListChangeListener);
+	}
+}
+
+/// reference
+public class CitiesFragment extends ListFragment {
+	public ArrayList<String> citiesArrayList; // list of city names
+	private CitiesListChangeListener citiesListChangeListener; 
+	private ArrayAdapter<String> citiesArrayAdapter;
+
+	public interface CitiesListChangeListener {
+		  public void onSelectedCityChanged(String cityNameString);
+		  public void onPreferredCityChanged(String cityNameString);
+	}
+
+	public void onActivityCreated(Bundle savedInstanceStateBundle) {
+		...;
+		/// instantiate the listview
+		citiesArrayList = new ArrayList<String>(); 
+
+		// set the Fragment's ListView adapter 
+		setListAdapter(new CitiesArrayAdapter<String>(getActivity(), 
+					R.layout.city_list_item, citiesArrayList)); 
+
+		ListView thisListView = getListView(); // get the Fragment's ListView
+		citiesArrayAdapter = (ArrayAdapter<String>)getListAdapter();
+
+		// allow only one city to be selected at a time
+		thisListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		thisListView.setBackgroundColor(Color.WHITE); // set background color
+		thisListView.setOnItemLongClickListener(citiesOnItemLongClickListener);
+	}
+}
+
+[ xml ]
+/// store @ layout/city_list_item.xml
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@android:id/text1" android:layout_width="match_parent"
+   android:layout_height="wrap_content" android:textSize="23sp"
+   android:gravity="left|center_vertical" android:padding="10dp"
+   android:minHeight="?android:attr/listPreferredItemHeight"
+   android:textColor="@android:color/black"/>
+
+
+/// usage
+public void addCity(String city, String zipcode, boolean select) {
+  listCitiesFragment.addCity(city, select); // add city to Fragment
+
+
+public void addCity(String cityNameString, boolean select) {
+      citiesArrayAdapter.add(cityNameString);
+      citiesArrayAdapter.sort(String.CASE_INSENSITIVE_ORDER);
+     
+      if (select) // if we should select the new city
+      {
+         // inform the CitiesListChangeListener 
+         citiesListChangeListener.onSelectedCityChanged(cityNameString);
+      }
+   }
+
+[ ---  end  ---- ]
+
+=== [ java:topic ][ inflating fragment ] ===
+[ --- start ---- ]
+[ xml ]
+<hi> visibility=gone </hi>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent" android:layout_height="match_parent">
+   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/forecast_layout" android:layout_width="match_parent"
+      android:layout_height="match_parent" android:orientation="vertical">
+      <ImageView android:id="@+id/forecast_image"
+         android:layout_width="match_parent" android:layout_height="350dp"/>
+      <TextView android:id="@+id/location" 
+         android:layout_width="match_parent" 
+         android:layout_height="wrap_content" android:textSize="27sp"
+         android:textColor="@android:color/black" android:gravity="center"
+         android:layout_marginBottom="15dp"/>
+   </LinearLayout>
+   <TextView android:id="@+id/loading_message"
+      android:layout_width="match_parent" 
+      android:layout_height="match_parent" android:textSize="20sp" 
+      android:gravity="center" android:text="@string/loading_message"
+      android:visibility="gone"/>
+
+/// declare
+public abstract class ForecastFragment extends Fragment { }
+
+/// usage
+ForecastFragment currentForecastFragment = (ForecastFragment) 
+ getFragmentManager().findFragmentById(R.id.forecast_replacer);
+currentForecastFragment = SingleForecastFragment.newInstance( zipcodeString);
+/// or 
+currentForecastFragment = FiveDayForecastFragment.newInstance(
+               zipcodeString);
+
+/// reference
+public class SingleForecastFragment extends ForecastFragment {
+	public static SingleForecastFragment newInstance(String zipcodeString) { 
+	  SingleForecastFragment newForecastFragment = new SingleForecastFragment();
+	  Bundle argumentsBundle = new Bundle(); // create a new Bundle
+	  argumentsBundle.putString(ZIP_CODE_KEY, zipcodeString);
+	  newForecastFragment.setArguments(argumentsBundle);
+	  return newForecastFragment; // return the completed ForecastFragment
+	}
+	
+	public void onActivityCreated(Bundle savedInstanceStateBundle) {
+	  super.onActivityCreated(savedInstanceStateBundle);
+	   
+	  // if there is no saved information
+	  if (savedInstanceStateBundle == null) {
+		 // hide the forecast and show the loading message
+		 forecastView.setVisibility(View.GONE); 
+		 loadingTextView.setVisibility(View.VISIBLE); 
+		 
+		 /// async task executed
+		 new ReadLocationTask(zipcodeString, context,
+			new WeatherLocationLoadedListener(zipcodeString)).execute();
+	  } else {
+		 // display information in the saved state Bundle using the 
+		 // Fragment's Views
+		 conditionImageView.setImageBitmap(
+			(Bitmap) savedInstanceStateBundle.getParcelable(IMAGE_KEY));
+		 locationTextView.setText(savedInstanceStateBundle.getString(
+			LOCATION_KEY));
+	  } // end else
+	} // end method onActivityCreated
+}
+
+public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+      Bundle savedInstanceState) {
+      View rootView = inflater.inflate(R.layout.forecast_fragment_layout, null);
+      
+      forecastView = rootView.findViewById(R.id.forecast_layout);
+      loadingTextView = (TextView) rootView.findViewById(
+         R.id.loading_message);
+      conditionImageView = (ImageView) rootView.findViewById(
+         R.id.forecast_image);
+
+      context = rootView.getContext(); // save the Context
+      return rootView; // return the inflated View
+   }
+}
+
+public abstract class ForecastFragment extends Fragment {
+   public abstract String getZipcode(); }
+
+public class FiveDayForecastFragment extends ForecastFragment {
+	public void onCreate(Bundle argumentsBundle) { ... }
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+      Bundle savedInstanceState) { 
+		View rootView = inflater.inflate(R.layout.five_day_forecast_layout, null);
+    
+      LinearLayout containerLinearLayout = 
+         (LinearLayout) rootView.findViewById(R.id.containerLinearLayout);
+
+      locationTextView = (TextView) rootView.findViewById(R.id.location);
+     
+      int id; // int identifier for the daily forecast layout
+    
+      // if we are in landscape orientation
+      if (container.getContext().getResources().getConfiguration().
+         orientation == Configuration.ORIENTATION_LANDSCAPE)
+      {
+         id = R.layout.single_forecast_layout_landscape;
+      }
+      else // portrait orientation
+      {
+         id = R.layout.single_forecast_layout_portrait; 
+         containerLinearLayout.setOrientation(LinearLayout.VERTICAL);
+      }
+    
+      // load five daily forecasts
+      View forecastView;
+      for (int i = 0; i < NUMBER_DAILY_FORECASTS; i++)
+      {
+         forecastView = inflater.inflate(id, null); // inflate new View
+        
+         // add the new View to the container LinearLayout
+         containerLinearLayout.addView(forecastView);
+         dailyForecastViews[i] = forecastView; 
+      }
+     
+      // load the location information in a background thread
+      new ReadLocationTask(zipcodeString, rootView.getContext(),
+         new WeatherLocationLoadedListener(zipcodeString, 
+         rootView.getContext())).execute();
+     
+      return rootView;
+		}
+}
+[ ---  end  ---- ]

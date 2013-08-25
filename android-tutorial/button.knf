@@ -1,3 +1,53 @@
+=== [ java:topic ][ button listener ] ===
+[ --- start ---- ]
+
+private OnClickListener guessButtonListener = new OnClickListener() {
+  @Override public void onClick(View v) { submitGuess((Button) v); } };
+
+private void submitGuess(Button guessButton) {
+  String guess = guessButton.getText().toString();
+  String answer = getCountryName(correctAnswer);
+
+  // if the guess is correct
+  if (guess.equals(answer)) {
+	 // display "Correct!" in green text
+	 answerTextView.setText(answer + "!");
+	 answerTextView.setTextColor(
+		getResources().getColor(R.color.correct_answer));
+
+	 disableButtons(); // disable all answer Buttons
+	 }
+	 else // answer is correct but quiz is not over
+	 {
+		// load the next flag after a 1-second delay
+		handler.postDelayed(
+		   new Runnable() {
+			  @Override
+			  public void run() {
+				 loadNextFlag(); }
+		   }, 1000); // 1000 milliseconds for 1-second delay
+	 } }
+  else // guess was incorrect
+  {
+	 // play the animation
+	 flagImageView.startAnimation(shakeAnimation);
+	 guessButton.setEnabled(false); // disable the incorrect answer
+  } }
+
+private void disableButtons() {
+  /// let said if 9 buttons is laid out, 3 at each row
+  /// buttonTableLayout.getChildCount() will return 3 (i.e. buttonTableLayout got 3 view)
+  for (int row = 0; row < buttonTableLayout.getChildCount(); ++row) {
+	 TableRow tableRow = (TableRow) buttonTableLayout.getChildAt(row);
+	 /// tableRow.getChildCount() will return 3
+	 for (int i = 0; i < tableRow.getChildCount(); ++i)
+		tableRow.getChildAt(i).setEnabled(false); } }
+
+
+[ ---  end  ---- ]
+
+=== [ topic ][ radio button ] ===
+[ --- start ---- ]
 <?xml version="1.0" encoding="utf-8"?>
 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -95,8 +145,4 @@ LinearLayout.LayoutParams lp)
     rg.addView(rb, 0, lp);
 
 }
-[---------------------------------------------------------------------------------------------------- ]
-[---------------------------------------------------------------------------------------------------- ]
-[---------------------------------------------------------------------------------------------------- ]
-[---------------------------------------------------------------------------------------------------- ]
-[---------------------------------------------------------------------------------------------------- ]
+[ ---  end  ---- ]
