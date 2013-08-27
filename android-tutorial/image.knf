@@ -1,0 +1,42 @@
+=== [ java:topic ][ bitmap ] ===
+[ --- start ---- ]
+private Bitmap conditionBitmap;
+conditionBitmap = getIconBitmap(...);
+private static final int BITMAP_SAMPLE_SIZE = 4;  
+
+/// usage 
+iconBitmap = getIconBitmap(reader.nextString(), resources, BITMAP_SAMPLE_SIZE);
+
+/// <string name="pre_condition_url">http://img.weather.weatherbug.com/forecast/icons/localized/500x420/en/trans/</string>
+public static Bitmap getIconBitmap(String conditionString, 
+      Resources resources, int bitmapSampleSize) 
+   {
+      Bitmap iconBitmap = null; // create the Bitmap
+      try 
+      {
+         // create a URL pointing to the image on WeatherBug's site
+         URL weatherURL = new URL(resources.getString(
+            R.string.pre_condition_url) + conditionString + ".png");
+         
+         BitmapFactory.Options options = new BitmapFactory.Options();
+         if (bitmapSampleSize != -1) 
+         { 
+            options.inSampleSize = bitmapSampleSize;
+         } // end if
+         
+         // save the image as a Bitmap 
+         iconBitmap = BitmapFactory.decodeStream(weatherURL.
+            openStream(), null, options);
+      } // end try
+      catch (MalformedURLException e) 
+      {
+         Log.e(TAG, e.toString());
+      } // end catch
+      catch (IOException e) 
+      {
+         Log.e(TAG, e.toString());
+      } // end catch
+      
+      return iconBitmap; // return the image
+   } // end method getIconBitmap
+[ ---  end  ---- ]

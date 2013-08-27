@@ -71,6 +71,22 @@ then use it
 
  // Start the animation (looped playback by default).
  frameAnimation.start();
+
+ /// extra note: animation start best not to called in onCreate
+ /// using a timer, the delay might be different in different devices
+ /// best is during onWindowFocusChanged
+	@Override
+	public void onWindowFocusChanged (boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		AnimationDrawable frameAnimation = 
+			(AnimationDrawable) animation.getBackground();
+		if(hasFocus) {
+			frameAnimation.start();
+		} else {
+			frameAnimation.stop();
+		}
+	}
+}
 [ ---  end  ---- ]
 
 === [ java:topic ][ onTouchEvent ] ===

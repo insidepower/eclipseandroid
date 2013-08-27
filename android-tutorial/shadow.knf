@@ -1,0 +1,92 @@
+=== [ xml:topic ][ simulating shadow ] ===
+[ --- start ---- ]
+/// store @ res/drawable/container_shadow.xml
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+     <!-- Drop Shadow Stack -->
+     <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#00CCCCCC" />
+        </shape>
+    </item>
+     <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#10CCCCCC" />
+        </shape>
+    </item>
+     <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#20CCCCCC" />
+        </shape>
+    </item>
+     <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#30CCCCCC" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
+            <solid android:color="#50CCCCCC" />
+        </shape>
+    </item>
+
+    <!-- Background -->
+    <item>
+	<shape>
+            <solid android:color="@color/white" />
+	    <corners android:radius="3dp" />
+	</shape>
+    </item>
+</layer-list>
+
+
+/// usage
+ <FrameLayout android:layout_width="8dp" 
+      android:layout_height="match_parent"
+      android:background="@drawable/container_shadow"
+      android:layout_margin="10dp"
+      android:padding="15dp"/>
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ shadow2 ] ===
+[ --- start ---- ]
+/// some layout.xml
+<RelativeLayout
+    android:background="@color/cream"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    >
+    <LinearLayout
+        android:id="@+id/some_layout_item"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        ...
+    </LinearLayout>
+    <View
+        android:layout_below="@id/some_layout_item"
+        android:layout_width="fill_parent"
+        android:layout_height="5dip"
+        android:background="@drawable/drop_shadow"
+        >
+    </View>
+    ...
+</RelativeLayout>
+
+/// res/drawable/drop_shadow.xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android=”http://schemas.android.com/apk/res/android”>    
+    <gradient
+        android:startColor="@color/cream_dark"
+        android:endColor="@color/cream"
+        android:angle="270"
+        >
+    </gradient>
+</shape>
+[ ---  end  ---- ]

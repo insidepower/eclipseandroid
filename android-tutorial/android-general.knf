@@ -1,3 +1,13 @@
+=== [ topic ][ adb ] ===
+[ --- start ---- ]
+$ adb devices
+return <device-id> device
+e.g. 82990AB830201D device
+adb -s 82990AB830201D logcat
+$ adb -e logcat    /// if multiple devices, only one emulator
+$ adb -d logcat    /// if multiple devices, only one hardware
+[ ---  end  ---- ]
+
 === [ java:topic ][ id ] ===
 [ --- start ---- ]
 R.drawable.xxx
@@ -139,37 +149,128 @@ public boolean onOptionsItemSelected(MenuItem item)
       android:title="@string/add_new_city" 
       android:showAsAction="ifRoom|withText"/>
 </menu>
-
 /// usage
-public boolean onCreateOptionsMenu(Menu menu) {
-  super.onCreateOptionsMenu(menu); 
-  MenuInflater inflater = getMenuInflater();
-  inflater.inflate(R.menu.actionmenu, menu); 
-  return true; // return true since the menu was created
+public class WeatherViewerActivity extends Activity implements DialogFinishedListener {
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu); 
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.actionmenu, menu); 
+		return true; // return true since the menu was created
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.add_city_item) {
+			showAddCityDialog(); // show Dialog for user input
+			return true; // return true since we handled the selection
+		} // end if
+
+		return false; // do not handle unexpected menu items
+	}
+
+	/// DialogFragment
+	private void showAddCityDialog() {
+		AddCityDialogFragment newAddCityDialogFragment =
+			new AddCityDialogFragment();
+
+		FragmentManager thisFragmentManager = getFragmentManager();
+		FragmentTransaction addCityFragmentTransition =
+			thisFragmentManager.beginTransaction();
+		newAddCityDialogFragment.show(addCityFragmentTransition, "");
+	}
+
+	public void onDialogFinished(String zipcodeString, boolean preferred) {
+		... /// processing
+	}
 }
 
-public boolean onOptionsItemSelected(MenuItem item) {
-      if (item.getItemId() == R.id.add_city_item) {
-         showAddCityDialog(); // show Dialog for user input
-         return true; // return true since we handled the selection
+/// full class
+public class AddCityDialogFragment extends DialogFragment 
+   implements OnClickListener {
+
+   EditText addCityEditText; // the DialogFragment's EditText
+   CheckBox addCityCheckBox;
+
+	public interface DialogFinishedListener {
+      void onDialogFinished(String zipcodeString, boolean preferred); }
+
+ @Override
+   public void onCreate(Bundle bundle) {
+      super.onCreate(bundle);
+      // allow the user to exit using the back key
+      this.setCancelable(true); }
+
+@Override
+   public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+      Bundle argumentsBundle)
+   {
+      // inflate the layout defined in add_city_dialog.xml 
+      View rootView = inflater.inflate(R.layout.add_city_dialog, container, 
+         false);
+
+      // get the EditText
+      addCityEditText = (EditText) rootView.findViewById(
+         R.id.add_city_edit_text);
+
+      // get the CheckBox
+      addCityCheckBox = (CheckBox) rootView.findViewById(
+         R.id.add_city_checkbox);
+
+      if (argumentsBundle != null) // if the arguments Bundle isn't empty
+      {
+         addCityEditText.setText(argumentsBundle.getString(
+            getResources().getString(
+               R.string.add_city_dialog_bundle_key)));
       } // end if
-      
-      return false; // do not handle unexpected menu items
+
+      // set the DialogFragment's title
+      getDialog().setTitle(R.string.add_city_dialog_title); 
+
+      // initialize the positive Button
+      Button okButton = (Button) rootView.findViewById(
+         R.id.add_city_button);
+      okButton.setOnClickListener(this);
+      return rootView; // return the Fragment's root View
+   }
+
+   @Override
+   public void onSaveInstanceState(Bundle argumentsBundle)
+   {
+      // add the EditText's text to the arguments Bundle
+      argumentsBundle.putCharSequence(getResources().getString(
+         R.string.add_city_dialog_bundle_key), 
+         addCityEditText.getText().toString());
+      super.onSaveInstanceState(argumentsBundle);
+   }
+
+	@Override public void onClick(View clickedView) {
+      if (clickedView.getId() == R.id.add_city_button) {
+         DialogFinishedListener listener = (DialogFinishedListener) getActivity();
+         listener.onDialogFinished(addCityEditText.getText().toString(), 
+            addCityCheckBox.isChecked() );
+         dismiss(); } }
 }
 
-private void showAddCityDialog() {
-  AddCityDialogFragment newAddCityDialogFragment = 
-	 new AddCityDialogFragment();
-  
-  FragmentManager thisFragmentManager = getFragmentManager();
-  
-  // begin a FragmentTransaction
-  FragmentTransaction addCityFragmentTransition = 
-	 thisFragmentManager.beginTransaction();
-  
-  // show the DialogFragment
-  newAddCityDialogFragment.show(addCityFragmentTransition, "");
-} // end method showAddCityDialog
+[ xml ]
+/// res/layout/add_city_dialog.xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="wrap_content" android:layout_height="wrap_content"
+   android:orientation="vertical">
+   <TextView android:layout_width="match_parent"
+      android:layout_height="wrap_content" 
+      android:text="@string/zipcode_prompt"
+      android:textColor="@android:color/white" android:gravity="center"/>
+   <EditText android:id="@+id/add_city_edit_text" 
+      android:layout_width="400dp" android:layout_height="wrap_content"
+      android:inputType="number" />
+   <CheckBox android:id="@+id/add_city_checkbox" 
+      android:layout_width="match_parent" 
+      android:layout_height="wrap_content" 
+      android:text="@string/add_city_checkbox_text"/>
+   <Button android:id="@+id/add_city_button" 
+      android:layout_width="match_parent" 
+      android:layout_height="wrap_content" 
+      android:text="@string/add_city_button_text" />
+</LinearLayout>
 [ ---  end  ---- ]
 
 === [ topic ][ action bar ] ===
@@ -214,6 +315,16 @@ public void onResume() {
 
 === [ java:topic ][ orientation ] ===
 [ --- start ---- ]
+[ folder ]
+If you are in landscape or portrait Android looks for the layout file in 
+either the -port or -land directory first, if it's not found then it falls back 
+to the default layout directory.
+
+res/layout : general layout
+res/layout-port : layout that must be changed for portrait orientation
+res/layout-land : layout that must be changed for landscape orientation
+
+
 public View onCreateView(LayoutInflater inflater, ViewGroup container, 
       Bundle savedInstanceState) {
 	if (container.getContext().getResources().getConfiguration().
@@ -229,4 +340,70 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	dailyForecastViews[i] = forecastView; 
 }
 
+[ ---  end  ---- ]
+
+=== [ java:topic ][ DialogFragment ] ===
+[ --- start ---- ]
+showDialog / dismissDialog methods in Activity are being deprecated in favor of DialogFragments
+[ ---  end  ---- ]
+
+=== [ java:topic ][ ActionBar ] ===
+[ --- start ---- ]
+@Override public void onCreate(...){
+	  ActionBar weatherActionBar = getActionBar(); // get the ActionBar
+
+      // set ActionBar's navigation mode to use tabs
+      weatherActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+      // create the "Current Conditions" Tab
+      Tab currentConditionsTab = weatherActionBar.newTab();
+      currentConditionsTab.setText(getResources().getString(
+         R.string.current_conditions));
+      currentConditionsTab.setTabListener(weatherTabListener);
+      weatherActionBar.addTab(currentConditionsTab); // add the Tab
+
+	  /// create another/second tab...
+}
+
+TabListener weatherTabListener = new TabListener() {
+      // called when the selected Tab is re-selected
+      @Override
+      public void onTabReselected(Tab arg0, FragmentTransaction arg1) { }
+
+      // called when a previously unselected Tab is selected
+      @Override
+      public void onTabSelected(Tab tab, FragmentTransaction arg1) {
+         selectTab(tab.getPosition());
+      } // end method onTabSelected
+
+      // called when a tab is unselected
+      @Override
+      public void onTabUnselected(Tab arg0, FragmentTransaction arg1) { }
+   };
+
+private void selectTab(int position){
+	ForecastFragment currentForecastFragment = (ForecastFragment) 
+		getFragmentManager().findFragmentById(R.id.forecast_replacer);
+	currentForecastFragment = SingleForecastFragment.newInstance(
+			zipcodeString);
+	FragmentTransaction forecastFragmentTransaction = 
+		getFragmentManager().beginTransaction();
+
+	// set transition animation to fade
+	forecastFragmentTransaction.setTransition(
+			FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+	// replace the Fragment (or View) at the given id with our 
+	// new Fragment
+	forecastFragmentTransaction.replace(R.id.forecast_replacer, 
+			currentForecastFragment);
+
+	forecastFragmentTransaction.commit(); // begin the transition
+	}
+
+[ xml ]
+   <FrameLayout android:id="@+id/forecast_replacer" 
+      android:layout_width="match_parent" 
+      android:layout_height="match_parent"
+      android:layout_weight="1" android:background="@android:color/white"/>
 [ ---  end  ---- ]

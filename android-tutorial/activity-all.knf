@@ -96,6 +96,22 @@ protected void onSaveInstanceState(Bundle outstate) {
 }
 [ ---  end  ---- ]
 
+=== [ java:topic ][ Bundle ][ Image ] ===
+[ --- start ---- ]
+savedInstanceStateBundle.putParcelable("image", conditionBitmap);
+
+/// on retrieve
+private ImageView conditionImageView;
+conditionImageView = (ImageView) rootView.findViewById(
+         R.id.forecast_image);
+conditionImageView.setImageBitmap(
+            (Bitmap) savedInstanceStateBundle.getParcelable(IMAGE_KEY));
+
+[ xml ]
+ <ImageView android:id="@+id/forecast_image"
+         android:layout_width="match_parent" android:layout_height="350dp"/>
+[ ---  end  ---- ]
+
 === [ topic ][ activity summary ] ===
 [ --- start ---- ]
                             +--------------+

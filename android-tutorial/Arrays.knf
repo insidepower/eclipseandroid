@@ -16,6 +16,12 @@ regionMap = new HashMap<String, Boolean>();
 String[] regionNames = {"Asia", "South America"};
 for (String region : regionNames)
 	regionMap.put(region, true);
+
+
+private Map<String, String> favoriteCitiesMap;
+favoriteCitiesMap.put(city, zipcode);
+if (favoriteCitiesMap.containsValue(zipcodeString)) {
+}
 [ ---  end  ---- ]
 
 === [ java:topic ][ Set ] ===

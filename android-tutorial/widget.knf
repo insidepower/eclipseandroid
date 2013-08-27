@@ -11,4 +11,127 @@ weatherHandler.postDelayed(new Runnable() {
  @Override public void run() {
 	sendBroadcast(updateWidgetIntent); // broadcast the intent
  } }, 10000);
+
+/// 
+public class WeatherProvider extends AppWidgetProvider 
+{
+[ ---  end  ---- ]
+
+=== [ java:topic ][ untidy ] ===
+[ --- start ---- ]
+[ widget ][ step by step ]
+create a widget layout, e.g. create a folder called xml in directory app/res
+create an xml with name e.g. appwidget_info.xml inside the xml folder created
+this will be specified in the meta-data of the receiver filter of Android.manifest
+appwidget_info.xml
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="294dp"
+    android:minHeight="72dp"
+    android:updatePeriodMillis="86400000"
+    android:initialLayout="@layout/widget">
+    
+</appwidget-provider>
+updatePeriodMillis: set to 0 to disable auto-update, every update will be in 30-mins interval
+ 
+
+
+[ widget ]
+no application code can run in home screen, as malicious code can shut down home screen
+only can update the remote-view (actual code still running in own application)
+when user tap on the widget, android will send the pending intent and we need to handle the intent in BroadcastReceiver (AppWidgetProver is an instance of BroadcastReceiver)
+pending intent  - intent with all necessary info on how to call our application; therefore this intent can be passed to another application, when the time is right, the other app can call us to perform the work
+AppWidgetProvider’s onReceive( ) will eventually call onUpdate, onEnabled, onDisabled, … 
+3 basic things: 
+AppWidgetProviderInfo object -Describes the metadata for an App Widget, such as the App Widget's layout, update frequency, and the AppWidgetProvider class. [ in XML ]
+AppWidgetProvider class implementation -Defines the basic methods that allow you to programmatically interface with the App Widget, based on broadcast events. Through it, you will receive broadcasts when the App Widget is updated, enabled, disabled and deleted.
+public void onUpdate()  - APPWIDGET_UPDATE
+ACTION_APPWIDGET_DELETED, ACTION_APPWIDGET_ENABLED, ACTION_APPWIDGET_DISABLED
+View layout - Defines the initial layout for the App Widget, defined in XML.
+
+For the widget to be appear in the widget list, need to put
+android:name should be the class name of the widget
+APPWIDGET_ENABLED for onEnabled( ) function to work properly
+
+ <receiver android:name="MyWidgetClassName"> 
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+
+
+
+countwidget_info.xml
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:minWidth="294dp"
+	    android:minHeight="72dp"
+	    android:updatePeriodMillis="86400000"
+	    android:initialLayout="@layout/countdownwidget"
+	    android:configure="com.helloandroid.countdownexample.countdownConfigure" >
+</appwidget-provider>
+//called when widgets are deleted //see that you get an array of widgetIds which are deleted
+//so handle the delete of multiple widgets in an iteration
+public void onDeleted(Context context, int[] appWidgetIds) {
+	            super.onDeleted(context, appWidgetIds); }
+ 
+//runs when all of the instances of the widget are deleted from //the home screen 
+//here you can do some setup
+public void onDisabled(Context context) {
+	            super.onDisabled(context);}
+ 
+//runs when all of the first instance of the widget are placed/on the home screen
+public void onEnabled(Context context) {
+	            super.onEnabled(context); }
+ 
+public void onReceive(Context context, Intent intent) {
+	            //all the intents get handled by this method
+	            //mainly used to handle self created intents, which are not
+	            //handled by any other method
+ //the super call delegates the action to the other methods
+	            //for example the APPWIDGET_UPDATE intent arrives here first
+	            //and the super call executes the onUpdate in this case
+	            //so it is even possible to handle the functionality of the
+	            //other methods here
+	            //or if you don't call super you can overwrite the standard
+	            //flow of intent handling
+	            super.onReceive(context, intent); }
+
+//runs on APPWIDGET_UPDATE, here is the widget content set, and updated
+ //it is called once when the widget created, and periodically as set in the metadata xml
+public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+	    final int N = appWidgetIds.length;
+	    // Perform this loop procedure for each App Widget that belongs to this provider
+	    // as we can create a few widget, this will update all?
+	    for (int i=0; i<N; i++) { }
+	    super.onUpdate(context, appWidgetManager, appWidgetIds);
+ 
+
+AndroidManifest.xml
+<activity android:name=".tzuchi_jingsiyu" android:label="@string/app_name">
+<intent-filter><action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter></activity>
+
+<receiver android:name="ExampleAppWidgetProvider"><intent-filter>   
+<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />   
+</intent-filter><meta-data android:name="android.appwidget.provider" 
+  android:resource="@xml/example_appwidget_info" /></receiver>
+public class ExampleAppWidgetProvider extends AppWidgetProvider { 
+public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+final int N = appWidgetIds.length;
+
+// Perform this loop procedure for each App Widget that belongs to this provider
+for (int i=0; i<N; i++) {
+int appWidgetId = appWidgetIds[i];
+// Create an Intent to launch ExampleActivity
+Intent intent = new Intent(context, tzuchi_jingsiyu.class); ///tzuchi_jingsiyu is an activity
+PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+// Get the layout for the App Widget and attach an on-click listener to the button
+RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main);
+views.setOnClickPendingIntent(R.id.btn_invoke_int, pendingIntent);
+// Tell the AppWidgetManager to perform an update on the current App Widget
+appWidgetManager.updateAppWidget(appWidgetId, views); } } }
 [ ---  end  ---- ]

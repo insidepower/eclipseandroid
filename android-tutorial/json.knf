@@ -1,0 +1,122 @@
+=== [ java:topic ][ json ] ===
+[ --- start ---- ]
+@Override
+   protected String doInBackground(Object... params) 
+   {
+      try 
+      {
+         // construct Weatherbug API URL
+         URL url = new URL(resources.getString(
+            R.string.location_url_pre_zipcode) + zipcodeString + 
+            "&api_key=xmzxnh7umuzyh7738kbak7dc");
+         
+         // create an InputStreamReader using the URL
+         Reader forecastReader = new InputStreamReader(
+            url.openStream());
+         
+         // create a JsonReader from the Reader
+         JsonReader forecastJsonReader = new JsonReader(forecastReader);
+         forecastJsonReader.beginObject(); // read the first Object
+         
+         // get the next name
+         String name = forecastJsonReader.nextName();
+
+         // if the name indicates that the next item describes the 
+         // zipcode's location
+         if (name.equals(resources.getString(R.string.location)))
+         {
+            // start reading the next JSON Object
+            forecastJsonReader.beginObject();  
+            
+            String nextNameString;
+            
+            // while there is more information to be read
+            while (forecastJsonReader.hasNext()) 
+            {
+               nextNameString = forecastJsonReader.nextName();
+               // if the name indicates that the next item describes the 
+               // zipcode's corresponding city name
+               if ((nextNameString).equals(
+                  resources.getString(R.string.city))) 
+               {
+                  // read the city name
+                  cityString = forecastJsonReader.nextString();
+               } // end if
+               else if ((nextNameString).equals(resources.
+                  getString(R.string.state))) 
+               {
+                  stateString = forecastJsonReader.nextString();
+               } // end else if
+               else if ((nextNameString).equals(resources.
+                  getString(R.string.country))) 
+               {
+                  countryString = forecastJsonReader.nextString();
+               } // end else if
+               else 
+               {
+                  forecastJsonReader.skipValue(); // skip unexpected value
+               } // end else
+            } // end while
+            
+            forecastJsonReader.close(); // close the JsonReader
+         } // end if
+      } // end try
+      catch (MalformedURLException e) 
+      {
+         Log.v(TAG, e.toString()); // print the exception to the LogCat
+      } // end catch
+      catch (IOException e) 
+      {
+         Log.v(TAG, e.toString()); // print the exception to the LogCat
+      } // end catch
+     
+      return null; // return null if the city name couldn't be found
+   } 
+[ ---  end  ---- ]
+
+=== [ java:topic ][ json ][ array ] ===
+[ --- start ---- ]
+<hi> beginArray </hi>
+private String readForecast(JsonReader reader) {
+      try {
+         reader.beginArray(); // start reading the next array
+         reader.beginObject(); // start reading the next object
+
+         // while there is a next element in the current object
+         while (reader.hasNext()) {
+            String name = reader.nextName(); // read the next name
+            
+            // if this element is the temperature
+            if (name.equals(resources.getString(R.string.temperature)))
+            {
+              // read the temperature
+               temperatureString = reader.nextString();
+			   ...}}}}
+
+/// usage
+{
+	URL webServiceURL = new URL(resources.getString(
+				R.string.pre_zipcode_url) + zipcodeString  + "&ht=t&ht=i&"
+			+ "ht=cp&ht=fl&ht=h&api_key=xmzxnh7umuzyh7738kbak7dc");
+
+	// create a stream Reader from the WeatherBug url
+	Reader forecastReader = new InputStreamReader(
+			webServiceURL.openStream());
+
+	// create a JsonReader from the Reader
+	JsonReader forecastJsonReader = new JsonReader(forecastReader);
+
+	forecastJsonReader.beginObject(); // read the first Object
+
+	// get the next name
+	String name = forecastJsonReader.nextName();
+
+	// if its the name expected for hourly forecast information
+	if (name.equals(resources.getString(R.string.hourly_forecast))) 
+	{
+		readForecast(forecastJsonReader); // read the forecast
+	} // end if
+
+	forecastJsonReader.close(); // close the JsonReader
+}
+[ ---  end  ---- ]

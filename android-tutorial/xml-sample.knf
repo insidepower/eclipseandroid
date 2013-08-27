@@ -89,6 +89,10 @@ Cursor visible
 
 === [ xml:topic ][ color ] ===
 [ --- start ---- ]
+/// user android color
+@android:color/darker_gray
+
+/// user define
 <!-- create a colors.xml in res/values/colors.xml -->
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
@@ -97,6 +101,18 @@ Cursor visible
 </resources>
 <!-- to use it -->
 <LinearLayout android:background="@color/mycolor">
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ transparent ] ===
+[ --- start ---- ]
+/// working
+thisListView.setBackgroundColor(0x00000000);
+
+/// have not try
+/// When you call setBackgoundColor it overwrites/removes any existing background resource, including any borders, corners, padding, etc. What you want to do is change the color of the existing background resource..
+/// Experiment with PorterDuff.Mode.* for different effects.
+View v;
+v.getBackground().setColorFilter(Color.parseColor("#00ff00"), PorterDuff.Mode.DARKEN);
 [ ---  end  ---- ]
 
 === [ xml:topic ][ dimension ] ===
@@ -131,6 +147,27 @@ Cursor visible
 === [ xml:topic ][ image ] ===
 [ --- start ---- ]
 put in res/drawable-nodpi
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ repeat image ][ background ] ===
+[ --- start ---- ]
+/// store @ res/drawable/repeat_background.xml
+<?xml version="1.0" encoding="utf-8"?>
+    <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+        android:src="@drawable/pattern"
+        android:tileMode="repeat" />
+/// usage
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:background="@drawable/repeat_background">
+[ ---  end  ---- ]
+
+=== [ xml:topic ][ divider ] ===
+[ --- start ---- ]
+/// blue divider
+<View   android:id="@+id/firstDivider"
+        android:layout_height="2dp"
+        android:layout_width="fill_parent"
+        android:background="#000080" />
 [ ---  end  ---- ]
 
 === [ xml:topic ][ seekbar ] ===
