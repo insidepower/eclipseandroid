@@ -89,4 +89,13 @@ tzuchi_jingsiyu/res/drawable-hdpi/
 tzuchi_jingsiyu/res/drawable-ldpi/
 tzuchi_jingsiyu/res/drawable-mdpi/
 tzuchi_jingsiyu/res/drawable/
+learning/fragmentFromWebProject/.gradle/
+build.gradle
+build/
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+.gradle/
+learning/fragmentlearning/
 
