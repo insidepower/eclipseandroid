@@ -1,0 +1,126 @@
+=== [ java:topic ][ basic ] ===
+[ --- start ---- ]
+
+///@!< activity_main.xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical" >
+
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView"
+            android:layout_gravity="center"/>
+</LinearLayout>
+///@!> activity_main.xml
+
+///@!< listbutton.xml
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical">
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/mainbtn"
+            android:layout_gravity="center"/>
+</LinearLayout>
+///@!>
+
+///@!< MainBtnArrayAdapter
+package kn.android.example.listviewexample;
+
+
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
+
+/**
+ * Created by knxy on 8/29/13.
+ */
+public class MainBtnArrayAdapter extends ArrayAdapter<String> {
+    private final Context context;
+    private final String[] btnNames;
+
+    public MainBtnArrayAdapter(Context context, String[] btnText) {
+        super(context, R.layout.listbutton, btnText);
+        this.context = context;
+        this.btnNames = btnText;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View rowView = inflater.inflate(R.layout.listbutton, parent, false);
+        Button btnView = (Button) rowView.findViewById(R.id.mainbtn);
+        btnView.setText(btnNames[position]);
+        btnView.setOnClickListener(activityBtnListener);
+
+        return rowView;
+    }
+
+    public OnClickListener activityBtnListener = new OnClickListener(){
+      @Override
+      public void onClick(View v){
+            String activityName = ((Button)v).getText().toString();
+            Toast.makeText(context, activityName, Toast.LENGTH_SHORT).show();
+      }
+    };
+}
+///@!> MainBtnArrayAdapter
+
+///@!< MainActivity.java
+package kn.android.example.listviewexample;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.app.ListActivity;
+import android.widget.ListView;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        String[] btnName = new String[] {
+                "Example1", "Example2","Example3", "Example4", "Example5",
+                "Example1", "Example2","Example3", "Example4", "Example5",
+                "Example1", "Example2","Example3", "Example4", "Example5",};
+        MainBtnArrayAdapter adapter = new MainBtnArrayAdapter(this, btnName);
+
+        ListView mylist = (ListView) findViewById(R.id.listView);
+        mylist.setAdapter(adapter);
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+}
+///@!>
+[ ---  end  ---- ]
+
+=== [ java:topic ][ delete view ] ===
+[ --- start ---- ]
+
+[ ---  end  ---- ]

@@ -407,3 +407,10 @@ private void selectTab(int position){
       android:layout_height="match_parent"
       android:layout_weight="1" android:background="@android:color/white"/>
 [ ---  end  ---- ]
+
+=== [ java:topic ][ android default resource ] ===
+[ --- start ---- ]
+ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+imageView.setImageResource(R.drawable.no);
+imageView.setImageResource(R.drawable.ok);
+[ ---  end  ---- ]
