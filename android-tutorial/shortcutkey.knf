@@ -105,6 +105,9 @@ By pressing Alt+Shift+F10 you can access the Run/Debug dropdown on the main tool
 
 === [ java:topic ][ code completion ] ===
 [ --- start ---- ]
+[ try ]
+- ctrl-shift-enter completes semicolon
+
 When you want to catch exceptions thrown by some code fragment, select it in the editor, press Ctrl+Alt+T (Code | Surround With) and choose try / catch. The catch blocks for all the exceptions thrown inside the block will be generated automatically.
 
 When you need to cast an expression value to the required type the SmartType code completion will help you. For example, type

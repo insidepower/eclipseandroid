@@ -1,0 +1,137 @@
+=== [ java:topic ][ View ] ===
+[ --- start ---- ]
+/// in View class, the onDraw is called by holder automatically
+package com.edu4java.android.killthemall;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Window;
+ 
+public class Main extends Activity {
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(new GameView(this));
+    }
+}
+
+
+/// alternative - with fragment
+public class MainActivity extends ActionBarActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment())
+                    .commit();
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            MySurfaceView myview = new MySurfaceView(this.getActivity().getApplicationContext());
+            return myview;
+            //View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            //return rootView;
+        }
+    }
+
+}
+
+
+/// < MyView > 
+public MyView extends View {
+    private Bitmap bmp;
+
+     public MySurfaceView(Context context) {
+        super(context);
+         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas){
+        canvas.drawColor(Color.BLACK);
+        canvas.drawBitmap(bmp, 10, 10, null);
+    }
+}
+[ ---  end  ---- ]
+
+=== [ java:topic ][ SurfaceView ] ===
+[ --- start ---- ]
+/// SurfaceView is more low level, thus give complete control than View
+/// in SurfaceView we have to call onDraw method
+/// register to holder a callback when surface is ready to be painted
+ <hi> lock and unlock quick for performance </hi>
+
+public class MySurfaceView extends SurfaceView {
+    private Bitmap bmp;
+    private SurfaceHolder holder;
+
+    public MySurfaceView(Context context) {
+        super(context);
+        holder = getHolder();
+        holder.addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                Canvas c = holder.lockCanvas(null);
+                onDraw(c);
+                holder.unlockCanvasAndPost(c);
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
+            }
+        });
+
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.drawColor(Color.YELLOW);
+        canvas.drawBitmap(bmp, 30, 30, null);
+    }
+}
+[ ---  end  ---- ]
