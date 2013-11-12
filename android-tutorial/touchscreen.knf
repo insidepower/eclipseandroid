@@ -1,0 +1,16 @@
+=== [ topic ][ touch ] ===
+[ --- start ---- ]
+/// upper left coordinates at (0,0) and
+/// the lower right coordinates at (getWidth(), getHeight()).
+public boolean onTouchEvent(MotionEvent event) {
+	if (event.getAction() == MotionEvent.ACTION_DOWN) {
+		if (event.getY() > getHeight() - 50) {
+			thread.setRunning(false);
+			((Activity)getContext()).finish();
+		} else {
+			Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
+		}
+	}
+	return super.onTouchEvent(event);
+}
+[ ---  end  ---- ]

@@ -1,0 +1,245 @@
+=== [ topic ][ SelectActivity.java ] ===
+[ --- start ---- ]
+<hi> runAction </hi>
+public class SelectActivity extends Activity {
+
+	/// run AppUsage.class or DiskUsage.class
+  private abstract class AbstractUsageAction implements Runnable {
+    public void runAction(String key, String title, String rootKey, Class<?> viewer) {
+      Intent i = new Intent(SelectActivity.this, viewer);
+      startActivityForResult(i, 0);
+    }
+  };
+
+  private class DiskUsageAction extends AbstractUsageAction {
+    public void run() {
+      runAction(getKeyForStorage(mountPoint), title, mountPoint.root, DiskUsage.class);
+    }
+  };
+
+  private class AppUsageAction extends AbstractUsageAction {
+    public void run() {
+      runAction(getKeyForApp(), title, "apps", AppUsage.class);
+    }
+  };
+
+
+
+
+
+
+
+  public Handler handler = new Handler();
+  public Runnable checkForMountsUpdates = new Runnable() {
+    @Override
+    public void run() {
+      boolean reload = false;
+      try {
+        BufferedReader reader = new BufferedReader(new FileReader("/proc/mounts"));
+        String line;
+        int checksum = 0;
+        while ((line = reader.readLine()) != null) {
+          checksum += line.length();
+        }
+        reader.close();
+        if (checksum != MountPoint.checksum) {
+          reload = true;
+        }
+      } catch (Throwable t) {}
+
+      if (reload) {
+        dialog.hide();
+        MountPoint.reset();
+        makeDialog();
+      }
+      handler.postDelayed(this, 2000);
+    }
+  };
+
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+//    ActionBar actionBar = getActionBar();
+//    actionBar.setDisplayHomeAsUpEnabled(true);
+    makeDialog();
+    handler.post(checkForMountsUpdates);
+  }
+  
+  @Override
+  protected void onPause() {
+    if (dialog.isShowing()) dialog.dismiss();
+    handler.removeCallbacks(checkForMountsUpdates);
+    super.onPause();
+  }
+
+
+
+
+
+
+
+
+
+  ArrayList<Runnable> actionList = new ArrayList<Runnable>();
+  public void makeDialog() {
+    ArrayList<String> options = new ArrayList<String>();
+    actionList.clear();
+    
+    final String programStorage = getString(R.string.app_storage);
+    
+    if(MountPoint.getHoneycombSdcard(this) == null){
+      options.add(programStorage);
+      actionList.add(new AppUsageAction(programStorage));
+    }
+    
+    for (MountPoint mountPoint : MountPoint.getMountPoints(this).values()) {
+      options.add(mountPoint.title);
+      actionList.add(new DiskUsageAction(mountPoint.title, mountPoint));
+    }
+    
+	/// device is rooted
+    if (NativeScanner.isDeviceRooted()) {
+      SharedPreferences prefs =  getSharedPreferences("ignore_list", Context.MODE_PRIVATE);
+      Map<String, ?> ignoreList = prefs.getAll();
+      if (!ignoreList.keySet().isEmpty()) {
+        Set<String> ignores = ignoreList.keySet();
+        for (MountPoint mountPoint : MountPoint.getRootedMountPoints(this).values()) {
+          if (ignores.contains(mountPoint.root)) continue;
+          options.add(mountPoint.root);
+          actionList.add(new DiskUsageAction(mountPoint.root, mountPoint));
+        }
+        options.add("[Show/hide]");
+        actionList.add(new ShowHideAction());
+      } else if (expandRootMountPoints) {
+        for (MountPoint mountPoint : MountPoint.getRootedMountPoints(this).values()) {
+          options.add(mountPoint.root);
+          actionList.add(new DiskUsageAction(mountPoint.root, mountPoint));
+        }
+        options.add("[Show/hide]");
+        actionList.add(new ShowHideAction());
+      } else {
+        options.add("[Root required]");
+        actionList.add(new Runnable() {
+          @Override
+          public void run() {
+            expandRootMountPoints = true;
+            makeDialog();
+          }
+        });
+        
+      }
+    }
+    
+    final String[] optionsArray = options.toArray(new String[options.size()]);
+    
+    dialog = new AlertDialog.Builder(this)
+    .setItems(optionsArray,
+        new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        actionList.get(which).run();
+      }
+    })
+    .setTitle("View")
+    .setOnCancelListener(new OnCancelListener() {
+      @Override
+      public void onCancel(DialogInterface dialog) {
+        finish();
+      }
+    }).create();
+    dialog.show();
+  }
+  public void makeDialog() {
+    ArrayList<String> options = new ArrayList<String>();
+    actionList.clear();
+    
+    final String programStorage = getString(R.string.app_storage);
+    
+    if(MountPoint.getHoneycombSdcard(this) == null){
+      options.add(programStorage);
+      actionList.add(new AppUsageAction(programStorage));
+    }
+    
+    for (MountPoint mountPoint : MountPoint.getMountPoints(this).values()) {
+      options.add(mountPoint.title);
+      actionList.add(new DiskUsageAction(mountPoint.title, mountPoint));
+    }
+    
+    if (NativeScanner.isDeviceRooted()) {
+      SharedPreferences prefs =  getSharedPreferences("ignore_list", Context.MODE_PRIVATE);
+      Map<String, ?> ignoreList = prefs.getAll();
+      if (!ignoreList.keySet().isEmpty()) {
+        Set<String> ignores = ignoreList.keySet();
+        for (MountPoint mountPoint : MountPoint.getRootedMountPoints(this).values()) {
+          if (ignores.contains(mountPoint.root)) continue;
+          options.add(mountPoint.root);
+          actionList.add(new DiskUsageAction(mountPoint.root, mountPoint));
+        }
+        options.add("[Show/hide]");
+        actionList.add(new ShowHideAction());
+      } else if (expandRootMountPoints) {
+        for (MountPoint mountPoint : MountPoint.getRootedMountPoints(this).values()) {
+          options.add(mountPoint.root);
+          actionList.add(new DiskUsageAction(mountPoint.root, mountPoint));
+        }
+        options.add("[Show/hide]");
+        actionList.add(new ShowHideAction());
+      } else {
+        options.add("[Root required]");
+        actionList.add(new Runnable() {
+          @Override
+          public void run() {
+            expandRootMountPoints = true;
+            makeDialog();
+          }
+        });
+        
+      }
+    }
+    
+    final String[] optionsArray = options.toArray(new String[options.size()]);
+    
+    dialog = new AlertDialog.Builder(this)
+    .setItems(optionsArray,
+        new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        actionList.get(which).run();
+      }
+    })
+    .setTitle("View")
+    .setOnCancelListener(new OnCancelListener() {
+      @Override
+      public void onCancel(DialogInterface dialog) {
+        finish();
+      }
+    }).create();
+    dialog.show();
+  }
+
+    final String[] optionsArray = options.toArray(new String[options.size()]);
+    
+    dialog = new AlertDialog.Builder(this)
+    .setItems(optionsArray,
+        new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        actionList.get(which).run();
+      }
+    })
+    .setTitle("View")
+    .setOnCancelListener(new OnCancelListener() {
+      @Override
+      public void onCancel(DialogInterface dialog) {
+        finish();
+      }
+    }).create();
+    dialog.show();
+  }
+
+
+
+}
+
+[ ---  end  ---- ]
