@@ -91,4 +91,14 @@ tzuchi_jingsiyu/res/drawable-hdpi/
 tzuchi_jingsiyu/res/drawable-ldpi/
 tzuchi_jingsiyu/res/drawable-mdpi/
 tzuchi_jingsiyu/res/drawable/
+guess/.settings/
+learning/MySurfaceViewAnimate/.gitignore
+learning/MySurfaceViewAnimate/.idea/
+learning/MySurfaceViewAnimate/MySurfaceView/.gitignore
+learning/MySurfaceViewAnimate/build.gradle
+learning/MySurfaceViewAnimate/gradle/
+learning/MySurfaceViewAnimate/gradlew
+learning/MySurfaceViewAnimate/gradlew.bat
+learning/MySurfaceViewAnimate/settings.gradle
+
 
