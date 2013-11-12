@@ -32,16 +32,18 @@ public MyView extends View {
 public class MySurfaceView extends SurfaceView {
     private Bitmap bmp;
     private SurfaceHolder holder;
+    private MySurfaceViewThread myViewThread;
+    private int x = 0;
 
     public MySurfaceView(Context context) {
         super(context);
+        myViewThread = new MySurfaceViewThread(this);
         holder = getHolder();
         holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                Canvas c = holder.lockCanvas(null);
-                onDraw(c);
-                holder.unlockCanvasAndPost(c);
+                myViewThread.setRunning(true);
+                myViewThread.start();
             }
 
             @Override
@@ -51,7 +53,16 @@ public class MySurfaceView extends SurfaceView {
 
             @Override
             public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                boolean retry = true;
+                myViewThread.setRunning(false);
+                while (retry) {
+                    try {
+                        myViewThread.join();
+                        retry = false;
+                    } catch (InterruptedException exception) {
 
+                    }
+                }
             }
         });
 
@@ -60,9 +71,11 @@ public class MySurfaceView extends SurfaceView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
         canvas.drawColor(Color.YELLOW);
-        canvas.drawBitmap(bmp, 30, 30, null);
+        if (x < getWidth() - bmp.getWidth()) {
+            x++;
+        }
+        canvas.drawBitmap(bmp, x, 30, null);
     }
 }
 
