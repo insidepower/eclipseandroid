@@ -23,10 +23,12 @@ local.properties
 proguard/
 
 # Intellij project files
-*.iml
-*.ipr
+#*.iml
+#*.ipr
 *.iws
-.idea/
+#.idea/
+.idea/workspace.xml
+.idea/task.xml
 
 .metadata/
 GoodSaying/ic_launcher-web.png
@@ -98,4 +100,12 @@ gradlew.bat
 settings.gradle
 .gradle/
 learning/fragmentlearning/
-
+guess/.settings/
+learning/MySurfaceViewAnimate/.gitignore
+learning/MySurfaceViewAnimate/.idea/
+learning/MySurfaceViewAnimate/MySurfaceView/.gitignore
+learning/MySurfaceViewAnimate/build.gradle
+learning/MySurfaceViewAnimate/gradle/
+learning/MySurfaceViewAnimate/gradlew
+learning/MySurfaceViewAnimate/gradlew.bat
+learning/MySurfaceViewAnimate/settings.gradle

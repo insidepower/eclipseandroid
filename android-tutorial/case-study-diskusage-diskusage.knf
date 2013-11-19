@@ -1,0 +1,160 @@
+=== [ topic ][ DiskUsage.java ] ===
+[ --- start ---- ]
+/// MIME, Multipurpose Internet Mail Extensions
+/// example : application/javascript, application/rss+xml, audio/mp4, image/jpeg, video/mpeg
+
+<hi> rendererManager </hi>
+public class DiskUsage extends LoadableActivity {
+
+  RendererManager rendererManager = new RendererManager(this);
+
+  protected void onResume() {
+    super.onResume();
+    rendererManager.onResume();
+    if (pkg_removed != null) {
+      // Check if package removed
+      String pkg_name = pkg_removed.pkg;
+      PackageManager pm = getPackageManager(); try {
+        pm.getPackageInfo(pkg_name, 0);
+      } catch (NameNotFoundException e) {
+        if (fileSystemState != null)
+          fileSystemState.removeInRenderThread(pkg_removed);
+      }
+      pkg_removed = null;
+    }
+    LoadFiles(this, new AfterLoad() {
+      public void run(final FileSystemSuperRoot root, boolean isCached) {
+        fileSystemState = new FileSystemState(DiskUsage.this, root);
+        rendererManager.makeView(fileSystemState, root);
+        fileSystemState.startZoomAnimationInRenderThread(null, !isCached, false);
+        
+        for (Runnable r : afterLoadAction) {
+          r.run();
+        }
+        afterLoadAction.clear();
+        if (pathToDelete != null) {
+          String path = pathToDelete;
+          pathToDelete = null;
+          continueDelete(path);
+        }
+      }
+    }, false);
+  }
+
+[ ---  end  ---- ]
+
+/// <RendererManager.java>
+[ --- start ---- ]
+public class RendererManager {
+  public void makeView(
+      FileSystemState eventHandler, FileSystemSuperRoot root) {
+    View view;
+    if (hwRenderer) {
+      view = new FileSystemViewGPU(diskusage, eventHandler);
+    } else {
+      view = new FileSystemViewCPU(diskusage, eventHandler);
+    }
+    diskusage.menu.wrapAndSetContentView((View)view, root);
+    view.requestFocus();
+  }
+}
+[ ---  end  ---- ]
+
+
+
+/// <FileSystemViewGPU.java>
+[ --- start ---- ]
+public final class FileSystemViewGPU extends SurfaceView
+                                     implements FileSystemView, SurfaceHolder.Callback {
+
+  public FileSystemViewGPU(DiskUsage context, FileSystemState eventHandler) {
+    super(context);
+    this.eventHandler = eventHandler;
+    setFocusable(true);
+    setFocusableInTouchMode(true);
+    Log.d("diskusage", "new FileSystemViewGPU");
+
+//    setBackgroundColor(Color.GRAY);
+    SurfaceHolder holder = getHolder();
+    holder.setType(SurfaceHolder.SURFACE_TYPE_GPU);
+    holder.setSizeFromLayout();
+    holder.addCallback(this);
+    eventHandler.setView(this);
+    thread = new RenderingThread(context, eventHandler);
+    thread.start();
+  }
+
+
+  @Override
+  public final boolean onTouchEvent(final MotionEvent ev) {
+    final MyMotionEvent myev = 
+      eventHandler.multitouchHandler.newMyMotionEvent(ev);
+
+    thread.addEvent(new Runnable() {
+      @Override
+      public void run() {
+        eventHandler.onTouchEvent(myev);
+      }
+    });
+
+    return true;
+  }
+
+
+  public final void runInRenderThread(final Runnable r) {
+    thread.addEvent(r);
+  }
+  
+  public void requestRepaintGPU() {
+    if (thread != null) {
+      thread.addEmptyEvent();
+    }
+  }
+  
+  public void requestRepaint() {}
+  public void requestRepaint(int l, int t, int r, int b) {}
+
+  @Override
+  protected final void onDraw(final Canvas canvas) {}
+
+
+  @Override
+  protected final void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    super.onLayout(changed, left, top, right, bottom);
+//    eventHandler.onLayout(changed, left, top, right, bottom, getWidth(), getHeight());
+  }
+
+  @Override
+  public void surfaceChanged(SurfaceHolder holder, int format, int width,
+      int height) {
+    Log.d("diskusage", "surfaceChange = " + width + "x" + height);
+    thread.addEvent(thread.new SurfaceChangedEvent(holder, width, height));
+    requestRepaintGPU();
+  }
+
+  @Override
+  public void surfaceCreated(SurfaceHolder holder) {
+    thread.addEvent(thread.new SurfaceAvailableEvent(holder, true));
+  }
+
+  @Override
+  public void invalidate() {
+    super.invalidate();
+    requestRepaintGPU();
+  }
+
+  @Override
+  public void killRenderThread() {
+    thread.addEvent(thread.new ExitEvent());
+    // FIXME: doesn't work
+//    try {
+//      thread.join();
+//    } catch (InterruptedException e) {
+//      thread.interrupt();
+//    }
+  }
+
+
+
+}
+[ ---  end  ---- ]
