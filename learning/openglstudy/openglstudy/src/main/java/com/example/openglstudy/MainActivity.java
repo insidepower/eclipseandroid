@@ -4,13 +4,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
 
@@ -99,6 +95,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         Fragment frag;
             switch(sectionNum){
                 case 1: frag = new BlankOpenGl(); break;
+                case 2: frag = new TouchEnabled(); break;
                 default: frag = new BlankOpenGl(); break;
             }
         return frag;
