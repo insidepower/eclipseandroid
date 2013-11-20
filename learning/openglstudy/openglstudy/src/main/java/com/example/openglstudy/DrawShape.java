@@ -49,9 +49,11 @@ class DrawShapeSurfaceView extends GLSurfaceView {
 class DrawShapeRender implements GLSurfaceView.Renderer {
 
     private DrawShapeTriangle triangle;
+    private DrawShapeSquare square;
 
     public DrawShapeRender() {
         triangle = new DrawShapeTriangle();
+        square = new DrawShapeSquare();
     }
 
     @Override
@@ -94,7 +96,11 @@ class DrawShapeRender implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
 
         // move up 1.1 unit to left, 6 unit into z axis
-        gl.glTranslatef(0.0f, -1.1f, -6.0f);
+        gl.glTranslatef(-1.0f, 0.0f, -6.0f);
         triangle.draw(gl);
+
+        // move up 2 unit to right (relative to previous translation)
+        gl.glTranslatef(2.0f, 0f, 0.0f);
+        square.draw(gl);
     }
 }
