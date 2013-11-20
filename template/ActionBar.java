@@ -37,7 +37,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                                 getString(R.string.title_section1),
                                 getString(R.string.title_section2),
                                 getString(R.string.title_section3),
-                                getString(R.string.title_section4),
                         }),
                 this);
     }
@@ -97,7 +96,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             switch(sectionNum){
                 case 1: frag = new BlankOpenGl(); break;
                 case 2: frag = new TouchEnabled(); break;
-                case 3: frag = new DrawShape(); break;
                 default: frag = new BlankOpenGl(); break;
             }
         return frag;

@@ -4,7 +4,8 @@
     <string name="app_name">openglstudy</string>
     <string name="title_section1">Blank OpenGL</string>
     <string name="title_section2">Touch Study</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section3">Draw Triangle</string>
+    <string name="title_section4">Draw Square</string>
     <string name="action_settings">Settings</string>
 
 </resources>
