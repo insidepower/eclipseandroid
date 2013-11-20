@@ -15,6 +15,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
      * current dropdown position.
      */
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+    public static final String DRAW_SHAPE = "draw_poly";
+    public static final String DRAW_SHAPE_MOVE = "draw_poly_move";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             switch(sectionNum){
                 case 1: frag = new BlankOpenGl(); break;
                 case 2: frag = new TouchEnabled(); break;
-                case 3: frag = new DrawShape(); break;
+                case 3: frag = new DrawShape(DRAW_SHAPE); break;
+                case 4: frag = new DrawShape(DRAW_SHAPE_MOVE); break;
                 default: frag = new BlankOpenGl(); break;
             }
         return frag;

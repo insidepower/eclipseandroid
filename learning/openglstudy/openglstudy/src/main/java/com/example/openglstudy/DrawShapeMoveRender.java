@@ -17,54 +17,17 @@ import javax.microedition.khronos.opengles.GL10;
  *
  * as a Fragment to show the opengl example
  */
-public class DrawShape extends Fragment {
-    private GLSurfaceView mGLView;
-    private String choice;
-
-    public DrawShape(String arg) {
-        choice = arg;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mGLView = new DrawShapeSurfaceView(getActivity().getApplicationContext(), choice);
-        return mGLView;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mGLView.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mGLView.onResume();
-    }
-}
-
-class DrawShapeSurfaceView extends GLSurfaceView {
-
-    public DrawShapeSurfaceView(Context context, String arg) {
-        super(context);
-        if (arg.equals(MainActivity.DRAW_SHAPE)){
-            DrawShapeRender mRenderer = new DrawShapeRender();
-            setRenderer(mRenderer);
-        } else if (arg.equals(MainActivity.DRAW_SHAPE_MOVE)){
-            DrawShapeMoveRender mRenderer = new DrawShapeMoveRender();
-            setRenderer(mRenderer);
-        }
-
-    }
-}
-
-class DrawShapeRender implements GLSurfaceView.Renderer {
+public class DrawShapeMoveRender implements GLSurfaceView.Renderer {
 
     private DrawShapeTriangle triangle;
     private DrawShapeSquare square;
 
-    public DrawShapeRender() {
+    private float angleTriangle = 0.0f;
+    private float angleSquare = 0.0f;
+    private float speedTriangle = 0.5f;
+    private float speedSquare = -0.4f;
+
+    public DrawShapeMoveRender() {
         triangle = new DrawShapeTriangle();
         square = new DrawShapeSquare();
     }
@@ -110,10 +73,16 @@ class DrawShapeRender implements GLSurfaceView.Renderer {
 
         // move up 1.1 unit to left, 6 unit into z axis
         gl.glTranslatef(-1.0f, 0.0f, -6.0f);
+        gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f);
         triangle.draw(gl);
 
         // move up 2 unit to right (relative to previous translation)
-        gl.glTranslatef(2.0f, 0f, 0.0f);
+        gl.glLoadIdentity();
+        gl.glTranslatef(1.0f, 0f, -6.0f);
+        gl.glRotatef(angleSquare, 1.0f, 0.0f, 0.0f);
         square.draw(gl);
+
+        angleTriangle += speedTriangle;
+        angleSquare += speedSquare;
     }
 }
