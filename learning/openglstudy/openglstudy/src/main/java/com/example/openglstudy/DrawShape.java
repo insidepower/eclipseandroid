@@ -14,6 +14,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * Created by knxy on 11/20/13.
+ *
+ * as a Fragment to show the opengl example
  */
 public class DrawShape extends Fragment {
     private GLSurfaceView mGLView;

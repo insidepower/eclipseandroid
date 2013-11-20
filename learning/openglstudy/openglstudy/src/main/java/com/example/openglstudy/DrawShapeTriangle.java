@@ -59,6 +59,8 @@ public class DrawShapeTriangle {
         // enable vertex buffer
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
+        gl.glColor4f(0.5f, 0.5f, 1.0f, 1.0f);      // Set the current color
+
         // Draw the vertices as triangle strip
         gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
 
