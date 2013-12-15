@@ -135,3 +135,11 @@ views.setOnClickPendingIntent(R.id.btn_invoke_int, pendingIntent);
 // Tell the AppWidgetManager to perform an update on the current App Widget
 appWidgetManager.updateAppWidget(appWidgetId, views); } } }
 [ ---  end  ---- ]
+
+=== [ topic ][ CheckBox ] ===
+[ --- start ---- ]
+final CheckBox checkBox = (CheckBox) findViewById(R.id.checkbox_id);
+    if (checkBox.isChecked()) {
+        checkBox.setChecked(false);
+    }
+[ ---  end  ---- ]

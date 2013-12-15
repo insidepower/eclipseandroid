@@ -27,6 +27,9 @@ public class DrawShapeMoveRender implements GLSurfaceView.Renderer {
     private float speedTriangle = 0.5f;
     private float speedSquare = -0.4f;
 
+    /// option menu controllable variables
+    private boolean IsResetGl = true;
+
     public DrawShapeMoveRender() {
         triangle = new DrawShapeTriangle();
         square = new DrawShapeSquare();
@@ -76,13 +79,18 @@ public class DrawShapeMoveRender implements GLSurfaceView.Renderer {
         gl.glRotatef(angleTriangle, 0.0f, 1.0f, 0.0f);
         triangle.draw(gl);
 
-        // move up 2 unit to right (relative to previous translation)
-        gl.glLoadIdentity();
+        if ( IsResetGl ){
+            gl.glLoadIdentity();
+        }
         gl.glTranslatef(1.0f, 0f, -6.0f);
         gl.glRotatef(angleSquare, 1.0f, 0.0f, 0.0f);
         square.draw(gl);
 
         angleTriangle += speedTriangle;
         angleSquare += speedSquare;
+    }
+
+    public void setResetGl(boolean isResetGl) {
+        IsResetGl = isResetGl;
     }
 }

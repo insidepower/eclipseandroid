@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -18,7 +19,8 @@ import javax.microedition.khronos.opengles.GL10;
  * as a Fragment to show the opengl example
  */
 public class DrawShape extends Fragment {
-    private GLSurfaceView mGLView;
+    public GLSurfaceView mGLView;
+    public CheckBox chkboxIsReload = null;
     private String choice;
 
     public DrawShape(String arg) {
@@ -28,6 +30,9 @@ public class DrawShape extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mGLView = new DrawShapeSurfaceView(getActivity().getApplicationContext(), choice);
+        if ( choice.equals(MainActivity.DRAW_SHAPE_MOVE)){
+            chkboxIsReload = (CheckBox) mGLView.findViewById(R.id.checkBoxLoadIdentify);
+        }
         return mGLView;
     }
 
@@ -45,14 +50,15 @@ public class DrawShape extends Fragment {
 }
 
 class DrawShapeSurfaceView extends GLSurfaceView {
+    public GLSurfaceView.Renderer mRenderer;
 
     public DrawShapeSurfaceView(Context context, String arg) {
         super(context);
         if (arg.equals(MainActivity.DRAW_SHAPE)){
-            DrawShapeRender mRenderer = new DrawShapeRender();
+            mRenderer = new DrawShapeRender();
             setRenderer(mRenderer);
         } else if (arg.equals(MainActivity.DRAW_SHAPE_MOVE)){
-            DrawShapeMoveRender mRenderer = new DrawShapeMoveRender();
+            mRenderer = new DrawShapeMoveRender();
             setRenderer(mRenderer);
         }
 

@@ -1,0 +1,247 @@
+=== [ topic ][ library to install ] ===
+[ --- start ---- ]
+freeglut3 freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libglu1-mesa-dev libgl1-mesa-glx libgl1-mesa-dev
+
+g++ test.c -o test -lglut -lGL -lGLU -lGLEW
+
+#include <GL/glew.h>
+#include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glext.h>
+[ ---  end  ---- ]
+
+=== [ topic ][ coordinates ] ===
+[ --- start ---- ]
+use the Right Hand Rule:
+X is your thumb
+Y is your index
+Z is your middle finger. If you put your thumb to the right and your index to 
+the sky, it will point to your back, too.
+
+2)
+We will now have (x,y,z,w) vectors.
+
+If w == 1, then the vector (x,y,z,1) is a position in space.
+If w == 0, then the vector (x,y,z,0) is a direction.
+(In fact, remember this forever.)
+
+What difference does this make ? Well, for a rotation, it doesn’t change 
+anything. When you rotate a point or a direction, you get the same result. 
+However, for a translation (when you move the point in a certain direction), 
+things are different. What could mean “translate a direction” ? Not much.
+
+3)
+Transformation matrix
+Matrix x Vertex = TransformedVertex
+( 1 2 7 )   (v1)   (1v1 2v2 7v3)
+( 3 4 8 ) x (v2) = (3v1 4v2 8v3)
+( 5 6 9 )   (v3)   (5v1 6v2 9v3)
+
+[ ---  end  ---- ]
+
+
+=== [ topic ][ API explains ] ===
+[ --- start ---- ]
+explanation:
+The following lines set the screen up for a perspective view. Meaning things in 
+the distance get smaller. This creates a realistic looking scene. The 
+perspective is calculated with a 45 degree viewing angle based on the windows 
+width and height. The 0.1f, 100.0f is the starting point and ending point for 
+how deep we can draw into the screen.
+
+glMatrixMode(GL_PROJECTION) indicates that the next 2 lines of code will affect 
+the projection matrix. The projection matrix is responsible for adding 
+perspective to our scene. glLoadIdentity() is similar to a reset. It restores 
+the selected matrix to it's original state. After glLoadIdentity() has been 
+called we set up our perspective view for the scene. glMatrixMode(GL_MODELVIEW) 
+indicates that any new transformations will affect the modelview matrix. The 
+modelview matrix is where our object information is stored. Lastly we reset the 
+modelview matrix. Don't worry if you don't understand this stuff, I will be 
+explaining it all in later tutorials. Just know that it HAS to be done if you 
+want a nice perspective scene.
+
+When you do a glLoadIdentity() what you are doing is moving back to the center 
+of the screen with the X axis running left to right, the Y axis moving up and 
+down, and the Z axis moving into, and out of the screen.
+
+/// start of code
+gl.glViewport(0, 0, width, height);   // Reset The Current Viewport
+glMatrixMode(GL_PROJECTION);                        // Select The Projection Matrix
+glLoadIdentity();                           // Reset The Projection Matrix
+
+// Calculate The Aspect Ratio Of The Window
+gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
+
+// Select the model-view matrix to manipulate objects (Deselect the projection matrix)
+glMatrixMode(GL_MODELVIEW);                     // Select The Modelview Matrix
+glLoadIdentity();                           // Reset The Modelview Matrix
+/// end of code
+[ ---  end  ---- ]
+
+[ --- start ---- ]
+glShadeModel(GL_SMOOTH);                        // Enables Smooth Shading
+[ ---  end  ---- ]
+
+[ --- start ---- ]/// [ color ]
+The following line sets the color of the screen when it clears. If you don't 
+know how colors work, I'll quickly explain. The color values range from 0.0f to 
+1.0f. 0.0f being the darkest and 1.0f being the brightest. The first parameter 
+after glClearColor is the Red Intensity, the second parameter is for Green and 
+the third is for Blue. The closer the number is to 1.0f, the brighter that 
+specific color will be. The last number is an Alpha value. When it comes to 
+clearing the screen, we wont worry about the 4th number. For now leave it at 
+0.0f. I will explain its use in another tutorial.
+
+You create different colors by mixing the three primary colors for light (red, 
+green, blue). Hope you learned primaries in school. So, if you had 
+glClearColor(0.0f,0.0f,1.0f,0.0f) you would be clearing the screen to a bright 
+blue. If you had glClearColor(0.5f,0.0f,0.0f,0.0f) you would be clearing the 
+screen to a medium red. Not bright (1.0f) and not dark (0.0f). To make a white 
+background, you would set all the colors as high as possible (1.0f). To make a 
+black background you would set all the colors to as low as possible (0.0f).
+
+glClearColor(0.0f, 0.0f, 0.0f, 0.0f);                   // Black Background
+[ ---  end  ---- ]
+
+[ --- start ---- ] /// [ depth ]
+The next three lines have to do with the Depth Buffer. Think of the depth 
+buffer as layers into the screen. The depth buffer keeps track of how deep 
+objects are into the screen. We won't really be using the depth buffer in this 
+program, but just about every OpenGL program that draws on the screen in 3D 
+will use the depth buffer. It sorts out which object to draw first so that a 
+square you drew behind a circle doesn't end up on top of the circle. The depth 
+buffer is a very important part of OpenG
+
+glClearDepth(1.0f);                         // Depth Buffer Setup
+glEnable(GL_DEPTH_TEST);                        // Enables Depth Testing
+glDepthFunc(GL_LEQUAL);                         // The Type Of Depth Test To Do
+[ ---  end  ---- ]
+
+[ --- start ---- ]
+Next we tell OpenGL we want the best perspective correction to be done. This 
+causes a very tiny performance hit, but makes the perspective view look a bit 
+better.
+glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);          // Really Nice Perspective Calculations
+[ ---  end  ---- ]
+
+[ --- start ---- ]
+glTranslatef(-1.5f,0.0f,-6.0f);                 // Move Left 1.5 Units And Into The Screen 6.0
+[ ---  end  ---- ]
+
+[ --- start ---- ]
+Typically if you want 3 points, use GL_TRIANGLES. Drawing triangles is fairly 
+fast on most video cards. If you want 4 points use GL_QUADS to make life 
+easier. From what I've heard, most video cards render objects as triangles 
+anyways
+[ ---  end  ---- ]
+
+=== [ topic ][ debug ] ===
+[ --- start ---- ]
+Help With Debugging
+GLSurfaceView has a handy built-in feature for debugging OpenGL ES 
+applications: the GLSurfaceView.setDebugFlags() method can be used to enable 
+logging and/or error checking your OpenGL ES calls. Call this method in your 
+GLSurfaceView's constructor, before calling setRenderer():
+
+public ClearGLSurfaceView(Context context) {
+    super(context);
+    // Turn on error-checking and logging
+    setDebugFlags(DEBUG_CHECK_GL_ERROR | DEBUG_LOG_GL_CALLS);
+    mRenderer = new ClearRenderer();
+    setRenderer(mRenderer);
+}
+[ ---  end  ---- ]
+
+=== [ topic ][ render when dirty ] ===
+[ --- start ---- ]
+Continuous Rendering vs. Render When Dirty
+
+Most 3D applications, such as games or simulations, are continuously animated. 
+But some 3D applications are more reactive: they wait passively until the user 
+does something, and then react to it. For those types of applications, the 
+default GLSurfaceView behavior of continuously redrawing the screen is a waste 
+of time. If you are developing a reactive application, you can call 
+GLSurfaceView.setRenderMode(RENDERMODE_WHEN_DIRTY), which turns off the 
+continuous animation. Then you call GLSurfaceView.requestRender() whenever you 
+want to re-render.
+[ ---  end  ---- ]
+
+=== [ topic ][ movement ] ===
+[ --- start ---- ]
+glTranslatef(1,2,3);
+glScalef(10,10,10);
+glRotatef(45,1,0,0);
+drawObject();
+
+will first rotate 45 degrees about the x axis, then scale the object to 
+(10,10,10), then translate to (1,2,3). However, you also have to remember that 
+any transformation you apply affects transformations further down the line. If 
+we reverse the order of the above transformations, the rotation will then 
+rotate about a different point.
+[ ---  end  ---- ]
+
+
+=== [ topic ][ color ] ===
+[ --- start ---- ]
+/// display whole as one color
+ public boolean onTouchEvent(final MotionEvent event) {
+        queueEvent(new Runnable(){
+            public void run() {
+                mRenderer.setColor(event.getX()/getWidth(),
+                        event.getY()/getHeight(), 1.0f);
+            }
+        });
+        return true;
+    }
+
+class RenderColor implements GLSurfaceView.Renderer { ... }
+mRenderer = new RenderColor();
+[ ---  end  ---- ]
+
+[ --- start ---- ]
+/// set color on one object only
+
+public class DrawShapeTriangle {
+	public void draw(GL10 gl) {
+		...
+	gl.glColor4f(0.5f, 0.5f, 1.0f, 1.0f);      // Set the current color
+		...
+} }
+[ ---  end  ---- ]
+
+[ --- start ---- ]
+/// set a few colors
+public class DrawShapeSquare {
+ private float[] colors = {
+            1.0f, 0.0f, 0.0f, 1.0f,     // red
+            0.0f, 1.0f, 0.0f, 1.0f,     // green
+            0.0f, 0.0f, 1.0f, 1.0f      // blue
+    };
+
+public DrawShapeSquare() {
+// setup color array
+ByteBuffer byteBuf = ByteBuffer.allocateDirect(colors.length * 4);
+byteBuf.order(ByteOrder.nativeOrder());
+colorBuffer = byteBuf.asFloatBuffer();
+colorBuffer.put(colors);
+colorBuffer.position(0);
+
+// color
+gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
+
+// Draw the vertices as triangle strip
+gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
+
+// disable the client state before leaving
+gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+}
+[ ---  end  ---- ]
+
+=== [ topic ][ API ] ===
+[ --- start ---- ]
+	glViewport(x, y, width, height)
+x, y : Specify the lower left corner of the viewport rectangle, in pixels. The initial value is (0,0).
+	 : Specify the width and height of the viewport. 
+[ ---  end  ---- ]
