@@ -22,6 +22,7 @@ public class DrawShapeTriangle {
 
     public DrawShapeTriangle() {
         // A float is represented by 32 bits, which equals four bytes.
+		// java doesn't have sizeof API to check float size
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length*4);
         byteBuf.order(ByteOrder.nativeOrder());
         vertexBuffer = byteBuf.asFloatBuffer();
