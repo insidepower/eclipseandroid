@@ -60,3 +60,59 @@ public class BaseBall implements Bounceable{
 	public int getBounce(){ return this.bounce; }
 }
 [ ---  end  ---- ]
+
+=== [ topic ][ extends vs implements ] ===
+[ --- start ---- ]
+- extends class
+- cannot extends multiple classes 
+- implements interface
+- can implements multiple interfaces
+- interface cannot have implementation of method
+[ ---  end  ---- ]
+
+=== [ topic ][ valueOf ] ===
+[ --- start ---- ]
+/// return the string value from various object type
+import java.io.*;
+
+public class Test{
+   public static void main(String args[]){
+      double d = 102939939.939;
+      boolean b = true;
+      long l = 1232874;
+      char[] arr = {'a', 'b', 'c', 'd', 'e', 'f','g' };
+
+      System.out.println("Return Value : " + String.valueOf(d) );
+      System.out.println("Return Value : " + String.valueOf(b) );
+      System.out.println("Return Value : " + String.valueOf(l) );
+      System.out.println("Return Value : " + String.valueOf(arr) );
+   }
+}
+[ ---  end  ---- ]
+
+=== [ topic ][ switch ][ string ] ===
+[ --- start ---- ]
+public String getTypeOfDayWithSwitchStatement(String dayOfWeekArg) {
+     String typeOfDay;
+     switch (dayOfWeekArg) {
+         case "Monday":
+             typeOfDay = "Start of work week";
+             break;
+         case "Tuesday":
+         case "Wednesday":
+         case "Thursday":
+             typeOfDay = "Midweek";
+             break;
+         case "Friday":
+             typeOfDay = "End of work week";
+             break;
+         case "Saturday":
+         case "Sunday":
+             typeOfDay = "Weekend";
+             break;
+         default:
+             throw new IllegalArgumentException("Invalid day of the week: " + dayOfWeekArg);
+     }
+     return typeOfDay;
+}
+[ ---  end  ---- ]

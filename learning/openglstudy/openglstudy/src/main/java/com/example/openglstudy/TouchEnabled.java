@@ -88,12 +88,14 @@ class RenderColor implements GLSurfaceView.Renderer {
         gl10.glViewport(0,0,i,i2);
     }
 
+	/// clear the screen to following color
     @Override
     public void onDrawFrame(GL10 gl10) {
         gl10.glClearColor(mRed, mGreen, mBlue, 1.0f);
         gl10.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
     }
 
+	/// not opengl API
     public void setColor(float r, float g, float b){
         mRed = r;
         mGreen = g;

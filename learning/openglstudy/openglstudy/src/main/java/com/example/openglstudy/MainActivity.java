@@ -20,6 +20,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     public static final String DRAW_SHAPE = "draw_poly";
     public static final String DRAW_SHAPE_MOVE = "draw_poly_move";
+    public static final int PRO_DRAW_TRIANGLE = 5;
 
     private Fragment frag;
     private int sectionNum;
@@ -46,6 +47,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                                 getString(R.string.title_section2),
                                 getString(R.string.title_section3),
                                 getString(R.string.title_section4),
+                                "ProAndroid Triangle",
                         }),
                 this);
     }
@@ -113,6 +115,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                 case 2: frag = new TouchEnabled(); break;
                 case 3: frag = new DrawShape(DRAW_SHAPE); break;
                 case 4: frag = new DrawShape(DRAW_SHAPE_MOVE); break;
+                case PRO_DRAW_TRIANGLE: frag = new ProDraw(PRO_DRAW_TRIANGLE); break;
                 default: frag = new BlankOpenGl(); break;
             }
         return frag;
