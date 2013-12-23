@@ -8,6 +8,7 @@
     <string name="title_section4">Rotate and Translate</string>
     <string name="action_settings">Settings</string>
     <string name="action_try">Try different movement value</string>
+    <string name="action_pro_change">Pro: Change value</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
 

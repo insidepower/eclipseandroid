@@ -1,6 +1,8 @@
 === [ topic ][ android studio ][ highlight ] ===
 [ --- start ---- ]
-ctrl-shift-A         Open a menu to find action (@ help)
+ctrl-shift-A        - Open a menu to find action (@ help)
+Alt-Insert			- Generate (Constructors)
+Ctrl-Shift+Enter
 [ ---  end  ---- ]
 
 === [ topic ][ android studio ] ===

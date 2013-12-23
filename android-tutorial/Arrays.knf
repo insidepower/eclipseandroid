@@ -50,3 +50,11 @@ mylist.clear();  /// delete all content
 mylist.add("Malaysia");
 mylist.contains("Malaysia"); /// return true or false, can be used in if (xxx)
 [ ---  end  ---- ]
+
+=== [ java:topic ][ SparseArray ] ===
+[ --- start ---- ]
+- more memory efficient than HashMap
+- unlike normal array of Objects, there can be gaps in the indices
+- using a binary search to find keys
+- not appropriate for large data, but for hundreds of items, the performance difference is not significant
+[ ---  end  ---- ]

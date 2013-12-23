@@ -89,6 +89,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                 DialogFragMovement dialog = new DialogFragMovement();
                 dialog.show(getSupportFragmentManager(), "MovementChange");
                 return true;
+            case R.id.action_pro_change:
         }
         return super.onOptionsItemSelected(item);
     }

@@ -355,3 +355,33 @@ A Fragment is a section of an Activity, which has:
 Support Library:
 http://developer.android.com/tools/support-library/index.html
 [ ---  end  ---- ]
+
+=== [ topic ][ PreferenceFragment ] ===
+[ --- start ---- ]
+- perference is used to save user settings
+- PreferenceFragment is a fragment loaded with perference settings
+
+/// create the PreferenceFragment class
+public static class SettingsFragment extends PreferenceFragment {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Load the preferences from an XML resource
+		addPreferencesFromResource(R.xml.preferences);
+	}
+}
+
+/// invoke it when selected
+public class SettingsActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
+    }
+}
+[ ---  end  ---- ]

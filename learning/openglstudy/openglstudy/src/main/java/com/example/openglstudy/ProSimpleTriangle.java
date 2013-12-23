@@ -49,4 +49,8 @@ public class ProSimpleTriangle extends ProAbstractRenderer {
         gl10.glVertexPointer(3, GL10.GL_FLOAT, 0, mFVertexBuffer);
         gl10.glDrawElements(GL10.GL_TRIANGLES, VERTS, GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
     }
+
+    public void setCamera(){
+
+    }
 }

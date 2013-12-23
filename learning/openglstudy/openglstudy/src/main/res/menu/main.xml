@@ -8,6 +8,11 @@
 
     <item android:id="@+id/action_try"
         android:title="@string/action_try"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_pro_change"
+        android:title="@string/action_try"
+        android:orderInCategory="102"
         app:showAsAction="never" />
 </menu>

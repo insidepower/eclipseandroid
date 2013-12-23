@@ -42,5 +42,7 @@ public abstract class ProAbstractRenderer implements GLSurfaceView.Renderer {
         this.draw(gl10);
     }
 
+
+
     protected abstract void draw(GL10 gl10);
 }
