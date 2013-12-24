@@ -2,7 +2,10 @@
 [ --- start ---- ]
 ctrl-shift-A        - Open a menu to find action (@ help)
 Alt-Insert			- Generate (Constructors)
-Ctrl-Shift+Enter
+Ctrl-Shift+Enter	- complete the statement
+ctrl-p				- see the paramaters
+ctrl-shift-backspace- go back to last edited place
+Ctrl+Shift+F7 		- highlight usage
 [ ---  end  ---- ]
 
 === [ topic ][ android studio ] ===

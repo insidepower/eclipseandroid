@@ -265,7 +265,7 @@ x, y : Specify the lower left corner of the viewport rectangle, in pixels. The i
 - glColor
 - glClear
 - gluLookAt
-- glFrusum
+- glFrustum
 - glViewport
 [ ---  end  ---- ]
 
@@ -273,7 +273,7 @@ x, y : Specify the lower left corner of the viewport rectangle, in pixels. The i
 [ --- start ---- ]
 - speciy array of points to be drawn
 - the coordinates unit can be anything. Bounding box will quantifies these coordinates
-- Bounding box = bounding volume = viewing volume = viewing box = frusum
+- Bounding box = bounding volume = viewing volume = viewing box = frustum
 - glVertexPointer takes a native buffer for efficiency
 - so need to convert float points into native buffer
 [ ---  end  ---- ]

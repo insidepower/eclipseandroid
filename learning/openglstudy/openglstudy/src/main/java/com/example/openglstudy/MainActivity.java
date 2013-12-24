@@ -50,6 +50,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                                 "ProAndroid Triangle",
                         }),
                 this);
+
+        actionBar.setSelectedNavigationItem(PRO_DRAW_TRIANGLE-1);
     }
 
     @Override

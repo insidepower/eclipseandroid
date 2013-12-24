@@ -385,3 +385,10 @@ public class SettingsActivity extends Activity {
     }
 }
 [ ---  end  ---- ]
+
+=== [ topic ][ setting fragment instead of default 0 ] ===
+[ --- start ---- ]
+// @onCreate of activity
+final ActionBar actionBar = getSupportActionBar();
+actionBar.setSelectedNavigationItem(PRO_DRAW_TRIANGLE-1);
+[ ---  end  ---- ]

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,10 +44,15 @@ public class ProDraw extends Fragment {
 }
 
 class ProGlView extends GLSurfaceView{
+    private float mPreviousX;
+    private float mPreviousY;
+    private int factor;
     public GLSurfaceView.Renderer mRender;
 
     ProGlView(Context context, int choice) {
         super(context);
+
+        factor = 1;
         switch(choice){
             case MainActivity.PRO_DRAW_TRIANGLE:
                 mRender = new ProSimpleTriangle(context);
@@ -67,6 +73,55 @@ class ProGlView extends GLSurfaceView{
                         event.getY()/getHeight(), 1.0f);
             }
         });*/
+        Log.d("kn:", "onTouchEvent=" + event.getAction() + " ; getPointerCount=" + event.getPointerCount());
+
+        float x = event.getX();
+        float y = event.getY();
+
+        switch(event.getActionMasked()){
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
+            {
+                // count the total of touch detected
+                // if more than 2, reverse camera
+                //Log.d("kn:", "getPointerCount = " + event.getPointerCount());
+                if (event.getPointerCount() >= 3) {
+                    ((ProAbstractRenderer) mRender).setCameraUpVector();
+                }
+                requestRender();
+                break;
+            }
+            case MotionEvent.ACTION_MOVE:
+            {
+                float dx = x - mPreviousX;
+                float dy = y - mPreviousY;
+
+                if (factor<5){
+                    ++factor;
+                }
+                ((ProAbstractRenderer) mRender).setFrustrum(factor);
+                requestRender();
+
+                /*// reverse direction of rotation above the mid-line
+                if (y > getHeight() / 2) {
+                    dx = dx * -1 ;
+                }
+
+
+                // reverse direction of rotation to left of the mid-line
+                if (x < getWidth() / 2) {
+                    dy = dy * -1 ;
+                }
+
+                mRenderer.setAngle(
+                        mRenderer.getAngle() +
+                                ((dx + dy) * TOUCH_SCALE_FACTOR));  // = 180.0f / 320
+                requestRender();*/
+
+            }
+
+        }
+
         return true;
     }
 }
