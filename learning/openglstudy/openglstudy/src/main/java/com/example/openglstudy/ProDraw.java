@@ -55,12 +55,22 @@ class ProGlView extends GLSurfaceView{
         factor = 1;
         switch(choice){
             case MainActivity.PRO_DRAW_TRIANGLE:
+            {
                 mRender = new ProSimpleTriangle(context);
                 setEGLConfigChooser(false);
                 setRenderer(mRender);
                 setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-
                 break;
+            }
+            case MainActivity.PRO_ANIMATE_TRIANGLE:
+            {
+                mRender = new ProSimpleTriangle2(context);
+                setEGLConfigChooser(false);
+                setRenderer(mRender);
+                // default is RENDERMODE_CONTINUOUSLY
+                setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+                break;
+            }
             default:break;
         }
     }

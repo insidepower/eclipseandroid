@@ -21,12 +21,22 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
     public static final String DRAW_SHAPE = "draw_poly";
     public static final String DRAW_SHAPE_MOVE = "draw_poly_move";
     public static final int PRO_DRAW_TRIANGLE = 5;
+    public static final int PRO_ANIMATE_TRIANGLE = 6;
 
     private Fragment frag;
     private int sectionNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String[] mTabStrArray = new String[] {
+                getString(R.string.title_section1),
+                getString(R.string.title_section2),
+                getString(R.string.title_section3),
+                getString(R.string.title_section4),
+                "ProAndroid Triangle",
+                "ProAndroid Animate Triangle",
+        };
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -42,16 +52,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                         actionBar.getThemedContext(),
                         android.R.layout.simple_list_item_1,
                         android.R.id.text1,
-                        new String[] {
-                                getString(R.string.title_section1),
-                                getString(R.string.title_section2),
-                                getString(R.string.title_section3),
-                                getString(R.string.title_section4),
-                                "ProAndroid Triangle",
-                        }),
+                        mTabStrArray),
                 this);
 
-        actionBar.setSelectedNavigationItem(PRO_DRAW_TRIANGLE-1);
+        actionBar.setSelectedNavigationItem(mTabStrArray.length-1);
     }
 
     @Override
@@ -119,6 +123,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                 case 3: frag = new DrawShape(DRAW_SHAPE); break;
                 case 4: frag = new DrawShape(DRAW_SHAPE_MOVE); break;
                 case PRO_DRAW_TRIANGLE: frag = new ProDraw(PRO_DRAW_TRIANGLE); break;
+                case PRO_ANIMATE_TRIANGLE: frag = new ProDraw(PRO_ANIMATE_TRIANGLE); break;
                 default: frag = new BlankOpenGl(); break;
             }
         return frag;

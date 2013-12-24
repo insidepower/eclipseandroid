@@ -382,6 +382,12 @@ gluLookAt(gl,   0,0,5,     0,0,0,     0,1,0)
 - can imagine the box in perspective projection or orthographic projection
 - perspective projection: natural camera-like function
 - orthographic suited for geometrical drawing that preserve size despite distance from camera
+- changing the Frustum can have the zoom in/zoom out effect
+- to change glFrustum when application already running, then the following code block 
+  must be put inside onDrawFrame or draw()
+ gl10.glMatrixMode(GL10.GL_PROJECTION);
+ gl10.glLoadIdentity();
+ gl10.glFrustumf(-ratio*factor, ratio*factor, -1*factor, 1*factor, 3, 7);
 
 /// calculate the aspect ratio
 /// we will scale height of viewing box to window height
