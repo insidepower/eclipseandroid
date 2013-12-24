@@ -14,3 +14,33 @@ public boolean onTouchEvent(MotionEvent event) {
 	return super.onTouchEvent(event);
 }
 [ ---  end  ---- ]
+
+=== [ topic ][ touch ][ ] ===
+[ --- start ---- ]
+ public boolean onTouchEvent(final MotionEvent event) {
+        switch(event.getActionMasked()){
+            case MotionEvent.ACTION_DOWN:
+			/// POINTER_DOWN is called when more than one point is detected
+            case MotionEvent.ACTION_POINTER_DOWN:
+            {
+                // count the total of touch detected
+                // if more than 2, reverse camera
+                if (event.getPointerCount() >= 3) {
+                    ((ProAbstractRenderer) mRender).setCameraUpVector();
+                }
+                requestRender();
+                break;
+            }
+            case MotionEvent.ACTION_MOVE:
+            {
+                ((ProAbstractRenderer) mRender).setFrustrum(5);
+                requestRender();
+
+            }
+
+        }
+
+		/// should return yes for parents to handle...? 
+        return true;
+    }
+[ ---  end  ---- ]
