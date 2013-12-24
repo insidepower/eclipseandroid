@@ -98,6 +98,8 @@ class ProGlView extends GLSurfaceView{
 
                 if (factor<5){
                     ++factor;
+                }else{
+                    factor = 1;
                 }
                 ((ProAbstractRenderer) mRender).setFrustrum(factor);
                 requestRender();
