@@ -76,6 +76,7 @@ void glGetPointerv(GLenum pname, GLvoid **params);
 [ ---  end  ---- ]
 
 === [ topic ][ glut ] ===
+{{{
 [ --- start ---- ]
 /// window management related toolkit
 void init_window(int *argc, char **argv)
@@ -114,7 +115,7 @@ void init_window(int *argc, char **argv)
 }
 [ ---  end  ---- ]
 
-[ handling input ]
+[ glut ][ handling input ]
 [ --- start ---- ]
 - glutReshapeFunc(void (*func)(int w, int h))
   indicates what action should be taken when the window is resized.
@@ -126,14 +127,14 @@ void init_window(int *argc, char **argv)
   when the mouse is moved while a mouse button is also pressed
 [ ---  end  ---- ]
 
-[ Managing a Background Process ]
+[ glut ][ Managing a Background Process ]
 [ --- start ---- ]
 You can specify a function that's to be executed if no other events are pending - for example, when the event loop would
 otherwise be idle - with glutIdleFunc(void (*func)(void)). This routine takes a pointer to the function as its only argument. Pass
 in NULL (zero) to disable the execution of the function.
 [ ---  end  ---- ]
 
-[ object provided ]
+[ glut ][ object provided ]
 [ --- start ---- ]
 cone icosahedron teapot
 cube octahedron tetrahedron
@@ -145,12 +146,12 @@ void glutWireSphere(GLdouble radius, GLint slices, GLint stacks);
 void glutSolidSphere(GLdouble radius, GLint slices, GLint stacks);
 [ ---  end  ---- ]
 
-[ swap buffer ]
+[ glut ][ swap buffer ]
 [ --- start ---- ]
 void glutSwapBuffers(void);
 [ ---  end  ---- ]
 
-[ mouse ]
+[ glut ][ mouse ]
 [ --- start ---- ]
 void mouse(int button, int state, int x, int y)
 {
@@ -173,6 +174,7 @@ int main(){
 	glutMouseFunc(mouse);
 }
 [ ---  end  ---- ]
+}}}
 
 === [ topic ][ forcing completion of drawing ] ===
 [ --- start ---- ]
@@ -263,4 +265,5 @@ glEnd();
 [ --- start ---- ]
 polynomial - x2 − 4x + 7 (quadratic polynomial)
 dither - diffuse
+stippled - (dotted or dashed)
 [ ---  end  ---- ]
