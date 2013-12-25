@@ -39,9 +39,30 @@ OpenGL as a State Machine
   characteristics of lights, and material properties of the objects being drawn
 - Many state variables refer to modes that are enabled or disabled with the command glEnable() or glDisable().
 - Each state variable or mode has a default value
-- to query:
-  glGetBooleanv(), glGetDoublev(), glGetFloatv(), glGetIntegerv(), 
+- to query: glGetBooleanv(), glGetDoublev(), glGetFloatv(), glGetIntegerv(), 
   glGetPointerv(), or glIsEnabled()
+[ ---  end  ---- ]
+
+=== [ topic ][ state management ] ===
+[ --- start ---- ]
+- By default, most of these states are initially inactive
+- state maybe costly to activate, e.g. texture mapping state
+- parameter cap could be GL_BLEND, GL_DEPTH_TEST ... 
+
+void glEnable(GLenum cap);
+void glDisable(GLenum cap);
+GLboolean glIsEnabled(GLenum capability) // check if state is enabled (return GL_TRUE, GL_FALSE)
+
+e.g. glColor3f(...) sets three values and save into GL_CURRENT_COLOR. these value can be obtains by
+glGetFloatv(GL_CURRENT_COLOR);
+
+/// other method to get state value
+void glGetBooleanv(GLenum pname, GLboolean *params);
+void glGetIntegerv(GLenum pname, GLint *params);
+void glGetFloatv(GLenum pname, GLfloat *params);
+void glGetDoublev(GLenum pname, GLdouble *params);
+void glGetPointerv(GLenum pname, GLvoid **params);
+
 [ ---  end  ---- ]
 
 === [ topic ][ include headers ] ===
@@ -91,12 +112,6 @@ void init_window(int *argc, char **argv)
    	glutMainLoop();
 
 }
-
-
-The Display Callback
-glutDisplayFunc(void (*func)(void)) is the first and most important event callback function you will see. Whenever GLUT
-determines the contents of the window need to be redisplayed, the callback function registered by glutDisplayFunc() is
-executed. Therefore, you should put all the routines you need to redraw the scene in the display callback function.
 [ ---  end  ---- ]
 
 [ handling input ]
@@ -133,6 +148,115 @@ void glutSolidSphere(GLdouble radius, GLint slices, GLint stacks);
 [ swap buffer ]
 [ --- start ---- ]
 void glutSwapBuffers(void);
+[ ---  end  ---- ]
+
+[ mouse ]
+[ --- start ---- ]
+void mouse(int button, int state, int x, int y)
+{
+	switch (button){
+		case GLUT_LEFT_BUTTON:
+			if (state == GLUT_DOWN)
+				glutIdleFunc(spinDisplay);
+			break;
+		case GLUT_MIDDLE_BUTTON:
+			if (state == GLUT_DOWN)
+				glutIdleFunc(NULL);
+			break;
+		default: break;
+	}
+}
+
+int main(){
+	// init
+	...
+	glutMouseFunc(mouse);
+}
+[ ---  end  ---- ]
+
+=== [ topic ][ forcing completion of drawing ] ===
+[ --- start ---- ]
+void glFlush(void);
+- Forces previously issued OpenGL commands to begin execution, thus guaranteeing that they complete in finite time.
+
+void glFinish(void);
+- Forces all previously issued OpenGL commands to complete. 
+- This command doesn't return until all previous commands are fully realized.
+- useful in ensure that the drawing is complete before it begins to accept user input
+- userful in enusuring three-dimensional rendering is on the screen before you use Display PostScript to draw labels on top of the rendering
+- it reduce the performance, because it requires round-trip communication
+[ ---  end  ---- ]
+
+=== [ topic ][ vertex ] ===
+[ --- start ---- ]
+/// glBegin(GL_POINTS); /// draw following vertices as point
+glBegin(GL_POLYGON);  /// draw following vertices as polygon
+	glVertex2f(0.0, 0.0);
+	glVertex2f(0.0, 3.0);
+	glVertex2f(4.0, 3.0);
+	glVertex2f(6.0, 1.5);
+	glVertex2f(4.0, 0.0);
+glEnd();
+
+
+GL_POINTS individual points
+GL_LINES pairs of vertices interpreted as individual line segments
+GL_LINE_STRIP series of connected line segments
+GL_LINE_LOOP same as above, with a segment added between last and first vertices
+GL_TRIANGLES triples of vertices interpreted as triangles
+GL_TRIANGLE_STRIP linked strip of triangles
+GL_TRIANGLE_FAN linked fan of triangles
+GL_QUADS quadruples of vertices interpreted as four-sided polygons
+GL_QUAD_STRIP linked strip of quadrilaterals
+GL_POLYGON boundary of a simple, convex polygon
+[ ---  end  ---- ]
+
+[ important of sequence ]
+[ --- start ---- ]
+- Although many commands are allowed between glBegin() and glEnd(), 
+  vertices are generated only when a glVertex*() command is issued. At the
+  moment glVertex*() is called, OpenGL assigns the resulting vertex the current 
+  color, texture coordinates, normal vector information, and so on. 
+- The first point is drawn in red, and the second and third ones in blue
+  yellow command is ignored
+
+glBegin(GL_POINTS);
+	glColor3f(0.0, 1.0, 0.0); /* green */
+	glColor3f(1.0, 0.0, 0.0); /* red */
+	glVertex(...);
+	glColor3f(1.0, 1.0, 0.0); /* yellow */
+	glColor3f(0.0, 0.0, 1.0); /* blue */
+	glVertex(...);
+	glVertex(...);
+glEnd();
+[ ---  end  ---- ]
+
+=== [ topic ][ math ] ===
+[ --- start ---- ]
+circle:
+circumference(perimeter) = 2*PI*radius
+surface of a circle = 4 * PI * radius
+area = PI*radius²
+
+triangle 
+x²+y²=r²
+cos(angle) = x/radius
+sin(angle) = y/radius
+[ ---  end  ---- ]
+
+=== [ topic ][ circle ] ===
+[ --- start ---- ]
+/// below is not the most efficient way to draw circle
+/// If you need to draw lots of circles, calculate the coordinates of the 
+/// vertices once and save them in an array and create a display list
+#define PI 3.1415926535898
+GLint circle_points = 100;
+glBegin(GL_LINE_LOOP);
+	for (i = 0; i < circle_points; i++) {
+		angle = 2*PI*i/circle_points;
+		glVertex2f(cos(angle), sin(angle));
+	}
+glEnd();
 [ ---  end  ---- ]
 
 === [ topic ][ to google ] ===
