@@ -14,9 +14,9 @@ void init_window(int *argc, char **argv)
 
 	/// specify the screen lotion for upper-left corner of window (x,y)
     glutInitWindowPosition (100, 100);
-	 
+
 	/// specify the size, in pixel
-    glutInitWindowSize (250, 250); 
+    glutInitWindowSize (250, 250);
 
 	/// create window with OpenGL context after glutMainLoop called
 	/// return unique identifier for the new window

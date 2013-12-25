@@ -1,0 +1,142 @@
+=== [ topic ][ data type ] ===
+[ --- start ---- ]
+Suffix	Data Type				Typical Corresponding C-Language Type	OpenGL Type Definition	
+b		8-bit integer			signed char								GLbyte	
+s		16-bit integer			short									GLshort	
+i		32-bit integer			int or long								GLint, GLsizei	
+f		32-bit floating-point	float									GLfloat, GLclampf	
+d		64-bit floating-point	double									GLdouble, GLclampd	
+ub		8-bit unsigned integer	unsigned char							GLubyte, GLboolean	
+us		16-bit unsigned integer	unsigned short							GLushort	
+ui		32-bit unsigned integer	unsigned int or unsigned long			GLuint, GLenum, GLbitfield	
+v																		v (pointer to a vector)
+																		GLvoid (pointer to array)
+
+e.g. :
+glColor3f(1.0, 0.0, 0.0);
+GLfloat color_array[] = {1.0, 0.0, 0.0};
+glColor3fv(color_array);
+
+[ ---  end  ---- ]
+
+=== [ topic ][ general ] ===
+[ --- start ---- ]
+- origin(0,0) is at bottom left corner
+- movie play at 24 frame per second
+- modern projectors display each picture at 48 per second to reduce flickering
+- Computer-graphics screens refresh 60 to 76 times per second, some 120
+- beyond 120, is not much value
+[ ---  end  ---- ]
+
+=== [ topic ][ state machine ] ===
+[ --- start ---- ]
+OpenGL as a State Machine
+- the current color is a state variable. You can set the current color to white, 
+  red, or any other color, and thereafter every object is drawn with that color 
+  until you set the current color to something else.
+- State variable: color, current viewing and projection transformations, line and polygon stipple 
+  patterns, polygon drawing modes, pixel-packing conventions, positions and 
+  characteristics of lights, and material properties of the objects being drawn
+- Many state variables refer to modes that are enabled or disabled with the command glEnable() or glDisable().
+- Each state variable or mode has a default value
+- to query:
+  glGetBooleanv(), glGetDoublev(), glGetFloatv(), glGetIntegerv(), 
+  glGetPointerv(), or glIsEnabled()
+[ ---  end  ---- ]
+
+=== [ topic ][ include headers ] ===
+[ --- start ---- ]
+#include <GL/gl.h>
+#include <GL/glu.h>
+
+// If you are using GLUT for managing your window manager tasks
+#include <GL/glut.h>
+// glut.h includes gl.h, glu.h, and glx.h automatically
+[ ---  end  ---- ]
+
+=== [ topic ][ glut ] ===
+[ --- start ---- ]
+/// window management related toolkit
+void init_window(int *argc, char **argv)
+{
+	/// glutInit(int *argc, char **argv)
+	/// initializes GLUT and processes any command line arguments
+	/// called before any other GLUT routine
+	glutInit(argc, argv);
+
+	/// specify to use RGBA or color-index color model
+	/// specify to use single or double buffered window (GLUT_SINGLE or GLUT_DOUBLE)
+	/// specify to have depth, stencil... (GLUT_DEPTH)
+	glutInitDisplayMode( GLUT_SINGLE | GLUT_RGB);
+
+	/// specify the screen lotion for upper-left corner of window (x,y)
+    glutInitWindowPosition (100, 100);
+
+	/// specify the size, in pixel
+    glutInitWindowSize (250, 250);
+
+	/// create window with OpenGL context after glutMainLoop called
+	/// return unique identifier for the new window
+    glutCreateWindow ("Hello OpenGL");
+
+	/// glutDisplayFunc(void (*func)(void))
+	/// Whenever GLUT determines the contents of the window need 
+	/// to be redisplayed, the callback function registered by 
+	/// glutDisplayFunc() is executed
+	glutDisplayFunc(displayRectangle);
+
+	/// If your program changes the contents of the window, sometimes you will 
+	/// have to call glutPostRedisplay(void), which gives glutMainLoop() a 
+	/// nudge to call the registered display callback at its next opportunity.
+   	glutMainLoop();
+
+}
+
+
+The Display Callback
+glutDisplayFunc(void (*func)(void)) is the first and most important event callback function you will see. Whenever GLUT
+determines the contents of the window need to be redisplayed, the callback function registered by glutDisplayFunc() is
+executed. Therefore, you should put all the routines you need to redraw the scene in the display callback function.
+[ ---  end  ---- ]
+
+[ handling input ]
+[ --- start ---- ]
+- glutReshapeFunc(void (*func)(int w, int h))
+  indicates what action should be taken when the window is resized.
+- glutKeyboardFunc(void (*func)(unsigned char key, int x, int y)) and
+  glutMouseFunc(void (*func)(int button, int state, int x, int y))
+  allow you to link a keyboard key or a mouse button with a routine that's
+  invoked when the key or mouse button is pressed or released.
+- glutMotionFunc(void (*func)(int x, int y)) registers a routine to call back
+  when the mouse is moved while a mouse button is also pressed
+[ ---  end  ---- ]
+
+[ Managing a Background Process ]
+[ --- start ---- ]
+You can specify a function that's to be executed if no other events are pending - for example, when the event loop would
+otherwise be idle - with glutIdleFunc(void (*func)(void)). This routine takes a pointer to the function as its only argument. Pass
+in NULL (zero) to disable the execution of the function.
+[ ---  end  ---- ]
+
+[ object provided ]
+[ --- start ---- ]
+cone icosahedron teapot
+cube octahedron tetrahedron
+dodecahedron sphere torus
+
+void glutWireCube(GLdouble size);
+void glutSolidCube(GLdouble size);
+void glutWireSphere(GLdouble radius, GLint slices, GLint stacks);
+void glutSolidSphere(GLdouble radius, GLint slices, GLint stacks);
+[ ---  end  ---- ]
+
+[ swap buffer ]
+[ --- start ---- ]
+void glutSwapBuffers(void);
+[ ---  end  ---- ]
+
+=== [ topic ][ to google ] ===
+[ --- start ---- ]
+polynomial - x2 − 4x + 7 (quadratic polynomial)
+dither - diffuse
+[ ---  end  ---- ]
