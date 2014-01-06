@@ -22,14 +22,6 @@ int random_max = 8;
 int randomIndex = random.nextInt(random_max); // random index
 [ ---  end  ---- ]
 
-=== [ java:topic ][ Collection ] ===
-[ --- start ---- ]
-String[] alpha = { "A", "E", "I", "O", "U" };
-List list = new ArrayList(alpha);
-Collections.shuffle(list);
-System.out.println("list");
-[ ---  end  ---- ]
-
 === [ java:topic ][ example random ] ===
 [ --- start ---- ]
 Collections.shuffle(fileNameList); // shuffle file names
@@ -115,4 +107,43 @@ public String getTypeOfDayWithSwitchStatement(String dayOfWeekArg) {
      }
      return typeOfDay;
 }
+[ ---  end  ---- ]
+
+=== [ topic ][ return array ] ===
+[ --- start ---- ]
+public static String[]  pickString(int choice) {
+	String pickedString[] = new String[3]; /// can't use local variable, need use new!
+	pickedCipher[0]="strin1"; 
+	return pickedString;
+}
+[ ---  end  ---- ]
+
+=== [ topic ][ comment ] ===
+[ --- start ---- ]
+/* text */ - The compiler ignores everything from /* to */.
+/** documentation */ -
+This indicates a documentation comment (doc comment, for short). The compiler ignores this kind of comment, just like it ignores comments that use /* and */. The javadoc tool uses doc comments when preparing automatically generated documentation. For more information on javadoc, see the Javadoc™ tool documentation .
+// text - The compiler ignores everything from // to the end of the line.
+[ ---  end  ---- ]
+
+=== [ topic ][ try-catch ] ===
+[ --- start ---- ]
+public void callDivide(){
+        try {
+            int result = divide(2,1);
+            System.out.println(result);
+        } catch (BadNumberException e) {
+            //do something clever with the exception
+            System.out.println(e.getMessage());
+        }
+		/// always get executed
+        System.out.println("Division attempt done");
+    }
+[ ---  end  ---- ]
+
+=== [ topic ][ final ] ===
+[ variable ]
+[ --- start ---- ]
+- must only initialized once!
+- during declaration, it can be not yet initialized, then initialized later, but only once!
 [ ---  end  ---- ]

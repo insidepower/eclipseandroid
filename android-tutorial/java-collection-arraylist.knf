@@ -1,0 +1,206 @@
+=== [ java:topic ][ Collection ] ===
+[ --- start ---- ]
+String[] alpha = { "A", "E", "I", "O", "U" };
+List list = new ArrayList(alpha);
+Collections.shuffle(list);
+System.out.println("list");
+[ ---  end  ---- ]
+
+=== [ topic ][ ArrayList ] ===
+[ --- start ---- ]
+- resizable array
+- implements List interface and allow null
+- allow duplicates elements stored (vs Set, i.e. no duplicate is allowed)
+- maintain insertion order (vs Set, not maintain order)
+- ArrayList is not synchronized
+- For synchronized access, use Collections.synchronizedList(...)
+- optimized for multiple concurrent read 
+- CopyOnWriteArrayList - all mutative operation (add, set, ...) use fresh copy of the array
+- Iterator and ListIterator of java ArrayList are fail-fast it means if 
+  ArrayList is structurally modified at any time after the Iterator is 
+  created, in any way except through the iterator's own remove or add 
+  methods, the Iterator will throw a ConcurrentModificationException. 
+  Thus, in the face of concurrent modification, the Iterator fails 
+  quickly and cleanly, that's why it’s called fail-fast.
+
+
+Example Usage:
+ArrayList<String> stringList = new ArrayList<String>();
+stringList.add("Item");
+int size = stringList.size();
+int index = stringList.indexOf("Item");
+stringList.contains(...)
+boolean result = stringList.isEmpty();
+if(stringList.size() == 0){...}
+stringList.set(0,"Item2");
+/// delete/removes all elements
+stingList.clear();
+Collections.sort(List list)
+
+ArrayList<String> copyOfStringList = new ArrayList<String>();
+copyOfStringList.addAll(stringList);
+
+/// convert to array
+String[] itemArray = new String[stringList.size()];
+String[] returnedArray = stringList.toArray(itemArray);
+
+/// convert array to ArrayList
+ArrayList stringList = Arrays.asList(new String[] {"One", "Two", "Three");
+
+/// synchronized access
+List list = Collections.synchronizedList(new ArrayList(...));
+
+/// traversing (1)
+for (int i = 0; i < stringList.size(); i++)
+   String item = stringList.get(i);
+   System.out.println("Item " + i + " : " + item);
+}
+
+/// traversing (2)
+for(String item: stringList){
+System.out.println("retrieved element: " + item);
+}
+
+/// traversing (3)
+Iterator itr = stringList.iterator();
+while(itr.hasNext()){
+	System.out.println(itr.next());
+}
+
+/// traversing (4)
+ListIterator listItr = stringList.listIterator();
+while(listItr.hasNext()){
+	System.out.println(itr.next());
+}
+
+
+[ ---  end  ---- ]
+
+=== [ topic ][ Iterator ] ===
+[ --- start ---- ]
+- Iterator vs Enumerator; Iterator has remove() method
+- for loop doesn't allow removal of element, Iterator allow removal/adding
+- Iterator doesn’t allow another thread to modify the collection when 
+  some another thread is iterating
+- ListIterator vs Iterator; ListIterator (allow traverse in both direction)
+  ListIterator doesn't keep current index, only have next() and previous()
+
+Example Usage:
+public class IteratorExample{
+
+    public static void main(String[] args) {
+        Hashtable<Integer, String> stockTable=new Hashtable<Integer,String>();
+
+        // Populating Hashtable instance with sample values
+        stockTable.put(new Integer(1), "Two");
+        stockTable.put(new Integer(2), "One");
+        stockTable.put(new Integer(4), "Four");
+        stockTable.put(new Integer(3), "Three");
+
+        // Getting Set of keys for Iteration
+        Set<Entry<Integer, String>> stockSet = stockTable.entrySet();
+
+        // Using Iterator to loop Map in Java, here Map implementation is Hashtable
+        Iterator<Entry<Integer, String>> i= stockSet.iterator();
+        System.out.println("Iterating over Hashtable in Java");
+        
+        // Iterator begins
+        while(i.hasNext()){
+            Map.Entry<Integer,String> m=i.next();
+            int key = m.getKey();
+            String value=m.getValue();
+            System.out.println("Key :"+key+"  value :"+value);
+
+        }
+        System.out.println("Iteration over Hashtable finished");
+    }
+}
+
+Output:
+Iterating over Hashtable in Java
+Key :4  value :Four
+Key :3  value :Three
+Key :2  value :One
+Key :1  value :Two
+Iteration over Hashtable finished
+
+Read more: http://javarevisited.blogspot.com/2011/10/java-iterator-tutorial-example-list.html#ixzz2paTRaCvv
+[ ---  end  ---- ]
+
+=== [ topic ][ Iterator ][ vs ][ Enumeration ] ===
+[ --- start ---- ]
+[ ---  end  ---- ]
+
+=== [ topic ][ fail-safe ][ fail-fast ] ===
+[ --- start ---- ]
+fail-fast
+- fail as soon as collection has been changed by other thread while one thread traversing it
+
+fail-safe
+- work on clone of collection instead of original collection
+- e.g. CopyOnWriteArrayList is an example of fail-safe Iterator
+- e.g. ConcurrentHashMap keySet is also fail-safe
+- never throw ConcurrentModificationException
+[ ---  end  ---- ]
+
+=== [ topic ][ Vector ] ===
+[ --- start ---- ]
+/// similarity
+1) Vector and ArrayList are index based use array internally
+2) Both ArrayList and Vector maintains the insertion order of element. 
+3) Both Iterator and ListIterator are fail-fast.
+4) ArrayList and Vector also allows null and duplicates.
+
+/// differences
+- vector is synchronized, ArrayList is not synchronized
+- can use ArrayList in a multi-threaded with read only
+- ArrayList is faster than vector. 
+- vector auto increase itself (after > capacityIncrement )
+  we can increase ArrayList size by calling ensureCapacity()
+- vector can return enumerations by calling elements(), thus not fail-fast
+- conclusion, use vector only when can't be avoided
+[ ---  end  ---- ]
+
+=== [ topic ][ Loop ][ Example ] ===
+[ --- start ---- ]
+//Creating Arraylist for loop example
+ArrayList<String> loopList = new ArrayList<String>();
+
+//Storing elements in Java Arraylist
+loopList.add("low cost personal loan");
+loopList.add("cheap personal loan");
+loopList.add("personal loan in 24 hours");
+
+//Loop Arraylist using foreach loop of JDK1.5
+System.out.println("=====================================================");
+System.out.println("ArrayList Loop Example using foreach loop of JDK 1.5");
+for(String element: loopList){
+	System.out.println(element);
+}
+
+//Loop Arraylist using simple for loop and size method
+System.out.println("=====================================================");
+System.out.println("ArrayList Loop Example using for loop and size()");
+for(int i=0; i<loopList.size(); i++){
+	System.out.println(loopList.get(i));
+}
+
+//Iterate Arraylist using iterator and while loop in Java
+System.out.println("=====================================================");
+System.out.println("ArrayList Loop Example using Iterator and while loop");
+Iterator<String> iterator = loopList.iterator();
+while(iterator.hasNext()){
+	System.out.println(iterator.next());
+}
+
+//Iterate Arraylist using ListIterator and while loop in Java
+System.out.println("=====================================================");
+System.out.println("ArrayList Loop Example using ListIterator and while loop");
+ListIterator<String> listIterator = loopList.listIterator();
+while(listIterator.hasNext()){
+	System.out.println(listIterator.next());
+}
+
+Read more: http://javarevisited.blogspot.com/2012/03/how-to-loop-arraylist-in-java-code.html#ixzz2paZfgGal
+[ ---  end  ---- ]
+

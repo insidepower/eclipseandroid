@@ -1,0 +1,30 @@
+=== [ topic ][ Chapter 2 ][ state machine & geo obj ] ===
+[ --- start ---- ]
+Chapter 2. State Management and Drawing Geometric Objects
+"Attribute Groups" reveals how to query the current value of state variables and how to save and restore several related state values all at once.
+"Some Hints for Building Polygonal Models of Surfaces" explores the issues and techniques involved in constructing polygonal approximations to surfaces.
+[ ---  end  ---- ]
+
+/// plan to finish viewing next week
+=== [ topic ][ Chapter 3 ][ Viewing ] ===
+[ --- start ---- ]
+[ ---  end  ---- ]
+
+/// plan to finish color next next week
+=== [ topic ][ Chapter 4 ][ Color ] ===
+[ --- start ---- ]
+"Color Perception" discusses how the eye perceives color. 
+"Computer Color" describes the relationship between pixels on a computer monitor and their colors; it also defines the two display modes, RGBA and color index.
+"RGBA versus Color-Index Mode" explains how the two display modes use graphics hardware and how to decide which mode to use.
+"Specifying a Color and a Shading Model" describes the OpenGL commands you use to specify the desired color or shading model.
+[ ---  end  ---- ]
+
+=== [ topic ][ Chapter 5 ][ Lighting ] ===
+[ --- start ---- ]
+[ ---  end  ---- ]
+
+=== [ topic ][ Chapter 6 ][ Blending, Antialiasing, Fog & OffSet ] ===
+=== [ topic ][ Chapter 7 ][ Display List ] ===
+=== [ topic ][ Chapter 8 ][ Drawing Pixels, Bitmaps, Fonts, Images ] ===
+=== [ topic ][ Chapter 9 ][ Texture Mapping ] ===
+=== [ topic ][ Chapter 10 ][ FrameBuffer ] ===
