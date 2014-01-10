@@ -10,21 +10,49 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.ArrayAdapter;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
+
+    private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+    private Fragment frag;
+    private int sectionNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String[] mTabStrArray = new String[] {
+            "Testing",
+        };
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+        actionBar.setListNavigationCallbacks(
+                new ArrayAdapter<String>(
+                        actionBar.getThemedContext(),
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1,
+                        mTabStrArray),
+                this);
+        actionBar.setSelectedNavigationItem((mTabStrArray.length-1));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)){
+            getSupportActionBar().setSelectedNavigationItem(
+                    savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM,
+                getSupportActionBar().getSelectedNavigationIndex());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,6 +73,25 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onNavigationItemSelected(int position, long l) {
+        selectFragment(position + 1);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, frag)
+                .commit();
+        return true;
+
+    }
+
+    public void selectFragment(int sectionNum) {
+        this.sectionNum = sectionNum;
+        switch(sectionNum){
+            case 1: frag = new PlaceholderFragment(); break;
+            default: break;
+        }
+    }
+
 
     /**
      * A placeholder fragment containing a simple view.
