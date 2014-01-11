@@ -16,6 +16,23 @@ su
 getprop net.hostname
 [ ---  end  ---- ]
 
+=== [ topic ][ adb ][ uninstall user app ] ===
+[ --- start ---- ]
+adb shell am start -a android.intent.action.DELETE -d package:<your app package>
+adb shell am start -a android.intent.action.DELETE -d package:com.google.android.apps.plus
+[ ---  end  ---- ]
+
+=== [ topic ][ adb ][ uninstall system app ] ===
+[ --- start ---- ]
+adb shell
+su
+cd /system/app
+mount -o rw,remount /system
+/// to back
+cat xxx.apk > 
+rm xxx
+[ ---  end  ---- ]
+
 === [ java:topic ][ id ] ===
 [ --- start ---- ]
 R.drawable.xxx

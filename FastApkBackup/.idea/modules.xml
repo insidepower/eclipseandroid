@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Fast Apk/Fast Apk.iml" filepath="$PROJECT_DIR$/Fast Apk/Fast Apk.iml" />
       <module fileurl="file://$PROJECT_DIR$/FastApkBackup.iml" filepath="$PROJECT_DIR$/FastApkBackup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FastApkBackup/FastApkBackup-FastApkBackup.iml" filepath="$PROJECT_DIR$/FastApkBackup/FastApkBackup-FastApkBackup.iml" />
     </modules>
   </component>
 </project>
