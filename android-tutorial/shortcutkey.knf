@@ -7,6 +7,8 @@ ctrl-p				- see the paramaters
 ctrl-shift-backspace- go back to last edited place
 Ctrl+Shift+F7 		- highlight usage
 ctrl+shift+Ins		- open copy clipboard
+A-Up/Down			- navigate between method
+F2					- move to next error
 [ ---  end  ---- ]
 
 === [ topic ][ android studio ] ===

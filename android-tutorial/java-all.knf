@@ -147,3 +147,73 @@ public void callDivide(){
 - must only initialized once!
 - during declaration, it can be not yet initialized, then initialized later, but only once!
 [ ---  end  ---- ]
+
+=== [ topic ][ static class ] ===
+[ --- start ---- ]
+1. java can only have nested static class, can't have top level static class
+2. nested static class can be referenced without instantiate the outer class object
+3. nested inner class (non-static) can be only referenced after the outer class 
+   object has been instantiated
+4. Inner class can reference data and methods defined in Outer class in which 
+   it nests, so we don’t need to pass reference of an object to the constructor 
+   of the Inner class. For this reason Inner classes can make program simple 
+   and concise
+
+public class Test { 
+  class A { } 
+  static class B { }
+  public static void main(String[] args) { 
+    /*will fail - compilation error, you need an instance of Test to instantiate A*/
+    A a = new A(); 
+    /*will compile successfully, not instance of Test is needed to instantiate B */
+    B b = new B(); 
+  }
+}
+
+/* Java program to demonstrate how to implement static and non-static
+   classes in a java program. */
+class OuterClass{
+   private static String msg = "GeeksForGeeks";
+
+   // Static nested class
+   public static class NestedStaticClass{
+
+       // Only static members of Outer class is directly accessible in nested 
+       // static class 
+       public void printMessage() {
+
+         // Try making 'message' a non-static variable, there will be 
+         // compiler error  
+         System.out.println("Message from nested static class: " + msg); 
+       }
+    }
+
+    // non-static nested class - also called Inner class
+    public class InnerClass{
+
+       // Both static and non-static members of Outer class are accessible in 
+       // this Inner class
+       public void display(){
+          System.out.println("Message from non-static nested class: "+ msg);
+       }
+    }
+} 
+
+class Main
+{
+    public static void main(String args[]){
+
+       OuterClass.NestedStaticClass printer = new OuterClass.NestedStaticClass();
+       printer.printMessage();   
+
+       OuterClass outer = new OuterClass();        
+       OuterClass.InnerClass inner  = outer.new InnerClass();
+       inner.display();
+
+       // we can also combine above steps in one step to create instance of 
+       // Inner class
+       OuterClass.InnerClass innerObject = new OuterClass().new InnerClass();
+       innerObject.display();
+    }
+}
+[ ---  end  ---- ]
