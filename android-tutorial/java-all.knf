@@ -217,3 +217,24 @@ class Main
     }
 }
 [ ---  end  ---- ]
+
+=== [ topic ][ class name ] ===
+[ --- start ---- ]
+FileListAdapter.class.getName(); /// return package name + class name (com.kn.android.xxx)
+check also:
+obj.getClass().getName()
+[ ---  end  ---- ]
+
+=== [ topic ][ template ] ===
+[ --- start ---- ]
+class SomeClass<T> {
+  private T data;
+
+  public SomeClass() {
+  }
+
+  public void set(T data_) {
+    data = data_;
+  }
+}
+[ ---  end  ---- ]
