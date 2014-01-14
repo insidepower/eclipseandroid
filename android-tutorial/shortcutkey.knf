@@ -9,6 +9,15 @@ Ctrl+Shift+F7 		- highlight usage
 ctrl+shift+Ins		- open copy clipboard
 A-Up/Down			- navigate between method
 F2					- move to next error
+Reformat code		- CTRL + ALT + L (Win)
+Show docs for selected API			- CTRL + Q
+Show parameters for selected method - CTRL + P
+Generate method 	- ALT + Insert 
+Jump to source		- F4
+Delete line			- CTRL + Y
+Search by symbol name				- CTRL + ALT + SHIFT + N
+Navigate open tabs	- ALT + left-arrow; ALT + right-arrow 
+
 [ ---  end  ---- ]
 
 === [ topic ][ android studio ] ===

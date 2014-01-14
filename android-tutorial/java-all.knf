@@ -237,4 +237,7 @@ class SomeClass<T> {
     data = data_;
   }
 }
+
+example:
+public class SomeClass<T extends OtherClass>
 [ ---  end  ---- ]
