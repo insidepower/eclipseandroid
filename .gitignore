@@ -109,3 +109,4 @@ learning/MySurfaceViewAnimate/gradle/
 learning/MySurfaceViewAnimate/gradlew
 learning/MySurfaceViewAnimate/gradlew.bat
 learning/MySurfaceViewAnimate/settings.gradle
+*.swo

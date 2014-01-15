@@ -186,3 +186,10 @@ put in res/drawable-nodpi
 /// make the view bound adjust to rescaled image bound
 android:adjustViewBounds="true"
 [ ---  end  ---- ]
+
+=== [ topic ][ char ][ special string character ] ===
+[ --- start ---- ]
+/// &#8230; will appear as ...
+<string-array name="goto_locations">
+        <item>Loading&#8230;</item>
+[ ---  end  ---- ]
