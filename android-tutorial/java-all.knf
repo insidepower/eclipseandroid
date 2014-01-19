@@ -241,3 +241,19 @@ class SomeClass<T> {
 example:
 public class SomeClass<T extends OtherClass>
 [ ---  end  ---- ]
+
+=== [ topic ][ serializable ] ===
+[ --- start ---- ]
+- serialization is the process of translating data structures or object state 
+into a format that can be stored (for example, in a file or memory buffer, or 
+transmitted across a network connection link) and reconstructed later in the 
+same or another computer environment. When the resulting series of bits is 
+reread according to the serialization format, it can be used to create a 
+semantically identical clone of the original object.
+- This process of serializing an object is also called marshalling an object
+- marhsalling : arrange or assemble (a group of people, esp. soldiers) in order.
+- The opposite operation, extracting a data structure from a series of bytes, 
+  is deserialization (which is also called unmarshalling).
+- means able to save all the members, data structure etc of an object into disk
+or possibly transmitted over a network, then restore it on another client side.
+[ ---  end  ---- ]

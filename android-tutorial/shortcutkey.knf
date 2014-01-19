@@ -15,8 +15,18 @@ Show parameters for selected method - CTRL + P
 Generate method 	- ALT + Insert 
 Jump to source		- F4
 Delete line			- CTRL + Y
-Search by symbol name				- CTRL + ALT + SHIFT + N
-Navigate open tabs	- ALT + left-arrow; ALT + right-arrow 
+Search by symbol name	- CTRL + ALT + SHIFT + N
+Navigate open tabs		- ALT + left-arrow; ALT + right-arrow 
+open files in your project - ctrl + shift + n
+Recently opened files 	- ctrl + e
+Recently edited files	- ctrl + shift + e
+Navigate Back/Forward	- ctrl + alt + left/right
+Show Usage (in place)	- ctrl + alt + f7
+Show Usage In a Persistent Panel - alt + f7
+Goto Declaration/Implementation	- ctrl + b  or ctrl + click
+Goto Implementation				- ctrl + alt + b
+Goto Type Declaration			- ctrl + shift + b
+Goto Super						- ctrl + u
 
 [ ---  end  ---- ]
 

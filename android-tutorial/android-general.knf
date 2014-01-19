@@ -6,6 +6,8 @@ e.g. 82990AB830201D device
 adb -s 82990AB830201D logcat
 $ adb -e logcat    /// if multiple devices, only one emulator
 $ adb -d logcat    /// if multiple devices, only one hardware
+/// get ip address
+$ adb shell netcfg
 [ ---  end  ---- ]
 
 === [ topic ][ adb ][ getprop ] ===
