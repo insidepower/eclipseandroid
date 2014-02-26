@@ -10,6 +10,13 @@ $ adb -d logcat    /// if multiple devices, only one hardware
 $ adb shell netcfg
 [ ---  end  ---- ]
 
+=== [ topic ][ adb ][ memory ] ===
+[ --- start ---- ]
+adb shell dumpsys meminfo
+adb shell cat /proc/meminfo
+adb shell procrank
+[ ---  end  ---- ]
+
 === [ topic ][ adb ][ getprop ] ===
 [ --- start ---- ]
 /// device name
@@ -33,6 +40,13 @@ mount -o rw,remount /system
 /// to back
 cat xxx.apk > 
 rm xxx
+[ ---  end  ---- ]
+
+=== [ topic ][ telnet ] ===
+[ --- start ---- ]
+Example:
+telnet localhost 5554
+sms send 0161112222 "this is a message"
 [ ---  end  ---- ]
 
 === [ java:topic ][ id ] ===
@@ -300,6 +314,12 @@ public class AddCityDialogFragment extends DialogFragment
 </LinearLayout>
 [ ---  end  ---- ]
 
+=== [ topic ][ option menu ][ fragment ] ===
+[ --- start ---- ]
+- need to set this if fragment has option menu
+setHasOptionsMenu(true);
+[ ---  end  ---- ]
+
 === [ topic ][ action bar ] ===
 [ --- start ---- ]
 [ xml ]
@@ -337,6 +357,17 @@ public void onRestoreInstanceState(Bundle savedInstanceStateBundle) {
 
 public void onResume() {
   getActionBar().selectTab(getActionBar().getTabAt(currentTab));}
+
+[ ---  end  ---- ]
+
+=== [ topic ][ ActionBar ][ overflow ] ===
+[ --- start ---- ]
+/// always show in overflow
+android:showAsAction="never"
+
+/// show only if got room, otherwise placed in overflow. 
+/// show only text, no icon
+android:showAsAction="ifRoom|withText"
 
 [ ---  end  ---- ]
 
@@ -440,4 +471,20 @@ private void selectTab(int position){
 ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 imageView.setImageResource(R.drawable.no);
 imageView.setImageResource(R.drawable.ok);
+[ ---  end  ---- ]
+
+=== [ topic ][ wifi ] ===
+[ --- start ---- ]
+wpa_supplicant.conf
+/data/wifi/bcm_supp.conf
+/data/misc/wifi/wpa_supplicant.conf
+[ ---  end  ---- ]
+
+=== [ topic ][ Android JUnit Test ] ===
+[ --- start ---- ]
+- import JUnit test project just like the android project
+- if the default name of android project to be tested has been changed, 
+  corresponding changes is needed to be done in JUnit Test Project: 
+  Highlight JUnit Test Project > Right Click Property > Java Build Path > Project
+  > Remove the project with error > Add the correct project back
 [ ---  end  ---- ]

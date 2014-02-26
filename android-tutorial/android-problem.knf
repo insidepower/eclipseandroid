@@ -1,0 +1,164 @@
+
+[ Tips ] [ Eclipse ]
+Ctrl-Shift-O - import missing package
+Ctrl-F11 to run your currently visible application
+Ctrl-I for auto indentation
+auto insert semicolon: window > preferences > Java > Editor > Typing (Automatic insert semicolons, braces)
+to import existing project, use (import->general->exisitng project into workspace) dont use (file > new) as will get "invalid project description"
+F2 - to focus and show the problem
+F3 - go into the package
+
+
+[ Eclipse ][ Problem ]
+Problem: Android Lint erroneously thinks min SDK version is 1
+Description: Call requires API level 3 (current min is 1)
+Solution: Right click on the project folder > Android tools > Clear Link Markers
+Problem: Not able to import java.io.* or import java.android.*; package not found in Eclipse
+export JAVA_HOME to point to the java path
+Logcat problem: Unexpected value from nativeGetEnabledTags
+type the following in the LogCat to filter
+^(?!.*(nativeGetEnabledTags)).*$
+Problem: "Invalid Project Description", project path "overlaps the location of another project
+Solution: Use import>General>Existing Project into Workspace (don’t use import>Android>Existing Code into Workspace which cause the above problem)
+Solution 2: move the project to other place, then import it back, choose copy project
+
+[ Eclipse ][ Problem ]
+Problem: Unable to sync connection
+Solution: Phone > Developer setting > disable and enable debug option
+
+
+[ problem ][ R.id ]
+Problem: imported a project and “android: id cannot be resolved” … and “Unable to resolve target 'android-8'”
+Solution: properties->android and select another available API
+Solution2: install the relevant SDK. Window > SDK Manager > Then pick the sdk to install
+
+
+[ runtime ][ problem ][ activity ][ manifest ]
+Problem: java.lang.IllegalStateException: Could not execute method of the activity
+Description: craeted two activities, when finish one activity to enter second activity, the application crashes
+solution: second activity is not added to AndroidManifest.xml. Just add it!
+
+Problem2:
+java.lang.RuntimeException: Unable to start activity 
+ComponentInfo{course.labs.activitylab/course.labs.activitylab.ActivityTwo}: 
+java.lang.NullPointerException
+Solution: same as above
+
+[ runtime ][ problem ][ jar ]
+Description: After importing a project, String is not defined!
+Solution: Project > Property > Project Build Path > Libraries > Add External Jar > add android.jar from xxx/sdk/platforms/android-17
+
+[ runtime ][ problem ][ application not installed ][ can’t access application, restart go lau ]
+Description: same activity was declared twice in AndroidManifest.xml
+Description 2: java.lang.SecurityException: Permission Denial: start Intent
+Solution: declare activity only once
+
+[ runtime ][ problem ][ onBackPressed ][ intent ]
+[ problem ] : when <category android:name="android.intent.category.DEFAULT"/> is not provided
+W/IntentResolver( 61): resolveIntent failed: found match, but none with Intent.CATEGORY_DEFAULT
+E/Splash ( 391): android.content.ActivityNotFoundException: No Activity found to handle Intent { act=com.example.helloandroid.CLEARSPLASH }
+
+[ runtime ][ android ]
+[ problem ] : intent returned by setResult(...) is null, and resultCode==RESULT_CANCELED when setResult( ) was placed inside onBackPressed( )
+D/MainView(  705): @@ onActivityResult @@, requestCode=10; resultCode=0
+[ solution ] : inside onBackPressed( ), dont call super.onBackPressed( ) or else the intent will be destroyed when the class was destroyed by android, and become null when reach onActivityResult( ) of caller
+
+[ adb  ][ android ]
+[ problem ] : adb access denied to data/data
+solution : use adb root, then adb shell
+
+
+
+
+[ emulator ] [ avd ][ shortcut key ]
+ctrl+F11 to change orientation
+Home	Home Button
+F2	Left Softkey / Menu / Settings button (or Page up)
+Shift+f2	Right Softkey / Star button (or Page down)
+Esc	Back Button
+F3	Call/ dial Button
+F4	Hang up / end call button
+F5	Search Button
+Ctrl+F5	Volume up (or + on numeric keyboard with Num Lock off)
+Ctrl+F6	Volume down (or + on numeric keyboard with Num Lock off)
+F7	Power Button
+Ctrl+F3	Camera Button
+Ctrl+F11	Switch layout orientation portrait/landscape backwards
+Ctrl+F12	Switch layout orientation portrait/landscape forwards
+F8	Toggle cell network
+F9	Toggle code profiling
+Alt+Enter	Toggle fullscreen mode
+F6	Toggle trackball mode
+
+
+[ imei ]
+dial *#06#
+
+
+[ java ] [ for loop ]
+syntax : for ( int item : int-array )
+int [] my-array = { 1, 2, 3 }; for (int i; i<my-array.size(); i++) item=my-array[i];    ## == for (int item : my-array )
+
+
+[ java ] [ int vs integer ]
+int is number, a type, not an object
+Integer is an object that contains single int field
+
+
+Integer is immutable, for new value, use new Integer() and discard the old one
+int i = ii.intValue();
+Integer ii = new Integer( i );
+int vs Integer
+
+
+
+
+ability
+unboxed 
+int
+boxed 
+Integer
+Calculate with it, + - * / % ^ etc.
+y
+n
+Pass it as a paramete
+y
+y
+return it as a value
+y
+y
+Use methods on it from java.lang.Integer
+n
+y
+Store it in a Vector or other Collection
+n
+y
+Use it as a HashMap key
+n
+y
+serialize it
+n
+y
+send it by itself over RMI
+n
+y
+send it as part of another Object over RMI
+y
+y
+pass it as a generic object to a TableCellRenderer. You may pass a variety of different types via the same paramter.
+n
+y
+Allow for a null value that means there is no value.
+n
+y
+
+
+[ tools ][ development ]
+http://www.oracle.com/technetwork/java/javase/downloads/index.html  then click jdk or use the link below
+http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u25-download-346242.html
+http://developer.android.com/sdk/index.html
+
+
+
+
+

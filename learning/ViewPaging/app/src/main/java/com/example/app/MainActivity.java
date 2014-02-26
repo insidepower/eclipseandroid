@@ -89,13 +89,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
     public boolean onNavigationItemSelected(int position, long id) {
         switch(position){
             case 0:
-                Fragment viewPagerFrag = new ImagePagerFrag();
+            {
+                Fragment viewPagerFrag = new ImagePagerFrag(1.0f);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, viewPagerFrag)
                         .commit();
                 break;
+            }
             case 1:
-                //break;
+            {
+                Fragment viewPagerFrag = new ImagePagerFrag(0.333f);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, viewPagerFrag)
+                        .commit();
+                break;
+            }
             case 2:
                 //break;
             default:

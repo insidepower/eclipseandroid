@@ -257,3 +257,19 @@ semantically identical clone of the original object.
 - means able to save all the members, data structure etc of an object into disk
 or possibly transmitted over a network, then restore it on another client side.
 [ ---  end  ---- ]
+
+=== [ topic ][ enum ] ===
+[ --- start ---- ]
+- declare enum inside a class A and use it in another class B
+@@ class A:
+public class ToDoItem {
+	public enum Status {
+		NOTDONE, DONE
+	};
+}
+
+@@ class B:
+import course.labs.todomanager.ToDoItem.Status;
+...
+if (Status.DONE == toDoItem.getStatus()) {
+[ ---  end  ---- ]

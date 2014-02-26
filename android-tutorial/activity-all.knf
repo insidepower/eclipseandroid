@@ -1,3 +1,11 @@
+=== [ topic ][ note ] ===
+[ --- start ---- ]
+- save data in onPause(). onStop() and onDestroy() may not always be called.
+- User click Activity A, bring Activity B; last method for A:onStop(), B:onResume()
+- service is used for 
+    a) To enable remote (inter-process) operations.
+    b) To support long-running, in the background operations.
+[ ---  end  ---- ]
 === [ java:topic ][ destroy current and create new activity ] ===
 [ --- start ---- ]
 /// AndroidManifest.xml - must declare the new activity here as well
@@ -47,6 +55,15 @@ private Runnable finishThisActivit = new Runnable() {
 
 [ ---  end  ---- ]
 
+=== [ topic ][ new activity ][ onSaveInstanceState ] ===
+[ --- start ---- ]
+- ActivityA --> new Intent(), startActivity(B) --> new Intent, startActivity(A')
+- if we are using intent() then startActivity(), A' has no relationship with 
+  activity A
+- this new activity won't take the Bundle value saved in ActivityA as well 
+- use finish() on ActivityB, if we intent to refer to the same ActivityA;
+[ ---  end  ---- ]
+
 === [ java:topic ][ full screen ] ===
 [ --- start ---- ]
 requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -64,7 +81,6 @@ mWakeLock = getContext().getSystemService(Context.POWER_SERVICE)
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
 [ ---  end  ---- ]
 
-
 === [ java:topic ][ new activity ] ===
 [ --- start ---- ]
 Intent intent = new Intent();
@@ -75,7 +91,7 @@ import happygrass.app.imported.musicg.demo.android.WhistleActivity;
 Intent i = new Intent(getApplicationContext(), WhistleActivity.class);
 [ ---  end  ---- ]
 
-=== [ java:topic ][ Bundle ] ===
+=== [ java:topic ][ Bundle ][ Intent ] ===
 [ --- start ---- ]
 getDouble();
 getInt();
@@ -107,9 +123,43 @@ conditionImageView = (ImageView) rootView.findViewById(
 conditionImageView.setImageBitmap(
             (Bitmap) savedInstanceStateBundle.getParcelable(IMAGE_KEY));
 
-[ xml ]
+@@ xml:
  <ImageView android:id="@+id/forecast_image"
          android:layout_width="match_parent" android:layout_height="350dp"/>
+[ ---  end  ---- ]
+
+=== [ topic ][ startActivityForResult ] ===
+[ --- start ---- ]
+@@ firstActivity:
+Intent i = new Intent();
+i.setClass(getApplicationContext(), AddToDoActivity.class);
+startActivityForResult(i, ADD_TODO_ITEM_REQUEST);
+
+/// when secondActivity finish()
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    log("Entered onActivityResult()");
+    if ( RESULT_OK == resultCode && ADD_TODO_ITEM_REQUEST == requestCode) {
+        try {
+            String title = data.getExtras().getString(ToDoItem.TITLE);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
+
+
+@@ secondActivity:
+Intent data = new Intent();
+data.putExtra(ToDoItem.TITLE, title);
+setResult(RESULT_OK, data);
+finish();
+[ ---  end  ---- ]
+
+=== [ topic ][ Activity ][ finish ] ===
+[ --- start ---- ]
+finish()
 [ ---  end  ---- ]
 
 === [ topic ][ activity summary ] ===
@@ -124,3 +174,4 @@ onStop() and onDestroy() can be killable
 - system at any time without another line of its code being executed. 
   use the onPause() method to write any persistent data
 [ ---  end  ---- ]
+

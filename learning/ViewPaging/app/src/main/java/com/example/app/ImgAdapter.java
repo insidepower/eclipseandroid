@@ -12,6 +12,7 @@ import android.widget.ImageView;
 public class ImgAdapter extends PagerAdapter {
 
     private final Context mContext;
+    private float pageWidth;
     private static final int[] img = {
             android.R.drawable.ic_menu_compass,
             android.R.drawable.ic_menu_add,
@@ -19,9 +20,10 @@ public class ImgAdapter extends PagerAdapter {
             android.R.drawable.ic_menu_camera,
     };
 
-    public ImgAdapter(Context context) {
+    public ImgAdapter(Context context, float pageWidth) {
         super();
         mContext = context;
+        this.pageWidth = pageWidth;
     }
 
     @Override
@@ -49,5 +51,10 @@ public class ImgAdapter extends PagerAdapter {
         // super destroyItem was not be to called or else cause exception!
         //super.destroyItem(container, position, object);
         container.removeView((View) object);
+    }
+
+    @Override
+    public float getPageWidth(int position) {
+        return this.pageWidth;
     }
 }

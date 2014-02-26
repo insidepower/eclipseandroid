@@ -124,3 +124,155 @@ public class MainActivity extends Activity {
 [ --- start ---- ]
 
 [ ---  end  ---- ]
+
+=== [ topic ][ kn-coursera ][ listview ] ===
+[ --- start ---- ]
+@@ strings.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">UIListView</string>
+	<string-array name="colors">
+		<item>red</item>
+		<item>orange</item>
+        ...
+	</string-array>
+	<string name="color_prompt">Pick a Color. Any Color.</string>
+</resources>
+
+@@ list_item.xml:
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:textSize="24sp" >
+</TextView>
+
+@@ ListViewActivity.java:
+setListAdapter(new ArrayAdapter<String>(this, R.layout.list_item,
+                getResources().getStringArray(R.array.colors)));
+
+ListView lv = getListView();
+lv.setTextFilterEnabled(true);
+
+lv.setOnItemClickListener(new OnItemClickListener() {
+    public void onItemClick(AdapterView<?> parent, View view,
+        int position, long id) {
+
+    Toast.makeText(getApplicationContext(),
+        ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+    }
+});
+
+[ ---  end  ---- ]
+
+=== [ topic ][ header ][ footer ] ===
+[ --- start ---- ]
+Example 1:
+View header = getLayoutInflater().inflate(R.layout.header, null);
+View footer = getLayoutInflater().inflate(R.layout.footer, null);
+TextView t = (TextView) footer.findViewById(R.id.txt1);
+ListView listView = getListView();
+
+listView.addHeaderView(header);
+listView.addFooterView(footer);    
+setListAdapter(new ArrayAdapter<String>(this,
+            android.R.layout.simple_list_item_single_choice,
+            android.R.id.text1, names));
+[ ---  end  ---- ]
+
+=== [ topic ][ adapter ] ===
+[ --- start ---- ]
+@@ ListActivity class:
+ToDoListAdapter mAdapter;
+mAdapter = new ToDoListAdapter(getApplicationContext());
+setListAdapter(mAdapter);
+getListView().setFooterDividersEnabled(true);
+
+public class ToDoListAdapter extends BaseAdapter {
+    mAdapter = new ToDoListAdapter(getApplicationContext());
+    private final Context mContext;
+	public ToDoListAdapter(Context context) { mContext = context; }
+
+	public void add(ToDoItem item) {
+		mItems.add(item);
+		notifyDataSetChanged();
+	}
+
+	public void clear(){
+		mItems.clear();
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public int getCount() { return mItems.size(); 
+	}
+
+	// Retrieve the number of ToDoItems
+	@Override
+	public Object getItem(int pos) { return mItems.get(pos); }
+
+	// Get the ID for the ToDoItem
+	// In this case it's just the position
+	@Override
+	public long getItemId(int pos) { return pos; 
+	}
+
+	// Create a View to display the ToDoItem 
+	// at specified position in mItems
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+        /// set [ getView ] section below 
+        ...
+    }
+
+
+[ ---  end  ---- ]
+
+=== [ topic ][ getView ] ===
+[ --- start ---- ]
+
+final ToDoItem toDoItem;
+toDoItem = mItems.get(position);
+
+/// get the view of each item
+RelativeLayout itemLayout = null;
+LayoutInflater inflater = (LayoutInflater) mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+View itemView = inflater.inflate(R.layout.todo_item, parent, false);
+itemLayout = (RelativeLayout) itemView.findViewById(R.id.RelativeLayout1);
+
+final CheckBox statusView;
+statusView = (CheckBox) itemLayout.findViewById(R.id.statusCheckBox);
+if (Status.DONE == toDoItem.getStatus()) {
+    statusView.setChecked(true);
+}
+
+statusView.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView,
+            boolean isChecked) {
+        log("Entered onCheckedChanged()");
+        
+        if(isChecked){
+            toDoItem.setStatus(Status.DONE);
+        } else {
+            toDoItem.setStatus(Status.NOTDONE);
+        }
+    
+    }
+});
+
+// Return the View you just created
+return itemLayout;
+[ ---  end  ---- ]
+
+=== [ topic ][ getLayoutInflater ] ===
+[ --- start ---- ]
+getLayoutInflater == 
+[ ---  end  ---- ]
+
+=== [ topic ][ problem ] ===
+[ --- start ---- ]
+1. Inside the onCreate() of ListViewActivity, there will be no setContentView.
+   This is because the view will be coming from the listView view of an adapter...
+[ ---  end  ---- ]

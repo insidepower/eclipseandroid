@@ -413,3 +413,90 @@ from ViewPager):
 
 Fragment f = (Fragment) getAdapter().instantiateItem(this, getCurrentItem());
 [ ---  end  ---- ]
+
+=== [ topic ][ setRetainInstance ] ===
+[ --- start ---- ]
+public void setRetainInstance (boolean retain)
+Control whether a fragment instance is retained across Activity re-creation 
+(such as from a configuration change). This can only be used with fragments not 
+in the back stack. If set, the fragment lifecycle will be slightly different 
+when an activity is recreated:
+onDestroy() will not be called (but onDetach() still will be, because the 
+fragment is being detached from its current activity).
+onCreate(Bundle) will not be called since the fragment is not being re-created.
+onAttach(Activity) and onActivityCreated(Bundle) will still be called.
+
+Does the fragment also retain its state, or will this be recreated 
+on configuration change - what exactly is "retained"?
+Yes, the Fragment's state will be retained across the configuration 
+change. Specifically, "retained" means that the fragment will not be 
+destroyed on configuration changes. That is, the Fragment will be 
+retained even if the configuration change causes the underlying Activity 
+to be destroyed.
+
+Which are the use cases where it makes sense to use this method?
+Retained fragments can be quite useful for propagating state information 
+— especially thread management — across activity instances. For example, 
+a fragment can serve as a host for an instance of Thread or AsyncTask, 
+managing its operation. 
+
+In general, treat it similarly to using onConfigurationChanged 
+with an Activity... don't use it as a bandaid just because you are too 
+lazy to implement/handle an orientation change correctly. Only use it 
+when you need to.
+[ ---  end  ---- ]
+
+=== [ topic ][ optionmenu ] ===
+[ --- start ---- ]
+- need to set this if has option menu
+setHasOptionsMenu(true);
+[ ---  end  ---- ]
+
+=== [ topic ][ actionbar ][ as tab ] ===
+[ --- start ---- ]
+@@@ TabLayoutActivity:
+final ActionBar tabBar = getActionBar();
+/// set actionbar as tab
+tabBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+GridFragment flowerFrag = new GridFragment();
+Bundle args = new Bundle();
+args.putIntegerArrayList(THUMBNAIL_IDS, mThumbIdsFlowers);
+flowerFrag.setArguments(args);
+tabBar.addTab(tabBar.newTab().setText(FLOWERS_TABSTRING)
+        .setTabListener(new TabListener(flowerFrag)));
+
+GridFragment animalFrag = new GridFragment();
+args = new Bundle();
+args.putIntegerArrayList(THUMBNAIL_IDS, mThumbIdsAnimals);
+animalFrag.setArguments(args);
+tabBar.addTab(tabBar.newTab().setText(ANIMALS_TABSTRING)
+        .setTabListener(new TabListener(animalFrag)));
+
+public static class TabListener implements ActionBar.TabListener {
+    private final Fragment mFragment;
+
+    public TabListener(Fragment fragment) {
+        mFragment = fragment;
+    }
+
+    @Override
+    public void onTabReselected(Tab tab, FragmentTransaction ft) {
+    }
+
+    @Override
+    public void onTabSelected(Tab tab, FragmentTransaction ft) {
+        if (null != mFragment) {
+            <hi> replace the fragment </hi>
+            ft.replace(R.id.fragment_container, mFragment);
+        }
+    }
+
+    @Override
+    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+        if (null != mFragment)
+            ft.remove(mFragment);
+    }
+}
+
+[ ---  end  ---- ]

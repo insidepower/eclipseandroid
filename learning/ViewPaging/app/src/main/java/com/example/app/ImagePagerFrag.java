@@ -12,7 +12,13 @@ import android.view.ViewGroup;
  * Created by knxy on 1/15/14.
  */
 public class ImagePagerFrag extends Fragment {
+    private final float pageWidth;
     Context mContext;
+    ViewPager viewpager;
+
+    public ImagePagerFrag(float pageWidth) {
+        this.pageWidth = pageWidth;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,8 +29,10 @@ public class ImagePagerFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        ViewPager viewpager = new ViewPager(mContext);
-        viewpager.setAdapter(new ImgAdapter(mContext));
+        viewpager = new ViewPager(mContext);
+        viewpager.setAdapter(new ImgAdapter(mContext, pageWidth));
         return viewpager;
     }
+
+
 }

@@ -1,0 +1,240 @@
+=== [ topic ][ predefined view ][ View ]===
+[ --- start ---- ]
+Button
+ToggleButton (button with a light bar which indicate toogle on off)
+CheckBox
+RatingBar
+AutoCompleteTextView
+[ ---  end  ---- ]
+
+=== [ topic ][ TextView ] ===
+[ --- start ---- ]
+/// set text
+TextView mTitleText;
+mTitleText.setText("");
+/// get text to string
+mTitleText.getText().toString();
+[ ---  end  ---- ]
+
+=== [ topic ][ checkbox ] ===
+[ --- start ---- ]
+final CheckBox checkbox = (CheckBox) findViewById(R.id.checkbox);
+checkbox.setOnClickListener(new OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        if (checkbox.isChecked()) {
+            checkbox.setText("I'm checked");
+        } else {
+            checkbox.setText("I'm not checked");
+        }
+    }
+});
+
+[ visibility ]
+checkbox.setVisibility(View.INVISIBLE);
+checkbox.setVisibility(View.VISIBLE);
+[ ---  end  ---- ]
+
+=== [ topic ][ AutoComplete ] ===
+[ --- start ---- ]
+@@ main.xml:
+<AutoCompleteTextView
+    android:id="@+id/autocomplete_country"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp" 
+    android:textSize="24sp"/>
+
+@@ list_item.xml:
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dp"
+    android:textSize="24sp"
+    android:textColor="#000">
+</TextView>
+
+@@ AutoCompleteActivity:
+AutoCompleteTextView textView = (AutoCompleteTextView) 
+    findViewById(R.id.autocomplete_country);
+ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        R.layout.list_item, COUNTRIES);
+textView.setAdapter(adapter);
+
+textView.setOnItemClickListener(new OnItemClickListener() {
+
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+        long arg3) {
+        Toast.makeText(getApplicationContext(), "The winner is:" + 
+            arg0.getAdapter().getItem(arg2), Toast.LENGTH_SHORT).show();
+    }
+});
+
+static final String[] COUNTRIES = new String[] { "Afghanistan", "Albania",
+    "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
+    "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia",
+[ ---  end  ---- ]
+
+=== [ topic ][ Predefined View ][ ViewGroups ] ===
+[ --- start ---- ]
+RadioGroup - only one button can be selected at a time
+TimePicker
+DatePicker
+MapView
+WebView
+Gallery
+Spinner
+[ ---  end  ---- ]
+
+=== [ topic ][ Spinner ] ===
+[ --- start ---- ]
+@@ layout_main.xml:
+<Spinner
+    android:id="@+id/spinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="24sp" />
+
+@@ dropdown_item.xml:
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textSize="24sp" 
+    android:padding="5dp">
+
+@@ SpinnerActivity:
+Spinner spinner = (Spinner) findViewById(R.id.spinner);
+
+ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+    this, R.array.colors, R.layout.dropdown_item);
+
+spinner.setAdapter(adapter);
+spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+    public void onItemSelected(AdapterView<?> parent, View view,
+        int pos, long id) {
+    Toast.makeText(
+        parent.getContext(),
+        "The color is "
+        + parent.getItemAtPosition(pos).toString(),
+        Toast.LENGTH_LONG).show();
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+    });
+
+[ ---  end  ---- ]
+
+=== [ topic ][ RadioButton ] ===
+[ --- start ---- ]
+/// set the RadioButton
+setChecked(true)
+[ ---  end  ---- ]
+
+=== [ topic ][ RadioGroup ]===
+[ --- start ---- ]
+int selectedStatus = mStatusRadioGroup.getCheckedRadioButtonId();
+switch(selectedStatus) {
+    case R.id.statusNotDone:
+        status = Status.NOTDONE;
+        break;
+    case R.id.statusDone:
+        status = Status.DONE;
+        break;
+    default: break;
+}
+[ ---  end  ---- ]
+
+=== [ topic ][ GridLayout ] ===
+[ --- start ---- ]
+@@ main.xml:
+<GridView
+    android:id="@+id/gridview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnWidth="90dp"
+    android:gravity="center"
+    android:horizontalSpacing="10dp"
+    android:numColumns="auto_fit"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="10dp" />
+
+@@ GridLayoutActivity:
+private ArrayList<Integer> mThumbIdsFlowers = new ArrayList<Integer>(
+        Arrays.asList(R.drawable.image1, R.drawable.image2,
+                R.drawable.image3, R.drawable.image4, R.drawable.image5,
+                R.drawable.image6, R.drawable.image7, R.drawable.image8,
+                R.drawable.image9, R.drawable.image10, R.drawable.image11,
+                R.drawable.image12));
+
+GridView gridview = (GridView) findViewById(R.id.gridview);
+
+gridview.setAdapter(new ImageAdapter(this, mThumbIdsFlowers));
+
+gridview.setOnItemClickListener(new OnItemClickListener() {
+    public void onItemClick(AdapterView<?> parent, View v,
+            int position, long id) {
+        Intent intent = new Intent(GridLayoutActivity.this,
+                ImageViewActivity.class);
+        intent.putExtra(EXTRA_RES_ID, (int) id);
+        startActivity(intent);
+    }
+});
+
+@@ ImageViewActivity:
+super.onCreate(savedInstanceState);
+Intent intent = getIntent();
+ImageView imageView = new ImageView(getApplicationContext());
+imageView.setImageResource(intent.getIntExtra(GridLayoutActivity.EXTRA_RES_ID, 0));
+setContentView(imageView);
+
+@@ ImageAdapter:
+public class ImageAdapter extends BaseAdapter {
+	private static final int PADDING = 8;
+	private static final int WIDTH = 250;
+	private static final int HEIGHT = 250;
+	private Context mContext;
+	private List<Integer> mThumbIds;
+
+	public ImageAdapter(Context c, List<Integer> ids) {
+		mContext = c;
+		this.mThumbIds = ids;
+	}
+
+	@Override
+	public int getCount() {
+		return mThumbIds.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return null;
+	}
+
+	// Will get called to provide the ID that
+	// is passed to OnItemClickListener.onItemClick()
+	@Override
+	public long getItemId(int position) {
+		return mThumbIds.get(position);
+	}
+
+	// create a new ImageView for each item referenced by the Adapter
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ImageView imageView = (ImageView) convertView;
+
+		// if convertView's not recycled, initialize some attributes
+		if (imageView == null) {
+			imageView = new ImageView(mContext);
+			imageView.setLayoutParams(new GridView.LayoutParams(WIDTH, HEIGHT));
+			imageView.setPadding(PADDING, PADDING, PADDING, PADDING);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		}
+
+		imageView.setImageResource(mThumbIds.get(position));
+		return imageView;
+	}
+}
+
+[ ---  end  ---- ]
